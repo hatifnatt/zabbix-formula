@@ -31,9 +31,9 @@ zabbix-agent:
 zabbix-agent-restart:
   module.wait:
 # Deprecation warning about legacy "module.run" syntax still will be thrown if "use_superseded: [module.run]"
-# is not enabled in Salt version < 3001. But formula won't break after upgrade to version >= 3001
+# is not enabled in Salt version < 3005. But formula won't break after upgrade to version >= 3005
 {% if 'module.run' in salt['config.get']('use_superseded', [])
-      or grains['saltversioninfo'] >= [3001] %}
+      or grains['saltversioninfo'] >= [3005] %}
     - service.restart:
       - name: {{ zabbix.agent.service }}
 {% else %}
