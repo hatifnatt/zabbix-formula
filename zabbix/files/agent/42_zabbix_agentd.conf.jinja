@@ -1,0 +1,507 @@
+# Managed by SaltStack zabbix-formula. Do not edit by hand.
+{#- Convert all configuration keys to lowercase #}
+{%- set lcfg = {} %}
+{%- for k, v in cfg.items() %}
+    {%- do lcfg.update({k|lower: v}) %}
+{%- endfor %}
+# This is a configuration file for Zabbix agent daemon (Unix)
+# To get more information about Zabbix, visit http://www.zabbix.com
+
+############ GENERAL PARAMETERS #################
+
+### Option: PidFile
+#	Name of PID file.
+#
+# Mandatory: no
+# Default:
+# PidFile=/tmp/zabbix_agentd.pid
+{% if 'pidfile' in lcfg %}
+PidFile={{ lcfg.pidfile }}
+{% endif %}
+### Option: LogType
+#	Specifies where log messages are written to:
+#		system  - syslog
+#		file    - file specified with LogFile parameter
+#		console - standard output
+#
+# Mandatory: no
+# Default:
+# LogType=file
+{% if 'logtype' in lcfg %}
+LogType={{ lcfg.logtype }}
+{% endif %}
+### Option: LogFile
+#	Log file name for LogType 'file' parameter.
+#
+# Mandatory: yes, if LogType is set to file, otherwise no
+# Default:
+# LogFile=
+{% if 'logfile' in lcfg %}
+LogFile={{ lcfg.logfile }}
+{% endif %}
+### Option: LogFileSize
+#	Maximum size of log file in MB.
+#	0 - disable automatic log rotation.
+#
+# Mandatory: no
+# Range: 0-1024
+# Default:
+# LogFileSize=1
+{% if 'logfilesize' in lcfg %}
+LogFileSize={{ lcfg.logfilesize }}
+{% endif %}
+### Option: DebugLevel
+#	Specifies debug level:
+#	0 - basic information about starting and stopping of Zabbix processes
+#	1 - critical information
+#	2 - error information
+#	3 - warnings
+#	4 - for debugging (produces lots of information)
+#	5 - extended debugging (produces even more information)
+#
+# Mandatory: no
+# Range: 0-5
+# Default:
+# DebugLevel=3
+{% if 'debuglevel' in lcfg %}
+DebugLevel={{ lcfg.debuglevel }}
+{% endif %}
+### Option: SourceIP
+#	Source IP address for outgoing connections.
+#
+# Mandatory: no
+# Default:
+# SourceIP=
+{% if 'sourceip' in lcfg %}
+SourceIP={{ lcfg.sourceip }}
+{% endif %}
+### Option: EnableRemoteCommands
+#	Whether remote commands from Zabbix server are allowed.
+#	0 - not allowed
+#	1 - allowed
+#
+# Mandatory: no
+# Default:
+# EnableRemoteCommands=0
+{% if 'enableremotecommands' in lcfg %}
+EnableRemoteCommands={{ lcfg.enableremotecommands }}
+{% endif %}
+### Option: LogRemoteCommands
+#	Enable logging of executed shell commands as warnings.
+#	0 - disabled
+#	1 - enabled
+#
+# Mandatory: no
+# Default:
+# LogRemoteCommands=0
+{% if 'logremotecommands' in lcfg %}
+LogRemoteCommands={{ lcfg.logremotecommands }}
+{% endif %}
+##### Passive checks related
+
+### Option: Server
+#	List of comma delimited IP addresses, optionally in CIDR notation, or DNS names of Zabbix servers and Zabbix proxies.
+#	Incoming connections will be accepted only from the hosts listed here.
+#	If IPv6 support is enabled then '127.0.0.1', '::127.0.0.1', '::ffff:127.0.0.1' are treated equally
+#	and '::/0' will allow any IPv4 or IPv6 address.
+#	'0.0.0.0/0' can be used to allow any IPv4 address.
+#	Example: Server=127.0.0.1,192.168.1.0/24,::1,2001:db8::/32,zabbix.example.com
+#
+# Mandatory: yes, if StartAgents is not explicitly set to 0
+# Default:
+# Server=
+{% if 'server' in lcfg %}
+    {%- if lcfg.server|is_list %}
+Server={{ lcfg.server|join(',') }}
+    {%- else %}
+Server={{ lcfg.server }}
+    {%- endif %}
+{% endif %}
+### Option: ListenPort
+#	Agent will listen on this port for connections from the server.
+#
+# Mandatory: no
+# Range: 1024-32767
+# Default:
+# ListenPort=10050
+{% if 'listenport' in lcfg %}
+ListenPort={{ lcfg.listenport }}
+{% endif %}
+### Option: ListenIP
+#	List of comma delimited IP addresses that the agent should listen on.
+#	First IP address is sent to Zabbix server if connecting to it to retrieve list of active checks.
+#
+# Mandatory: no
+# Default:
+# ListenIP=0.0.0.0
+{% if 'listenip' in lcfg %}
+    {%- if lcfg.listenip|is_list %}
+ListenIP={{ lcfg.listenip|join(',') }}
+    {%- else %}
+ListenIP={{ lcfg.listenip }}
+    {%- endif %}
+{% endif %}
+### Option: StartAgents
+#	Number of pre-forked instances of zabbix_agentd that process passive checks.
+#	If set to 0, disables passive checks and the agent will not listen on any TCP port.
+#
+# Mandatory: no
+# Range: 0-100
+# Default:
+# StartAgents=3
+{% if 'startagents' in lcfg %}
+StartAgents={{ lcfg.startagents }}
+{% endif %}
+##### Active checks related
+
+### Option: ServerActive
+#	List of comma delimited IP:port (or DNS name:port) pairs of Zabbix servers and Zabbix proxies for active checks.
+#	If port is not specified, default port is used.
+#	IPv6 addresses must be enclosed in square brackets if port for that host is specified.
+#	If port is not specified, square brackets for IPv6 addresses are optional.
+#	If this parameter is not specified, active checks are disabled.
+#	Example: ServerActive=127.0.0.1:20051,zabbix.domain,[::1]:30051,::1,[12fc::1]
+#
+# Mandatory: no
+# Default:
+# ServerActive=
+{% if 'serveractive' in lcfg %}
+    {%- if lcfg.serveractive|is_list %}
+ServerActive={{ lcfg.serveractive|join(',') }}
+    {%- else %}
+ServerActive={{ lcfg.serveractive }}
+    {%- endif %}
+{% endif %}
+### Option: Hostname
+#	Unique, case sensitive hostname.
+#	Required for active checks and must match hostname as configured on the server.
+#	Value is acquired from HostnameItem if undefined.
+#
+# Mandatory: no
+# Default:
+# Hostname=
+{% if 'hostname' in lcfg %}
+Hostname={{ lcfg.hostname }}
+{% endif %}
+### Option: HostnameItem
+#	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.
+#	Does not support UserParameters or aliases.
+#
+# Mandatory: no
+# Default:
+# HostnameItem=system.hostname
+{% if 'hostnameitem' in lcfg %}
+HostnameItem={{ lcfg.hostnameitem }}
+{% endif %}
+### Option: HostMetadata
+#	Optional parameter that defines host metadata.
+#	Host metadata is used at host auto-registration process.
+#	An agent will issue an error and not start if the value is over limit of 255 characters.
+#	If not defined, value will be acquired from HostMetadataItem.
+#
+# Mandatory: no
+# Range: 0-255 characters
+# Default:
+# HostMetadata=
+{% if 'hostmetadata' in lcfg %}
+HostMetadata={{ lcfg.hostmetadata }}
+{% endif %}
+### Option: HostMetadataItem
+#	Optional parameter that defines an item used for getting host metadata.
+#	Host metadata is used at host auto-registration process.
+#	During an auto-registration request an agent will log a warning message if
+#	the value returned by specified item is over limit of 255 characters.
+#	This option is only used when HostMetadata is not defined.
+#
+# Mandatory: no
+# Default:
+# HostMetadataItem=
+{% if 'hostmetadataitem' in lcfg %}
+HostMetadataItem={{ lcfg.hostmetadataitem }}
+{% endif %}
+### Option: RefreshActiveChecks
+#	How often list of active checks is refreshed, in seconds.
+#
+# Mandatory: no
+# Range: 60-3600
+# Default:
+# RefreshActiveChecks=120
+{% if 'refreshactivechecks' in lcfg %}
+RefreshActiveChecks={{ lcfg.refreshactivechecks }}
+{% endif %}
+### Option: BufferSend
+#	Do not keep data longer than N seconds in buffer.
+#
+# Mandatory: no
+# Range: 1-3600
+# Default:
+# BufferSend=5
+{% if 'buffersend' in lcfg %}
+BufferSend={{ lcfg.buffersend }}
+{% endif %}
+### Option: BufferSize
+#	Maximum number of values in a memory buffer. The agent will send
+#	all collected data to Zabbix Server or Proxy if the buffer is full.
+#
+# Mandatory: no
+# Range: 2-65535
+# Default:
+# BufferSize=100
+{% if 'buffersize' in lcfg %}
+BufferSize={{ lcfg.buffersize }}
+{% endif %}
+### Option: MaxLinesPerSecond
+#	Maximum number of new lines the agent will send per second to Zabbix Server
+#	or Proxy processing 'log' and 'logrt' active checks.
+#	The provided value will be overridden by the parameter 'maxlines',
+#	provided in 'log' or 'logrt' item keys.
+#
+# Mandatory: no
+# Range: 1-1000
+# Default:
+# MaxLinesPerSecond=20
+{% if 'maxlinespersecond' in lcfg %}
+MaxLinesPerSecond={{ lcfg.maxlinespersecond }}
+{% endif %}
+############ ADVANCED PARAMETERS #################
+
+### Option: Alias
+#	Sets an alias for an item key. It can be used to substitute long and complex item key with a smaller and simpler one.
+#	Multiple Alias parameters may be present. Multiple parameters with the same Alias key are not allowed.
+#	Different Alias keys may reference the same item key.
+#	For example, to retrieve the ID of user 'zabbix':
+#	Alias=zabbix.userid:vfs.file.regexp[/etc/passwd,^zabbix:.:([0-9]+),,,,\1]
+#	Now shorthand key zabbix.userid may be used to retrieve data.
+#	Aliases can be used in HostMetadataItem but not in HostnameItem parameters.
+#
+# Mandatory: no
+# Range:
+# Default:
+{%- if 'alias' in lcfg and lcfg['alias'] is string %}
+    {%- do lcfg.update({'aliases': [lcfg['alias']]}) %}
+{%- endif %}
+{% if 'aliases' in lcfg %}
+    {%- for alias in lcfg.get('aliases',[]) %}
+Alias={{ alias }}
+    {%- endfor %}
+{% endif %}
+### Option: Timeout
+#	Spend no more than Timeout seconds on processing
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Timeout=3
+{% if 'timeout' in lcfg %}
+Timeout={{ lcfg.timeout }}
+{% endif %}
+### Option: AllowRoot
+#	Allow the agent to run as 'root'. If disabled and the agent is started by 'root', the agent
+#	will try to switch to the user specified by the User configuration option instead.
+#	Has no effect if started under a regular user.
+#	0 - do not allow
+#	1 - allow
+#
+# Mandatory: no
+# Default:
+# AllowRoot=0
+{% if 'allowroot' in lcfg %}
+AllowRoot={{ lcfg.allowroot }}
+{% endif %}
+### Option: User
+#	Drop privileges to a specific, existing user on the system.
+#	Only has effect if run as 'root' and AllowRoot is disabled.
+#
+# Mandatory: no
+# Default:
+# User=zabbix
+{% if 'user' in lcfg %}
+User={{ lcfg.user }}
+{% endif %}
+### Option: Include
+#	You may include individual files or all files in a directory in the configuration file.
+#	Installing Zabbix will create include directory in /usr/local/etc, unless modified during the compile time.
+#
+# Mandatory: no
+# Default:
+# Include=
+{%- if 'include' in lcfg and lcfg['include'] is string %}
+    {%- do lcfg.update({'includes': [lcfg['include']]}) %}
+{%- endif %}
+{% if 'includes' in lcfg %}
+    {%- for include in lcfg.get('includes',[]) %}
+Include={{ include }}
+    {%- endfor %}
+{% endif %}
+# Include=/usr/local/etc/zabbix_agentd.userparams.conf
+# Include=/usr/local/etc/zabbix_agentd.conf.d/
+# Include=/usr/local/etc/zabbix_agentd.conf.d/*.conf
+
+####### USER-DEFINED MONITORED PARAMETERS #######
+
+### Option: UnsafeUserParameters
+#	Allow all characters to be passed in arguments to user-defined parameters.
+#	The following characters are not allowed:
+#	\ ' " ` * ? [ ] { } ~ $ ! & ; ( ) < > | # @
+#	Additionally, newline characters are not allowed.
+#	0 - do not allow
+#	1 - allow
+#
+# Mandatory: no
+# Range: 0-1
+# Default:
+# UnsafeUserParameters=0
+{% if 'unsafeuserparameters' in lcfg %}
+UnsafeUserParameters={{ lcfg.unsafeuserparameters }}
+{% endif %}
+### Option: UserParameter
+#	User-defined parameter to monitor. There can be several user-defined parameters.
+#	Format: UserParameter=<key>,<shell command>
+#	See 'zabbix_agentd' directory for examples.
+#
+# Mandatory: no
+# Default:
+# UserParameter=
+{%- if 'userparameter' in lcfg and lcfg['userparameter'] is string %}
+    {%- do lcfg.update({'userparameters': [lcfg['userparameter']]}) %}
+{%- endif %}
+{% if 'userparameters' in lcfg %}
+    {%- for userparameter in lcfg.get('userparameters',[]) %}
+UserParameter={{ userparameter }}
+    {%- endfor %}
+{% endif %}
+####### LOADABLE MODULES #######
+
+### Option: LoadModulePath
+#	Full path to location of agent modules.
+#	Default depends on compilation options.
+#	To see the default path run command "zabbix_agentd --help".
+#
+# Mandatory: no
+# Default:
+# LoadModulePath=${libdir}/modules
+{% if 'loadmodulepath' in lcfg %}
+LoadModulePath={{ lcfg.loadmodulepath }}
+{% endif %}
+### Option: LoadModule
+#	Module to load at agent startup. Modules are used to extend functionality of the agent.
+#	Formats:
+#		LoadModule=<module.so>
+#		LoadModule=<path/module.so>
+#		LoadModule=</abs_path/module.so>
+#	Either the module must be located in directory specified by LoadModulePath or the path must precede the module name.
+#	If the preceding path is absolute (starts with '/') then LoadModulePath is ignored.
+#	It is allowed to include multiple LoadModule parameters.
+#
+# Mandatory: no
+# Default:
+# LoadModule=
+{%- if 'loadmodule' in lcfg and lcfg['loadmodule'] is string %}
+    {%- do lcfg.update({'loadmodules': [lcfg['loadmodule']]}) %}
+{%- endif %}
+{% if 'loadmodules' in lcfg %}
+    {%- for loadmodule in lcfg.get('loadmodules',[]) %}
+LoadModule={{ loadmodule }}
+    {%- endfor %}
+{% endif %}
+####### TLS-RELATED PARAMETERS #######
+
+### Option: TLSConnect
+#	How the agent should connect to server or proxy. Used for active checks.
+#	Only one value can be specified:
+#		unencrypted - connect without encryption
+#		psk         - connect using TLS and a pre-shared key
+#		cert        - connect using TLS and a certificate
+#
+# Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
+# Default:
+# TLSConnect=unencrypted
+{% if 'tlsconnect' in lcfg %}
+TLSConnect={{ lcfg.tlsconnect }}
+{% endif %}
+### Option: TLSAccept
+#	What incoming connections to accept.
+#	Multiple values can be specified, separated by comma:
+#		unencrypted - accept connections without encryption
+#		psk         - accept connections secured with TLS and a pre-shared key
+#		cert        - accept connections secured with TLS and a certificate
+#
+# Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
+# Default:
+# TLSAccept=unencrypted
+{% if 'tlsaccept' in lcfg %}
+TLSAccept={{ lcfg.tlsaccept }}
+{% endif %}
+### Option: TLSCAFile
+#	Full pathname of a file containing the top-level CA(s) certificates for
+#	peer certificate verification.
+#
+# Mandatory: no
+# Default:
+# TLSCAFile=
+{% if 'tlscafile' in lcfg %}
+TLSCAFile={{ lcfg.tlscafile }}
+{% endif %}
+### Option: TLSCRLFile
+#	Full pathname of a file containing revoked certificates.
+#
+# Mandatory: no
+# Default:
+# TLSCRLFile=
+{% if 'tlscrlfile' in lcfg %}
+TLSCRLFile={{ lcfg.tlscrlfile }}
+{% endif %}
+### Option: TLSServerCertIssuer
+#		Allowed server certificate issuer.
+#
+# Mandatory: no
+# Default:
+# TLSServerCertIssuer=
+{% if 'tlsservercertissuer' in lcfg %}
+TLSServerCertIssuer={{ lcfg.tlsservercertissuer }}
+{% endif %}
+### Option: TLSServerCertSubject
+#		Allowed server certificate subject.
+#
+# Mandatory: no
+# Default:
+# TLSServerCertSubject=
+{% if 'tlsservercertsubject' in lcfg %}
+TLSServerCertSubject={{ lcfg.tlsservercertsubject }}
+{% endif %}
+### Option: TLSCertFile
+#	Full pathname of a file containing the agent certificate or certificate chain.
+#
+# Mandatory: no
+# Default:
+# TLSCertFile=
+{% if 'tlscertfile' in lcfg %}
+TLSCertFile={{ lcfg.tlscertfile }}
+{% endif %}
+### Option: TLSKeyFile
+#	Full pathname of a file containing the agent private key.
+#
+# Mandatory: no
+# Default:
+# TLSKeyFile=
+{% if 'tlskeyfile' in lcfg %}
+TLSKeyFile={{ lcfg.tlskeyfile }}
+{% endif %}
+### Option: TLSPSKIdentity
+#	Unique, case sensitive string used to identify the pre-shared key.
+#
+# Mandatory: no
+# Default:
+# TLSPSKIdentity=
+{% if 'tlspskidentity' in lcfg %}
+TLSPSKIdentity={{ lcfg.tlspskidentity }}
+{% endif %}
+### Option: TLSPSKFile
+#	Full pathname of a file containing the pre-shared key.
+#
+# Mandatory: no
+# Default:
+# TLSPSKFile=
+{% if 'tlspskfile' in lcfg %}
+TLSPSKFile={{ lcfg.tlspskfile }}
+{% endif %}

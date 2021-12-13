@@ -1,0 +1,31 @@
+<?php
+{#- Convert all configuration keys to lowercase #}
+{%- set lcfg = cfg|change_dict_case('lower', process='keys') %}
+// Managed by SaltStack zabbix-formula. Do not edit by hand.
+// Zabbix GUI configuration file.
+global $DB;
+
+$DB['TYPE']     = '{{ lcfg.db.type }}';
+$DB['SERVER']   = '{{ lcfg.db.server }}';
+$DB['PORT']     = '{{ lcfg.db.port }}';
+$DB['DATABASE'] = '{{ lcfg.db.database }}';
+$DB['USER']     = '{{ lcfg.db.user }}';
+$DB['PASSWORD'] = '{{ lcfg.db.password }}';
+
+// Schema name. Used for IBM DB2 and PostgreSQL.
+$DB['SCHEMA'] = '{{ lcfg.db.schema }}';
+
+$ZBX_SERVER      = '{{ lcfg.zbx_server }}';
+$ZBX_SERVER_PORT = '{{ lcfg.zbx_server_port }}';
+$ZBX_SERVER_NAME = '{{ lcfg.zbx_server_name }}';
+
+$IMAGE_FORMAT_DEFAULT = IMAGE_FORMAT_PNG;
+
+// Uncomment this block only if you are using Elasticsearch.
+// Elasticsearch url (can be string if same url is used for all types).
+//$HISTORY['url']   = [
+//              'uint' => 'http://localhost:9200',
+//              'text' => 'http://localhost:9200'
+//];
+// Value types stored in Elasticsearch.
+//$HISTORY['types'] = ['uint', 'text'];

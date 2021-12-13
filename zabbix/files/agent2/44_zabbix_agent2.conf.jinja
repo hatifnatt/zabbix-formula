@@ -1,0 +1,539 @@
+
+# Managed by SaltStack zabbix-formula. Do not edit by hand.
+{#- Convert all configuration keys to lowercase #}
+{%- set lcfg = cfg|change_dict_case('lower', process='keys') %}
+# This is a configuration file for Zabbix agent 2 (Unix)
+# To get more information about Zabbix, visit http://www.zabbix.com
+
+############ GENERAL PARAMETERS #################
+
+### Option: PidFile
+#	Name of PID file.
+#
+# Mandatory: no
+# Default:
+# PidFile=/tmp/zabbix_agent2.pid
+{% if lcfg|traverse_dict_keys('pidfile', delimiter='.') %}
+PidFile={{ lcfg|traverse('pidfile', delimiter='.') }}
+{% endif %}
+### Option: LogType
+#	Specifies where log messages are written to:
+#		system  - syslog
+#		file    - file specified with LogFile parameter
+#		console - standard output
+#
+# Mandatory: no
+# Default:
+# LogType=file
+{% if lcfg|traverse_dict_keys('logtype', delimiter='.') %}
+LogType={{ lcfg|traverse('logtype', delimiter='.') }}
+{% endif %}
+### Option: LogFile
+#	Log file name for LogType 'file' parameter.
+#
+# Mandatory: yes, if LogType is set to file, otherwise no
+# Default:
+# LogFile=
+{% if lcfg|traverse_dict_keys('logfile', delimiter='.') %}
+LogFile={{ lcfg|traverse('logfile', delimiter='.') }}
+{% endif %}
+### Option: LogFileSize
+#	Maximum size of log file in MB.
+#	0 - disable automatic log rotation.
+#
+# Mandatory: no
+# Range: 0-1024
+# Default:
+# LogFileSize=1
+{% if lcfg|traverse_dict_keys('logfilesize', delimiter='.') %}
+LogFileSize={{ lcfg|traverse('logfilesize', delimiter='.') }}
+{% endif %}
+### Option: DebugLevel
+#	Specifies debug level:
+#	0 - basic information about starting and stopping of Zabbix processes
+#	1 - critical information
+#	2 - error information
+#	3 - warnings
+#	4 - for debugging (produces lots of information)
+#	5 - extended debugging (produces even more information)
+#
+# Mandatory: no
+# Range: 0-5
+# Default:
+# DebugLevel=3
+{% if lcfg|traverse_dict_keys('debuglevel', delimiter='.') %}
+DebugLevel={{ lcfg|traverse('debuglevel', delimiter='.') }}
+{% endif %}
+### Option: SourceIP
+#	Source IP address for outgoing connections.
+#
+# Mandatory: no
+# Default:
+# SourceIP=
+{% if lcfg|traverse_dict_keys('sourceip', delimiter='.') %}
+SourceIP={{ lcfg|traverse('sourceip', delimiter='.') }}
+{% endif %}
+##### Passive checks related
+
+### Option: Server
+#	List of comma delimited IP addresses, optionally in CIDR notation, or DNS names of Zabbix servers and Zabbix proxies.
+#	Incoming connections will be accepted only from the hosts listed here.
+#	If IPv6 support is enabled then '127.0.0.1', '::127.0.0.1', '::ffff:127.0.0.1' are treated equally
+#	and '::/0' will allow any IPv4 or IPv6 address.
+#	'0.0.0.0/0' can be used to allow any IPv4 address.
+#	Example: Server=127.0.0.1,192.168.1.0/24,::1,2001:db8::/32,zabbix.example.com
+#
+# Mandatory: yes, if StartAgents is not explicitly set to 0
+# Default:
+# Server=
+{% if lcfg|traverse_dict_keys('server', delimiter='.') %}
+    {%- if lcfg.server|is_list %}
+Server={{ lcfg.server|join(',') }}
+    {%- else %}
+Server={{ lcfg.server }}
+    {%- endif %}
+{% endif %}
+### Option: ListenPort
+#	Agent will listen on this port for connections from the server.
+#
+# Mandatory: no
+# Range: 1024-32767
+# Default:
+# ListenPort=10050
+{% if lcfg|traverse_dict_keys('listenport', delimiter='.') %}
+ListenPort={{ lcfg|traverse('listenport', delimiter='.') }}
+{% endif %}
+### Option: ListenIP
+#	List of comma delimited IP addresses that the agent should listen on.
+#	First IP address is sent to Zabbix server if connecting to it to retrieve list of active checks.
+#
+# Mandatory: no
+# Default:
+# ListenIP=0.0.0.0
+{% if lcfg|traverse_dict_keys('listenip', delimiter='.') %}
+    {%- if lcfg.listenip|is_list %}
+ListenIP={{ lcfg.listenip|join(',') }}
+    {%- else %}
+ListenIP={{ lcfg.listenip }}
+    {%- endif %}
+{% endif %}
+### Option: StatusPort
+#	Agent will listen on this port for HTTP status requests.
+#
+# Mandatory: no
+# Range: 1024-32767
+# Default:
+# StatusPort=
+{% if lcfg|traverse_dict_keys('statusport', delimiter='.') %}
+StatusPort={{ lcfg|traverse('statusport', delimiter='.') }}
+{% endif %}
+##### Active checks related
+
+### Option: ServerActive
+#	List of comma delimited IP:port (or DNS name:port) pairs of Zabbix servers and Zabbix proxies for active checks.
+#	If port is not specified, default port is used.
+#	IPv6 addresses must be enclosed in square brackets if port for that host is specified.
+#	If port is not specified, square brackets for IPv6 addresses are optional.
+#	If this parameter is not specified, active checks are disabled.
+#	Example: ServerActive=127.0.0.1:20051,zabbix.domain,[::1]:30051,::1,[12fc::1]
+#
+# Mandatory: no
+# Default:
+# ServerActive=
+{% if lcfg|traverse_dict_keys('serveractive', delimiter='.') %}
+    {%- if lcfg.serveractive|is_list %}
+ServerActive={{ lcfg.serveractive|join(',') }}
+    {%- else %}
+ServerActive={{ lcfg.serveractive }}
+    {%- endif %}
+{% endif %}
+### Option: Hostname
+#	Unique, case sensitive hostname.
+#	Required for active checks and must match hostname as configured on the server.
+#	Value is acquired from HostnameItem if undefined.
+#
+# Mandatory: no
+# Default:
+# Hostname=
+{% if lcfg|traverse_dict_keys('hostname', delimiter='.') %}
+Hostname={{ lcfg|traverse('hostname', delimiter='.') }}
+{% endif %}
+### Option: HostnameItem
+#	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.
+#	Does not support UserParameters or aliases.
+#
+# Mandatory: no
+# Default:
+# HostnameItem=system.hostname
+{% if lcfg|traverse_dict_keys('hostnameitem', delimiter='.') %}
+HostnameItem={{ lcfg|traverse('hostnameitem', delimiter='.') }}
+{% endif %}
+### Option: HostMetadata
+#	Optional parameter that defines host metadata.
+#	Host metadata is used at host auto-registration process.
+#	An agent will issue an error and not start if the value is over limit of 255 characters.
+#	If not defined, value will be acquired from HostMetadataItem.
+#
+# Mandatory: no
+# Range: 0-255 characters
+# Default:
+# HostMetadata=
+{% if lcfg|traverse_dict_keys('hostmetadata', delimiter='.') %}
+HostMetadata={{ lcfg|traverse('hostmetadata', delimiter='.') }}
+{% endif %}
+### Option: HostMetadataItem
+#	Optional parameter that defines an item used for getting host metadata.
+#	Host metadata is used at host auto-registration process.
+#	During an auto-registration request an agent will log a warning message if
+#	the value returned by specified item is over limit of 255 characters.
+#	This option is only used when HostMetadata is not defined.
+#
+# Mandatory: no
+# Default:
+# HostMetadataItem=
+{% if lcfg|traverse_dict_keys('hostmetadataitem', delimiter='.') %}
+HostMetadataItem={{ lcfg|traverse('hostmetadataitem', delimiter='.') }}
+{% endif %}
+### Option: HostInterface
+#	Optional parameter that defines host interface.
+#	Host interface is used at host auto-registration process.
+#	An agent will issue an error and not start if the value is over limit of 255 characters.
+#	If not defined, value will be acquired from HostInterfaceItem.
+#
+# Mandatory: no
+# Range: 0-255 characters
+# Default:
+# HostInterface=
+{% if lcfg|traverse_dict_keys('hostinterface', delimiter='.') %}
+HostInterface={{ lcfg|traverse('hostinterface', delimiter='.') }}
+{% endif %}
+### Option: HostInterfaceItem
+#	Optional parameter that defines an item used for getting host interface.
+#	Host interface is used at host auto-registration process.
+#	During an auto-registration request an agent will log a warning message if
+#	the value returned by specified item is over limit of 255 characters.
+#	This option is only used when HostInterface is not defined.
+#
+# Mandatory: no
+# Default:
+# HostInterfaceItem=
+{% if lcfg|traverse_dict_keys('hostinterfaceitem', delimiter='.') %}
+HostInterfaceItem={{ lcfg|traverse('hostinterfaceitem', delimiter='.') }}
+{% endif %}
+### Option: RefreshActiveChecks
+#	How often list of active checks is refreshed, in seconds.
+#
+# Mandatory: no
+# Range: 60-3600
+# Default:
+# RefreshActiveChecks=120
+{% if lcfg|traverse_dict_keys('refreshactivechecks', delimiter='.') %}
+RefreshActiveChecks={{ lcfg|traverse('refreshactivechecks', delimiter='.') }}
+{% endif %}
+### Option: BufferSend
+#	Do not keep data longer than N seconds in buffer.
+#
+# Mandatory: no
+# Range: 1-3600
+# Default:
+# BufferSend=5
+{% if lcfg|traverse_dict_keys('buffersend', delimiter='.') %}
+BufferSend={{ lcfg|traverse('buffersend', delimiter='.') }}
+{% endif %}
+### Option: BufferSize
+#	Maximum number of values in a memory buffer. The agent will send
+#	all collected data to Zabbix Server or Proxy if the buffer is full.
+#
+# Mandatory: no
+# Range: 2-65535
+# Default:
+# BufferSize=100
+{% if lcfg|traverse_dict_keys('buffersize', delimiter='.') %}
+BufferSize={{ lcfg|traverse('buffersize', delimiter='.') }}
+{% endif %}
+############ ADVANCED PARAMETERS #################
+
+### Option: Alias
+#	Sets an alias for an item key. It can be used to substitute long and complex item key with a smaller and simpler one.
+#	Multiple Alias parameters may be present. Multiple parameters with the same Alias key are not allowed.
+#	Different Alias keys may reference the same item key.
+#	For example, to retrieve the ID of user 'zabbix':
+#	Alias=zabbix.userid:vfs.file.regexp[/etc/passwd,^zabbix:.:([0-9]+),,,,\1]
+#	Now shorthand key zabbix.userid may be used to retrieve data.
+#	Aliases can be used in HostMetadataItem but not in HostnameItem parameters.
+#
+# Mandatory: no
+# Range:
+# Default:
+{%- if lcfg|traverse_dict_keys('alias', delimiter='.') and lcfg['alias'] is string %}
+    {%- do lcfg.update({'aliases': [lcfg['alias']]}) %}
+{%- endif %}
+{% if 'aliases' in lcfg %}
+    {%- for alias in lcfg.get('aliases',[]) %}
+Alias={{ alias }}
+    {%- endfor %}
+{% endif %}
+### Option: Timeout
+#	Spend no more than Timeout seconds on processing
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Timeout=3
+{% if lcfg|traverse_dict_keys('timeout', delimiter='.') %}
+Timeout={{ lcfg|traverse('timeout', delimiter='.') }}
+{% endif %}
+### Option: Include
+#	You may include individual files or all files in a directory in the configuration file.
+#	Installing Zabbix will create include directory in /usr/local/etc, unless modified during the compile time.
+#
+# Mandatory: no
+# Default:
+# Include=
+{%- if lcfg|traverse_dict_keys('include', delimiter='.') and lcfg['include'] is string %}
+    {%- do lcfg.update({'includes': [lcfg['include']]}) %}
+{%- endif %}
+{% if lcfg|traverse_dict_keys('includes', delimiter='.') %}
+    {%- for include in lcfg.get('includes',[]) %}
+Include={{ include }}
+    {%- endfor %}
+{% endif %}
+# Include=/usr/local/etc/zabbix_agentd.userparams.conf
+# Include=/usr/local/etc/zabbix_agentd.conf.d/
+# Include=/usr/local/etc/zabbix_agentd.conf.d/*.conf
+
+####### USER-DEFINED MONITORED PARAMETERS #######
+
+### Option: UnsafeUserParameters
+#	Allow all characters to be passed in arguments to user-defined parameters.
+#	The following characters are not allowed:
+#	\ ' " ` * ? [ ] { } ~ $ ! & ; ( ) < > | # @
+#	Additionally, newline characters are not allowed.
+#	0 - do not allow
+#	1 - allow
+#
+# Mandatory: no
+# Range: 0-1
+# Default:
+# UnsafeUserParameters=0
+{% if lcfg|traverse_dict_keys('unsafeuserparameters', delimiter='.') %}
+UnsafeUserParameters={{ lcfg|traverse('unsafeuserparameters', delimiter='.') }}
+{% endif %}
+### Option: UserParameter
+#	User-defined parameter to monitor. There can be several user-defined parameters.
+#	Format: UserParameter=<key>,<shell command>
+#	See 'zabbix_agentd' directory for examples.
+#
+# Mandatory: no
+# Default:
+# UserParameter=
+{%- if lcfg|traverse_dict_keys('userparameter', delimiter='.') and lcfg['userparameter'] is string %}
+    {%- do lcfg.update({'userparameters': [lcfg['userparameter']]}) %}
+{%- endif %}
+{% if lcfg|traverse_dict_keys('userparameters', delimiter='.') %}
+    {%- for userparameter in lcfg.get('userparameters',[]) %}
+UserParameter={{ userparameter }}
+    {%- endfor %}
+{% endif %}
+### Option: ControlSocket
+#	The control socket, used to send runtime commands with '-R' option.
+#
+# Mandatory: no
+# Default:
+# ControlSocket=
+{% if lcfg|traverse_dict_keys('controlsocket', delimiter='.') %}
+ControlSocket={{ lcfg|traverse('controlsocket', delimiter='.') }}
+{% endif %}
+####### TLS-RELATED PARAMETERS #######
+
+### Option: TLSConnect
+#	How the agent should connect to server or proxy. Used for active checks.
+#	Only one value can be specified:
+#		unencrypted - connect without encryption
+#		psk         - connect using TLS and a pre-shared key
+#		cert        - connect using TLS and a certificate
+#
+# Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
+# Default:
+# TLSConnect=unencrypted
+{% if lcfg|traverse_dict_keys('tlsconnect', delimiter='.') %}
+TLSConnect={{ lcfg|traverse('tlsconnect', delimiter='.') }}
+{% endif %}
+### Option: TLSAccept
+#	What incoming connections to accept.
+#	Multiple values can be specified, separated by comma:
+#		unencrypted - accept connections without encryption
+#		psk         - accept connections secured with TLS and a pre-shared key
+#		cert        - accept connections secured with TLS and a certificate
+#
+# Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
+# Default:
+# TLSAccept=unencrypted
+{% if lcfg|traverse_dict_keys('tlsaccept', delimiter='.') %}
+TLSAccept={{ lcfg|traverse('tlsaccept', delimiter='.') }}
+{% endif %}
+### Option: TLSCAFile
+#	Full pathname of a file containing the top-level CA(s) certificates for
+#	peer certificate verification.
+#
+# Mandatory: no
+# Default:
+# TLSCAFile=
+{% if lcfg|traverse_dict_keys('tlscafile', delimiter='.') %}
+TLSCAFile={{ lcfg|traverse('tlscafile', delimiter='.') }}
+{% endif %}
+### Option: TLSCRLFile
+#	Full pathname of a file containing revoked certificates.
+#
+# Mandatory: no
+# Default:
+# TLSCRLFile=
+{% if lcfg|traverse_dict_keys('tlscrlfile', delimiter='.') %}
+TLSCRLFile={{ lcfg|traverse('tlscrlfile', delimiter='.') }}
+{% endif %}
+### Option: TLSServerCertIssuer
+#		Allowed server certificate issuer.
+#
+# Mandatory: no
+# Default:
+# TLSServerCertIssuer=
+{% if lcfg|traverse_dict_keys('tlsservercertissuer', delimiter='.') %}
+TLSServerCertIssuer={{ lcfg|traverse('tlsservercertissuer', delimiter='.') }}
+{% endif %}
+### Option: TLSServerCertSubject
+#		Allowed server certificate subject.
+#
+# Mandatory: no
+# Default:
+# TLSServerCertSubject=
+{% if lcfg|traverse_dict_keys('tlsservercertsubject', delimiter='.') %}
+TLSServerCertSubject={{ lcfg|traverse('tlsservercertsubject', delimiter='.') }}
+{% endif %}
+### Option: TLSCertFile
+#	Full pathname of a file containing the agent certificate or certificate chain.
+#
+# Mandatory: no
+# Default:
+# TLSCertFile=
+{% if lcfg|traverse_dict_keys('tlscertfile', delimiter='.') %}
+TLSCertFile={{ lcfg|traverse('tlscertfile', delimiter='.') }}
+{% endif %}
+### Option: TLSKeyFile
+#	Full pathname of a file containing the agent private key.
+#
+# Mandatory: no
+# Default:
+# TLSKeyFile=
+{% if lcfg|traverse_dict_keys('tlskeyfile', delimiter='.') %}
+TLSKeyFile={{ lcfg|traverse('tlskeyfile', delimiter='.') }}
+{% endif %}
+### Option: TLSPSKIdentity
+#	Unique, case sensitive string used to identify the pre-shared key.
+#
+# Mandatory: no
+# Default:
+# TLSPSKIdentity=
+{% if lcfg|traverse_dict_keys('tlspskidentity', delimiter='.') %}
+TLSPSKIdentity={{ lcfg|traverse('tlspskidentity', delimiter='.') }}
+{% endif %}
+### Option: TLSPSKFile
+#	Full pathname of a file containing the pre-shared key.
+#
+# Mandatory: no
+# Default:
+# TLSPSKFile=
+{% if lcfg|traverse_dict_keys('tlspskfile', delimiter='.') %}
+TLSPSKFile={{ lcfg|traverse('tlspskfile', delimiter='.') }}
+{% endif %}
+####### PLUGIN-SPECIFIC PARAMETERS #######
+
+### Option: Plugins
+#	A plugin can have one or more plugin specific configuration parameters in format:
+#     Plugins.<PluginName>.<Parameter1>=<value1>
+#     Plugins.<PluginName>.<Parameter2>=<value2>
+#
+# Mandatory: no
+# Range:
+# Default:
+
+### Option: Plugins.Log.MaxLinesPerSecond
+#	Maximum number of new lines the agent will send per second to Zabbix Server
+#	or Proxy processing 'log' and 'logrt' active checks.
+#	The provided value will be overridden by the parameter 'maxlines',
+#	provided in 'log' or 'logrt' item keys.
+#
+# Mandatory: no
+# Range: 1-1000
+# Default:
+# Plugins.Log.MaxLinesPerSecond=20
+{% if lcfg|traverse_dict_keys('plugins.log.maxlinespersecond', delimiter='.') %}
+Plugins.Log.MaxLinesPerSecond={{ lcfg|traverse('plugins.log.maxlinespersecond', delimiter='.') }}
+{% endif %}
+### Option: Plugins.SystemRun.EnableRemoteCommands
+#	Whether remote commands from Zabbix server are allowed.
+#	0 - not allowed
+#	1 - allowed
+#
+# Mandatory: no
+# Default:
+# Plugins.SystemRun.EnableRemoteCommands=0
+{% if lcfg|traverse_dict_keys('plugins.systemrun.enableremotecommands', delimiter='.') %}
+Plugins.SystemRun.EnableRemoteCommands={{ lcfg|traverse('plugins.systemrun.enableremotecommands', delimiter='.') }}
+{% endif %}
+### Option: Plugins.SystemRun.LogRemoteCommands
+#	Enable logging of executed shell commands as warnings.
+#	0 - disabled
+#	1 - enabled
+#
+# Mandatory: no
+# Default:
+# Plugins.SystemRun.LogRemoteCommands=0
+{% if lcfg|traverse_dict_keys('plugins.systemrun.logremotecommands', delimiter='.') %}
+Plugins.SystemRun.LogRemoteCommands={{ lcfg|traverse('plugins.systemrun.logremotecommands', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Redis.Uri
+#	Connection string. Can be overwritten by the first parameter of an item's key.
+#
+# Mandatory: no
+# Range: Must matches the URI format.
+# Default:
+# Plugins.Redis.Uri=tcp://localhost:6379
+{% if lcfg|traverse_dict_keys('plugins.redis.uri', delimiter='.') %}
+Plugins.Redis.Uri={{ lcfg|traverse('plugins.redis.uri', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Redis.Timeout
+#	The maximum time (in seconds) for waiting when a request has to be done.
+#
+# Mandatory: no
+# Range: 1-30
+# Default: global timeout
+
+### Option: Plugins.Redis.KeepAlive
+#	Time (in seconds) to wait before unused connections will be closed.
+#
+# Mandatory: no
+# Range: 60-900
+# Default:
+# Plugins.Redis.KeepAlive=300
+{% if lcfg|traverse_dict_keys('plugins.redis.keepalive', delimiter='.') %}
+Plugins.Redis.KeepAlive={{ lcfg|traverse('plugins.redis.keepalive', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Redis.Sessions.*.Uri
+#	Connection string. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Range: Must matches the URI format.
+# Default:
+# Plugins.Redis.Sessions.*.Uri=
+{% if lcfg|traverse_dict_keys('plugins.redis.sessions.*.uri', delimiter='.') %}
+Plugins.Redis.Sessions.*.Uri={{ lcfg|traverse('plugins.redis.sessions.*.uri', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Redis.Sessions.*.Password
+#	Password to send to protected Redis server. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Redis.Sessions.*.Password=
+{% if lcfg|traverse_dict_keys('plugins.redis.sessions.*.password', delimiter='.') %}
+Plugins.Redis.Sessions.*.Password={{ lcfg|traverse('plugins.redis.sessions.*.password', delimiter='.') }}
+{% endif %}

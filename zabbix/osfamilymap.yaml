@@ -1,0 +1,83 @@
+{% set tplroot = tplfile.split('/')[0] -%}
+{% from tplroot ~ "/version.jinja" import version -%}
+---
+Debian:
+  shell: /usr/sbin/nologin
+  repo:
+    prerequisites:
+      - apt-transport-https
+      - ca-certificates
+    config:
+      name: deb https://repo.zabbix.com/zabbix/{{ version.repo.str }}/{{ grains.os|lower }} {{ grains.oscodename }} main
+      file: /etc/apt/sources.list.d/zabbix.list
+      key_url: https://repo.zabbix.com/zabbix-official-repo.key
+      clean_file: true
+  db:
+    pgsql:
+      sql_file: /usr/share/doc/zabbix-server-pgsql/create.sql.gz
+      root:
+        user: postgres
+        password: ''
+      helper_pkgs_install: true
+      helper_pkgs:
+        - postgresql-client-common
+        - postgresql-client
+  server:
+    pgsql:
+      package:
+        pkgs:
+          - zabbix-server-pgsql
+    mysql:
+      package:
+        pkgs:
+          - zabbix-server-mysql
+  frontend:
+    package:
+      pkgs:
+        - zabbix-frontend-php
+        - zabbix-apache-conf
+    pgsql:
+      package:
+        pkgs:
+          - zabbix-frontend-php
+          - zabbix-apache-conf
+          - php-pgsql
+    mysql:
+      package:
+        pkgs:
+          - zabbix-frontend-php
+          - zabbix-apache-conf
+
+RedHat:
+  shell: /sbin/nologin
+  repo:
+    prerequisites:
+      - python3-dnf-plugin-versionlock
+    config:
+      - name: zabbix
+        humanname: Zabbix Official Repository - $basearch
+        baseurl: https://repo.zabbix.com/zabbix/{{ version.repo.str }}/rhel/$releasever/$basearch/
+        enabled: 1
+        gpgcheck: 1
+{%- if version.repo.str|float > 3.0 %}
+        gpgkey: https://repo.zabbix.com/RPM-GPG-KEY-ZABBIX-A14FE591
+{%- else %}
+        gpgkey: https://repo.zabbix.com/RPM-GPG-KEY-ZABBIX-79EA5ED4
+{%- endif %}
+      - name: zabbix-non-supported
+        humanname: Zabbix Official Repository non-supported - $basearch
+        baseurl: https://repo.zabbix.com/non-supported/rhel/$releasever/$basearch/
+        enabled: 1
+        gpgcheck: 1
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
+  frontend:
+    pgsql:
+      package:
+        pkgs:
+          - zabbix-web-pgsql
+          - zabbix-apache-conf
+    mysql:
+      package:
+        pkgs:
+          - zabbix-web-mysql
+          - zabbix-apache-conf

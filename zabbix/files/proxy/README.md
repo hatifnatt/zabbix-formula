@@ -1,0 +1,1 @@
+# Templating Zabbix Proxy configuration

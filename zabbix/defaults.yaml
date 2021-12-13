@@ -1,0 +1,239 @@
+---
+zabbix:
+  use_official_repo: true
+  repo:
+    # default - latest LTS version
+    version: 5.0
+  package:
+    # default version to use for packages, can be overriden by providing 'version'
+    # key for agent, server frontend, proxy
+    # default is unset
+    # version: '1:4.0.*'
+    pkgs_extra: []
+  user: zabbix
+  group: zabbix
+  # Zabbix user has to be member of some groups in order to have permissions to
+  # execute or read some things
+  user_groups: []
+  # home: ''
+  shell: /usr/sbin/nologin
+  db:
+    type: pgsql
+    manage: true
+    # manage: false
+    import_schema: true
+    # import_schema: false
+    host: localhost
+    name: zabbix
+    user: zabbix
+    password: zabbix
+    pgsql:
+      sql_file: /usr/share/doc/zabbix-server-pgsql/create.sql.gz
+      root:
+        user: postgres
+        password: ''
+      helper_pkgs_install: true
+      helper_pkgs:
+        - postgresql-client-common
+        - postgresql-client
+      schema: ''
+    mysql:
+      sql_file: ''
+      root:
+        user: root
+        password: ''
+  ## Server
+  server:
+    # default is false
+    install: false
+    # db:
+    #   type: mysql
+    service:
+      name: zabbix-server
+      # running / dead
+      status: running
+      # enabled / disabled
+      on_boot_state: enabled
+      # use reload instead of restart
+      reload: false
+    package:
+      # default is unset
+      # version: '1:4.0.*+buster*'
+      hold: false
+      update_holds: true
+      install_recommends: false
+      pkgs_extra: {}
+    pgsql:
+      config: {}
+      package:
+        pkgs:
+          - zabbix-server-pgsql
+    mysql:
+      config: {}
+      package:
+        pkgs:
+          - zabbix-server-mysql
+    config:
+      file: /etc/zabbix/zabbix_server.conf
+      data:
+        logfile: /var/log/zabbix/zabbix_server.log
+        logfilesize: 0
+        pidfile: /var/run/zabbix/zabbix_server.pid
+        socketdir: /var/run/zabbix
+        # dbname: zabbix
+        # dbuser: zabbix
+        # dbpassword: zabbix
+        snmptrapperfile: /var/log/snmptrap/snmptrap.log
+        timeout: 4
+        alertscriptspath: /usr/lib/zabbix/alertscripts
+        externalscripts: /usr/lib/zabbix/externalscripts
+        fpinglocation: /usr/bin/fping
+        fping6location: /usr/bin/fping6
+        logslowqueries: 3000
+        statsallowedip: 127.0.0.1
+  ## Frontend
+  frontend:
+    # default is false
+    install: false
+    # default is unset
+    # version: '1:4.0.*+buster*'
+    package:
+      pkgs:
+        - zabbix-frontend-php
+        # zabbix-nginx-conf can be used also, but apache version it is just work,
+        # while nginx version require some additional configuration actions
+        - zabbix-apache-conf
+      hold: false
+      update_holds: true
+      install_recommends: true
+    pgsql:
+      package:
+        pkgs:
+          - zabbix-frontend-php
+          - zabbix-apache-conf
+      config:
+        data:
+          db:
+            type: POSTGRESQL
+    mysql:
+      package:
+        pkgs:
+          - zabbix-frontend-php
+          - zabbix-apache-conf
+      config:
+        data:
+          db:
+            type: MYSQL
+    config:
+      file: /etc/zabbix/web/zabbix.conf.php
+      data:
+        db:
+          server: localhost
+          port: 0
+          # database: zabbix
+          # user: zabbix
+          # password: zabbix
+          # schema: ''
+          encryption: false
+          key_file:  ''
+          cert_file: ''
+          ca_file:  ''
+          verify_host: false
+          cipher_list: ''
+          vault_url: ''
+          vault_db_path: ''
+          vault_token: ''
+          double_ieee754: true
+        zbx_server:	localhost
+        zbx_server_port: 10051
+        zbx_server_name: ''
+        # TODO support history and sso parameters
+        # history: []
+        # history:
+        #   url: http://localhost:9200
+        #   types:
+        #     - uint
+        #     - text
+        # history:
+        #   url:
+        #     - uint: http://localhost:9200
+        #     - text: http://localhost:9200
+        #   types:
+        #     - uint
+        #     - text
+        # sso:
+        #   sp_key: 'conf/certs/sp.key'
+        #   sp_cert: 'conf/certs/sp.crt'
+        #   idp_cert: 'conf/certs/idp.crt'
+        #   settings: []
+  ## Agent
+  agent:
+    # default is false
+    install: false
+    service:
+      name: zabbix-agent
+      # running / dead
+      status: running
+      # enabled / disabled
+      on_boot_state: enabled
+      # use reload instead of restart
+      reload: false
+    package:
+      # package version for agent
+      # default is unset
+      # version: '1:4.0.*+buster*'
+      # version: '4.0.*'
+      pkgs:
+        - zabbix-agent
+      hold: false
+      update_holds: true
+      install_recommends: true
+      pkgs_extra: {}
+    config:
+      file: /etc/zabbix/zabbix_agentd.conf
+      data:
+        pidfile: /var/run/zabbix/zabbix_agentd.pid
+        logfile: /var/log/zabbix/zabbix_agentd.log
+        logfilesize: 0
+        server: 127.0.0.1
+        serveractive: 127.0.0.1
+        hostname: Zabbix server
+        includes:
+          - /etc/zabbix/zabbix_agentd.d/*.conf
+  ## Agent2
+  agent2:
+    # default is false
+    install: false
+    service:
+      name: zabbix-agent2
+      # running / dead
+      status: running
+      # enabled / disabled
+      on_boot_state: enabled
+      # use reload instead of restart
+      reload: false
+    package:
+      # package version for agent
+      # default is unset
+      # version: '1:4.0.*+buster*'
+      # version: '4.0.*'
+      pkgs:
+        - zabbix-agent2
+      hold: false
+      update_holds: true
+      install_recommends: true
+      pkgs_extra: {}
+    config:
+      file: /etc/zabbix/zabbix_agent2.conf
+      data:
+        pidfile: /run/zabbix/zabbix_agent2.pid
+        logfile: /var/log/zabbix/zabbix_agent2.log
+        logfilesize: 0
+        server: 127.0.0.1
+        serveractive: 127.0.0.1
+        hostname: Zabbix server
+        includes:
+          - /etc/zabbix/zabbix_agent2.d/*.conf
+        controlsocket: /tmp/agent.sock
+  ## Proxy
+  proxy: {}

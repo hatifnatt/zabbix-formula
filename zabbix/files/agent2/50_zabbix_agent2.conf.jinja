@@ -1,0 +1,1095 @@
+# Managed by SaltStack zabbix-formula. Do not edit by hand.
+{#- Convert all configuration keys to lowercase #}
+{%- set lcfg = cfg|change_dict_case('lower', process='keys') %}
+# This is a configuration file for Zabbix agent 2 (Unix)
+# To get more information about Zabbix, visit http://www.zabbix.com
+
+############ GENERAL PARAMETERS #################
+
+### Option: PidFile
+#	Name of PID file.
+#
+# Mandatory: no
+# Default:
+# PidFile=/tmp/zabbix_agent2.pid
+{% if lcfg|traverse_dict_keys('pidfile', delimiter='.') %}
+PidFile={{ lcfg|traverse('pidfile', delimiter='.') }}
+{% endif %}
+### Option: LogType
+#	Specifies where log messages are written to:
+#		system  - syslog
+#		file    - file specified with LogFile parameter
+#		console - standard output
+#
+# Mandatory: no
+# Default:
+# LogType=file
+{% if lcfg|traverse_dict_keys('logtype', delimiter='.') %}
+LogType={{ lcfg|traverse('logtype', delimiter='.') }}
+{% endif %}
+### Option: LogFile
+#	Log file name for LogType 'file' parameter.
+#
+# Mandatory: yes, if LogType is set to file, otherwise no
+# Default:
+# LogFile=
+{% if lcfg|traverse_dict_keys('logfile', delimiter='.') %}
+LogFile={{ lcfg|traverse('logfile', delimiter='.') }}
+{% endif %}
+### Option: LogFileSize
+#	Maximum size of log file in MB.
+#	0 - disable automatic log rotation.
+#
+# Mandatory: no
+# Range: 0-1024
+# Default:
+# LogFileSize=1
+{% if lcfg|traverse_dict_keys('logfilesize', delimiter='.') %}
+LogFileSize={{ lcfg|traverse('logfilesize', delimiter='.') }}
+{% endif %}
+### Option: DebugLevel
+#	Specifies debug level:
+#	0 - basic information about starting and stopping of Zabbix processes
+#	1 - critical information
+#	2 - error information
+#	3 - warnings
+#	4 - for debugging (produces lots of information)
+#	5 - extended debugging (produces even more information)
+#
+# Mandatory: no
+# Range: 0-5
+# Default:
+# DebugLevel=3
+{% if lcfg|traverse_dict_keys('debuglevel', delimiter='.') %}
+DebugLevel={{ lcfg|traverse('debuglevel', delimiter='.') }}
+{% endif %}
+### Option: SourceIP
+#	Source IP address for outgoing connections.
+#
+# Mandatory: no
+# Default:
+# SourceIP=
+{% if lcfg|traverse_dict_keys('sourceip', delimiter='.') %}
+SourceIP={{ lcfg|traverse('sourceip', delimiter='.') }}
+{% endif %}
+##### Passive checks related
+
+### Option: Server
+#	List of comma delimited IP addresses, optionally in CIDR notation, or DNS names of Zabbix servers and Zabbix proxies.
+#	Incoming connections will be accepted only from the hosts listed here.
+#	If IPv6 support is enabled then '127.0.0.1', '::127.0.0.1', '::ffff:127.0.0.1' are treated equally
+#	and '::/0' will allow any IPv4 or IPv6 address.
+#	'0.0.0.0/0' can be used to allow any IPv4 address.
+#	Example: Server=127.0.0.1,192.168.1.0/24,::1,2001:db8::/32,zabbix.example.com
+#
+# Mandatory: yes, if StartAgents is not explicitly set to 0
+# Default:
+# Server=
+{% if lcfg|traverse_dict_keys('server', delimiter='.') %}
+    {%- if lcfg.server|is_list %}
+Server={{ lcfg.server|join(',') }}
+    {%- else %}
+Server={{ lcfg.server }}
+    {%- endif %}
+{% endif %}
+### Option: ListenPort
+#	Agent will listen on this port for connections from the server.
+#
+# Mandatory: no
+# Range: 1024-32767
+# Default:
+# ListenPort=10050
+{% if lcfg|traverse_dict_keys('listenport', delimiter='.') %}
+ListenPort={{ lcfg|traverse('listenport', delimiter='.') }}
+{% endif %}
+### Option: ListenIP
+#	List of comma delimited IP addresses that the agent should listen on.
+#	First IP address is sent to Zabbix server if connecting to it to retrieve list of active checks.
+#
+# Mandatory: no
+# Default:
+# ListenIP=0.0.0.0
+{% if lcfg|traverse_dict_keys('listenip', delimiter='.') %}
+    {%- if lcfg.listenip|is_list %}
+ListenIP={{ lcfg.listenip|join(',') }}
+    {%- else %}
+ListenIP={{ lcfg.listenip }}
+    {%- endif %}
+{% endif %}
+### Option: StatusPort
+#	Agent will listen on this port for HTTP status requests.
+#
+# Mandatory: no
+# Range: 1024-32767
+# Default:
+# StatusPort=
+{% if lcfg|traverse_dict_keys('statusport', delimiter='.') %}
+StatusPort={{ lcfg|traverse('statusport', delimiter='.') }}
+{% endif %}
+##### Active checks related
+
+### Option: ServerActive
+#	List of comma delimited IP:port (or DNS name:port) pairs of Zabbix servers and Zabbix proxies for active checks.
+#	If port is not specified, default port is used.
+#	IPv6 addresses must be enclosed in square brackets if port for that host is specified.
+#	If port is not specified, square brackets for IPv6 addresses are optional.
+#	If this parameter is not specified, active checks are disabled.
+#	Example: ServerActive=127.0.0.1:20051,zabbix.domain,[::1]:30051,::1,[12fc::1]
+#
+# Mandatory: no
+# Default:
+# ServerActive=
+{% if lcfg|traverse_dict_keys('serveractive', delimiter='.') %}
+    {%- if lcfg.serveractive|is_list %}
+ServerActive={{ lcfg.serveractive|join(',') }}
+    {%- else %}
+ServerActive={{ lcfg.serveractive }}
+    {%- endif %}
+{% endif %}
+### Option: Hostname
+#	Unique, case sensitive hostname.
+#	Required for active checks and must match hostname as configured on the server.
+#	Value is acquired from HostnameItem if undefined.
+#
+# Mandatory: no
+# Default:
+# Hostname=
+{% if lcfg|traverse_dict_keys('hostname', delimiter='.') %}
+Hostname={{ lcfg|traverse('hostname', delimiter='.') }}
+{% endif %}
+### Option: HostnameItem
+#	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.
+#	Does not support UserParameters or aliases.
+#
+# Mandatory: no
+# Default:
+# HostnameItem=system.hostname
+{% if lcfg|traverse_dict_keys('hostnameitem', delimiter='.') %}
+HostnameItem={{ lcfg|traverse('hostnameitem', delimiter='.') }}
+{% endif %}
+### Option: HostMetadata
+#	Optional parameter that defines host metadata.
+#	Host metadata is used at host auto-registration process.
+#	An agent will issue an error and not start if the value is over limit of 255 characters.
+#	If not defined, value will be acquired from HostMetadataItem.
+#
+# Mandatory: no
+# Range: 0-255 characters
+# Default:
+# HostMetadata=
+{% if lcfg|traverse_dict_keys('hostmetadata', delimiter='.') %}
+HostMetadata={{ lcfg|traverse('hostmetadata', delimiter='.') }}
+{% endif %}
+### Option: HostMetadataItem
+#	Optional parameter that defines an item used for getting host metadata.
+#	Host metadata is used at host auto-registration process.
+#	During an auto-registration request an agent will log a warning message if
+#	the value returned by specified item is over limit of 255 characters.
+#	This option is only used when HostMetadata is not defined.
+#
+# Mandatory: no
+# Default:
+# HostMetadataItem=
+{% if lcfg|traverse_dict_keys('hostmetadataitem', delimiter='.') %}
+HostMetadataItem={{ lcfg|traverse('hostmetadataitem', delimiter='.') }}
+{% endif %}
+### Option: HostInterface
+#	Optional parameter that defines host interface.
+#	Host interface is used at host auto-registration process.
+#	An agent will issue an error and not start if the value is over limit of 255 characters.
+#	If not defined, value will be acquired from HostInterfaceItem.
+#
+# Mandatory: no
+# Range: 0-255 characters
+# Default:
+# HostInterface=
+{% if lcfg|traverse_dict_keys('hostinterface', delimiter='.') %}
+HostInterface={{ lcfg|traverse('hostinterface', delimiter='.') }}
+{% endif %}
+### Option: HostInterfaceItem
+#	Optional parameter that defines an item used for getting host interface.
+#	Host interface is used at host auto-registration process.
+#	During an auto-registration request an agent will log a warning message if
+#	the value returned by specified item is over limit of 255 characters.
+#	This option is only used when HostInterface is not defined.
+#
+# Mandatory: no
+# Default:
+# HostInterfaceItem=
+{% if lcfg|traverse_dict_keys('hostinterfaceitem', delimiter='.') %}
+HostInterfaceItem={{ lcfg|traverse('hostinterfaceitem', delimiter='.') }}
+{% endif %}
+### Option: RefreshActiveChecks
+#	How often list of active checks is refreshed, in seconds.
+#
+# Mandatory: no
+# Range: 60-3600
+# Default:
+# RefreshActiveChecks=120
+{% if lcfg|traverse_dict_keys('refreshactivechecks', delimiter='.') %}
+RefreshActiveChecks={{ lcfg|traverse('refreshactivechecks', delimiter='.') }}
+{% endif %}
+### Option: BufferSend
+#	Do not keep data longer than N seconds in buffer.
+#
+# Mandatory: no
+# Range: 1-3600
+# Default:
+# BufferSend=5
+{% if lcfg|traverse_dict_keys('buffersend', delimiter='.') %}
+BufferSend={{ lcfg|traverse('buffersend', delimiter='.') }}
+{% endif %}
+### Option: BufferSize
+#	Maximum number of values in a memory buffer. The agent will send
+#	all collected data to Zabbix Server or Proxy if the buffer is full.
+#	Option is not valid if EnablePersistentBuffer=1
+#
+# Mandatory: no
+# Range: 2-65535
+# Default:
+# BufferSize=100
+{% if lcfg|traverse_dict_keys('buffersize', delimiter='.') %}
+BufferSize={{ lcfg|traverse('buffersize', delimiter='.') }}
+{% endif %}
+### Option: EnablePersistentBuffer
+#	Enable usage of local persistent storage for active items.
+#	0 - disabled, in-memory buffer is used (default); 1 - use persistent buffer
+# Mandatory: no
+# Range: 0-1
+# Default:
+# EnablePersistentBuffer=0
+{% if lcfg|traverse_dict_keys('enablepersistentbuffer', delimiter='.') %}
+EnablePersistentBuffer={{ lcfg|traverse('enablepersistentbuffer', delimiter='.') }}
+{% endif %}
+### Option: PersistentBufferPeriod
+#	Zabbix Agent2 will keep data for this time period in case of no
+#	connectivity with Zabbix server or proxy. Older data will be lost. Log data will be preserved.
+#	Option is valid if EnablePersistentBuffer=1
+#
+# Mandatory: no
+# Range: 1m-365d
+# Default:
+# PersistentBufferPeriod=1h
+{% if lcfg|traverse_dict_keys('persistentbufferperiod', delimiter='.') %}
+PersistentBufferPeriod={{ lcfg|traverse('persistentbufferperiod', delimiter='.') }}
+{% endif %}
+### Option: PersistentBufferFile
+#	Full filename. Zabbix Agent2 will keep SQLite database in this file.
+#	Option is valid if EnablePersistentBuffer=1
+#
+# Mandatory: no
+# Default:
+# PersistentBufferFile=
+{% if lcfg|traverse_dict_keys('persistentbufferfile', delimiter='.') %}
+PersistentBufferFile={{ lcfg|traverse('persistentbufferfile', delimiter='.') }}
+{% endif %}
+############ ADVANCED PARAMETERS #################
+
+### Option: Alias
+#	Sets an alias for an item key. It can be used to substitute long and complex item key with a smaller and simpler one.
+#	Multiple Alias parameters may be present. Multiple parameters with the same Alias key are not allowed.
+#	Different Alias keys may reference the same item key.
+#	For example, to retrieve the ID of user 'zabbix':
+#	Alias=zabbix.userid:vfs.file.regexp[/etc/passwd,^zabbix:.:([0-9]+),,,,\1]
+#	Now shorthand key zabbix.userid may be used to retrieve data.
+#	Aliases can be used in HostMetadataItem but not in HostnameItem parameters.
+#
+# Mandatory: no
+# Range:
+# Default:
+{%- if lcfg|traverse_dict_keys('alias', delimiter='.') and lcfg['alias'] is string %}
+    {%- do lcfg.update({'aliases': [lcfg['alias']]}) %}
+{%- endif %}
+{% if 'aliases' in lcfg %}
+    {%- for alias in lcfg.get('aliases',[]) %}
+Alias={{ alias }}
+    {%- endfor %}
+{% endif %}
+### Option: Timeout
+#	Spend no more than Timeout seconds on processing
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Timeout=3
+{% if lcfg|traverse_dict_keys('timeout', delimiter='.') %}
+Timeout={{ lcfg|traverse('timeout', delimiter='.') }}
+{% endif %}
+### Option: Include
+#	You may include individual files or all files in a directory in the configuration file.
+#	Installing Zabbix will create include directory in /usr/local/etc, unless modified during the compile time.
+#
+# Mandatory: no
+# Default:
+# Include=
+{%- if lcfg|traverse_dict_keys('include', delimiter='.') and lcfg['include'] is string %}
+    {%- do lcfg.update({'includes': [lcfg['include']]}) %}
+{%- endif %}
+{% if lcfg|traverse_dict_keys('includes', delimiter='.') %}
+    {%- for include in lcfg.get('includes',[]) %}
+Include={{ include }}
+    {%- endfor %}
+{% endif %}
+# Include=/usr/local/etc/zabbix_agentd.userparams.conf
+# Include=/usr/local/etc/zabbix_agentd.conf.d/
+# Include=/usr/local/etc/zabbix_agentd.conf.d/*.conf
+
+####### USER-DEFINED MONITORED PARAMETERS #######
+
+### Option: UnsafeUserParameters
+#	Allow all characters to be passed in arguments to user-defined parameters.
+#	The following characters are not allowed:
+#	\ ' " ` * ? [ ] { } ~ $ ! & ; ( ) < > | # @
+#	Additionally, newline characters are not allowed.
+#	0 - do not allow
+#	1 - allow
+#
+# Mandatory: no
+# Range: 0-1
+# Default:
+# UnsafeUserParameters=0
+{% if lcfg|traverse_dict_keys('unsafeuserparameters', delimiter='.') %}
+UnsafeUserParameters={{ lcfg|traverse('unsafeuserparameters', delimiter='.') }}
+{% endif %}
+### Option: UserParameter
+#	User-defined parameter to monitor. There can be several user-defined parameters.
+#	Format: UserParameter=<key>,<shell command>
+#	See 'zabbix_agentd' directory for examples.
+#
+# Mandatory: no
+# Default:
+# UserParameter=
+{%- if lcfg|traverse_dict_keys('userparameter', delimiter='.') and lcfg['userparameter'] is string %}
+    {%- do lcfg.update({'userparameters': [lcfg['userparameter']]}) %}
+{%- endif %}
+{% if lcfg|traverse_dict_keys('userparameters', delimiter='.') %}
+    {%- for userparameter in lcfg.get('userparameters',[]) %}
+UserParameter={{ userparameter }}
+    {%- endfor %}
+{% endif %}
+### Option: ControlSocket
+#	The control socket, used to send runtime commands with '-R' option.
+#
+# Mandatory: no
+# Default:
+# ControlSocket=
+{% if lcfg|traverse_dict_keys('controlsocket', delimiter='.') %}
+ControlSocket={{ lcfg|traverse('controlsocket', delimiter='.') }}
+{% endif %}
+####### TLS-RELATED PARAMETERS #######
+
+### Option: TLSConnect
+#	How the agent should connect to server or proxy. Used for active checks.
+#	Only one value can be specified:
+#		unencrypted - connect without encryption
+#		psk         - connect using TLS and a pre-shared key
+#		cert        - connect using TLS and a certificate
+#
+# Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
+# Default:
+# TLSConnect=unencrypted
+{% if lcfg|traverse_dict_keys('tlsconnect', delimiter='.') %}
+TLSConnect={{ lcfg|traverse('tlsconnect', delimiter='.') }}
+{% endif %}
+### Option: TLSAccept
+#	What incoming connections to accept.
+#	Multiple values can be specified, separated by comma:
+#		unencrypted - accept connections without encryption
+#		psk         - accept connections secured with TLS and a pre-shared key
+#		cert        - accept connections secured with TLS and a certificate
+#
+# Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
+# Default:
+# TLSAccept=unencrypted
+{% if lcfg|traverse_dict_keys('tlsaccept', delimiter='.') %}
+TLSAccept={{ lcfg|traverse('tlsaccept', delimiter='.') }}
+{% endif %}
+### Option: TLSCAFile
+#	Full pathname of a file containing the top-level CA(s) certificates for
+#	peer certificate verification.
+#
+# Mandatory: no
+# Default:
+# TLSCAFile=
+{% if lcfg|traverse_dict_keys('tlscafile', delimiter='.') %}
+TLSCAFile={{ lcfg|traverse('tlscafile', delimiter='.') }}
+{% endif %}
+### Option: TLSCRLFile
+#	Full pathname of a file containing revoked certificates.
+#
+# Mandatory: no
+# Default:
+# TLSCRLFile=
+{% if lcfg|traverse_dict_keys('tlscrlfile', delimiter='.') %}
+TLSCRLFile={{ lcfg|traverse('tlscrlfile', delimiter='.') }}
+{% endif %}
+### Option: TLSServerCertIssuer
+#		Allowed server certificate issuer.
+#
+# Mandatory: no
+# Default:
+# TLSServerCertIssuer=
+{% if lcfg|traverse_dict_keys('tlsservercertissuer', delimiter='.') %}
+TLSServerCertIssuer={{ lcfg|traverse('tlsservercertissuer', delimiter='.') }}
+{% endif %}
+### Option: TLSServerCertSubject
+#		Allowed server certificate subject.
+#
+# Mandatory: no
+# Default:
+# TLSServerCertSubject=
+{% if lcfg|traverse_dict_keys('tlsservercertsubject', delimiter='.') %}
+TLSServerCertSubject={{ lcfg|traverse('tlsservercertsubject', delimiter='.') }}
+{% endif %}
+### Option: TLSCertFile
+#	Full pathname of a file containing the agent certificate or certificate chain.
+#
+# Mandatory: no
+# Default:
+# TLSCertFile=
+{% if lcfg|traverse_dict_keys('tlscertfile', delimiter='.') %}
+TLSCertFile={{ lcfg|traverse('tlscertfile', delimiter='.') }}
+{% endif %}
+### Option: TLSKeyFile
+#	Full pathname of a file containing the agent private key.
+#
+# Mandatory: no
+# Default:
+# TLSKeyFile=
+{% if lcfg|traverse_dict_keys('tlskeyfile', delimiter='.') %}
+TLSKeyFile={{ lcfg|traverse('tlskeyfile', delimiter='.') }}
+{% endif %}
+### Option: TLSPSKIdentity
+#	Unique, case sensitive string used to identify the pre-shared key.
+#
+# Mandatory: no
+# Default:
+# TLSPSKIdentity=
+{% if lcfg|traverse_dict_keys('tlspskidentity', delimiter='.') %}
+TLSPSKIdentity={{ lcfg|traverse('tlspskidentity', delimiter='.') }}
+{% endif %}
+### Option: TLSPSKFile
+#	Full pathname of a file containing the pre-shared key.
+#
+# Mandatory: no
+# Default:
+# TLSPSKFile=
+{% if lcfg|traverse_dict_keys('tlspskfile', delimiter='.') %}
+TLSPSKFile={{ lcfg|traverse('tlspskfile', delimiter='.') }}
+{% endif %}
+####### PLUGIN-SPECIFIC PARAMETERS #######
+
+### Option: Plugins
+#	A plugin can have one or more plugin specific configuration parameters in format:
+#     Plugins.<PluginName>.<Parameter1>=<value1>
+#     Plugins.<PluginName>.<Parameter2>=<value2>
+#
+# Mandatory: no
+# Range:
+# Default:
+
+### Option: Plugins.Log.MaxLinesPerSecond
+#	Maximum number of new lines the agent will send per second to Zabbix Server
+#	or Proxy processing 'log' and 'logrt' active checks.
+#	The provided value will be overridden by the parameter 'maxlines',
+#	provided in 'log' or 'logrt' item keys.
+#
+# Mandatory: no
+# Range: 1-1000
+# Default:
+# Plugins.Log.MaxLinesPerSecond=20
+{% if lcfg|traverse_dict_keys('plugins.log.maxlinespersecond', delimiter='.') %}
+Plugins.Log.MaxLinesPerSecond={{ lcfg|traverse('plugins.log.maxlinespersecond', delimiter='.') }}
+{% endif %}
+### Option: AllowKey
+#	Allow execution of item keys matching pattern.
+#	Multiple keys matching rules may be defined in combination with DenyKey.
+#	Key pattern is wildcard expression, which support "*" character to match any number of any characters in certain position. It might be used in both key name and key arguments.
+#	Parameters are processed one by one according their appearance order.
+#	If no AllowKey or DenyKey rules defined, all keys are allowed.
+#
+# Mandatory: no
+
+### Option: DenyKey
+#	Deny execution of items keys matching pattern.
+#	Multiple keys matching rules may be defined in combination with AllowKey.
+#	Key pattern is wildcard expression, which support "*" character to match any number of any characters in certain position. It might be used in both key name and key arguments.
+#	Parameters are processed one by one according their appearance order.
+#	If no AllowKey or DenyKey rules defined, all keys are allowed.
+#       Unless another system.run[*] rule is specified DenyKey=system.run[*] is added by default.
+#
+# Mandatory: no
+# Default:
+# DenyKey=system.run[*]
+{% if lcfg|traverse_dict_keys('denykey', delimiter='.') %}
+DenyKey={{ lcfg|traverse('denykey', delimiter='.') }}
+{% endif %}
+### Option: Plugins.SystemRun.LogRemoteCommands
+#	Enable logging of executed shell commands as warnings.
+#	0 - disabled
+#	1 - enabled
+#
+# Mandatory: no
+# Default:
+# Plugins.SystemRun.LogRemoteCommands=0
+{% if lcfg|traverse_dict_keys('plugins.systemrun.logremotecommands', delimiter='.') %}
+Plugins.SystemRun.LogRemoteCommands={{ lcfg|traverse('plugins.systemrun.logremotecommands', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Docker.Endpoint
+#	Docker API endpoint.
+#
+# Mandatory: no
+# Default: unix:///var/run/docker.sock
+# Plugins.Docker.Endpoint=unix:///var/run/docker.sock
+{% if lcfg|traverse_dict_keys('plugins.docker.endpoint', delimiter='.') %}
+Plugins.Docker.Endpoint={{ lcfg|traverse('plugins.docker.endpoint', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Ceph.InsecureSkipVerify
+#	InsecureSkipVerify controls whether an http client verifies the	server's certificate chain and host name.
+#	If InsecureSkipVerify is true, TLS accepts any certificate presented by the server and any host name
+#	in that certificate. In this mode, TLS is susceptible to man-in-the-middle attacks.
+#	This should be used only for testing.
+#
+# Mandatory: no
+# Range: false | true
+# Default:
+# Plugins.Ceph.InsecureSkipVerify=false
+{% if lcfg|traverse_dict_keys('plugins.ceph.insecureskipverify', delimiter='.') %}
+Plugins.Ceph.InsecureSkipVerify={{ lcfg|traverse('plugins.ceph.insecureskipverify', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Ceph.KeepAlive
+#	Time in seconds for waiting before unused connections will be closed.
+#
+# Mandatory: no
+# Range: 60-900
+# Default:
+# Plugins.Ceph.KeepAlive=300
+{% if lcfg|traverse_dict_keys('plugins.ceph.keepalive', delimiter='.') %}
+Plugins.Ceph.KeepAlive={{ lcfg|traverse('plugins.ceph.keepalive', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Ceph.Timeout
+#	The maximum time in seconds for waiting when a request has to be done.
+#	The timeout includes connection time, any redirects, and reading the response body.
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Plugins.Ceph.Timeout=<Global timeout>
+{% if lcfg|traverse_dict_keys('plugins.ceph.timeout', delimiter='.') %}
+Plugins.Ceph.Timeout={{ lcfg|traverse('plugins.ceph.timeout', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Ceph.Sessions.*.ApiKey
+#	ApiKey to be used for connectione. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Ceph.Sessions.*.ApiKey=
+{% if lcfg|traverse_dict_keys('plugins.ceph.sessions.*.apikey', delimiter='.') %}
+Plugins.Ceph.Sessions.*.ApiKey={{ lcfg|traverse('plugins.ceph.sessions.*.apikey', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Ceph.Sessions.*.User
+#	Username to be used for connection. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Ceph.Sessions.*.User=
+{% if lcfg|traverse_dict_keys('plugins.ceph.sessions.*.user', delimiter='.') %}
+Plugins.Ceph.Sessions.*.User={{ lcfg|traverse('plugins.ceph.sessions.*.user', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Ceph.Sessions.*.Uri
+#	Uri to connect. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Range:
+#   Must matches the URI format.
+#   The only supported schema is "https".
+#   Embedded credentials will be ignored.
+# Default:
+# Plugins.Ceph.Sessions.*.Uri=
+{% if lcfg|traverse_dict_keys('plugins.ceph.sessions.*.uri', delimiter='.') %}
+Plugins.Ceph.Sessions.*.Uri={{ lcfg|traverse('plugins.ceph.sessions.*.uri', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Docker.Timeout
+#	The maximum time (in seconds) for waiting when a request has to be done.
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Plugins.Docker.Timeout=<Global timeout>
+{% if lcfg|traverse_dict_keys('plugins.docker.timeout', delimiter='.') %}
+Plugins.Docker.Timeout={{ lcfg|traverse('plugins.docker.timeout', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Memcached.Timeout
+#	The maximum time (in seconds) for waiting when a request has to be done.
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Plugins.Memcached.Timeout=<Global timeout>
+{% if lcfg|traverse_dict_keys('plugins.memcached.timeout', delimiter='.') %}
+Plugins.Memcached.Timeout={{ lcfg|traverse('plugins.memcached.timeout', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Memcached.KeepAlive
+#	Time in seconds for waiting before unused connections will be closed.
+#
+# Mandatory: no
+# Range: 60-900
+# Default:
+# Plugins.Memcached.KeepAlive=300
+{% if lcfg|traverse_dict_keys('plugins.memcached.keepalive', delimiter='.') %}
+Plugins.Memcached.KeepAlive={{ lcfg|traverse('plugins.memcached.keepalive', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Memcached.Sessions.*.Uri
+#	Uri to connect. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Range:
+#   Must matches the URI format.
+#   Supported schemas: "tcp" and "unix".
+#   Embedded credentials will be ignored.
+# Default:
+# Plugins.Memcached.Sessions.*.Uri=
+{% if lcfg|traverse_dict_keys('plugins.memcached.sessions.*.uri', delimiter='.') %}
+Plugins.Memcached.Sessions.*.Uri={{ lcfg|traverse('plugins.memcached.sessions.*.uri', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Memcached.Sessions.*.User
+#	Username to send to protected Memcached server. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Memcached.Sessions.*.User=
+{% if lcfg|traverse_dict_keys('plugins.memcached.sessions.*.user', delimiter='.') %}
+Plugins.Memcached.Sessions.*.User={{ lcfg|traverse('plugins.memcached.sessions.*.user', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Memcached.Sessions.*.Password
+#	Password to send to protected Memcached server. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Memcached.Sessions.*.Password=
+{% if lcfg|traverse_dict_keys('plugins.memcached.sessions.*.password', delimiter='.') %}
+Plugins.Memcached.Sessions.*.Password={{ lcfg|traverse('plugins.memcached.sessions.*.password', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mongo.Timeout
+#	Amount of time to wait for a server to respond when first connecting and on
+#   follow up operations in the session.
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Plugins.Mongo.Timeout=<Global timeout>
+{% if lcfg|traverse_dict_keys('plugins.mongo.timeout', delimiter='.') %}
+Plugins.Mongo.Timeout={{ lcfg|traverse('plugins.mongo.timeout', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mongo.KeepAlive
+#	Time in seconds for waiting before unused connections will be closed.
+#
+# Mandatory: no
+# Range: 60-900
+# Default:
+# Plugins.Mongo.KeepAlive=300
+{% if lcfg|traverse_dict_keys('plugins.mongo.keepalive', delimiter='.') %}
+Plugins.Mongo.KeepAlive={{ lcfg|traverse('plugins.mongo.keepalive', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mongo.Sessions.*.Uri
+#	Uri to connect. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Range:
+#   Must matches the URI format.
+#   The only supported schema is "tcp".
+#   Embedded credentials will be ignored.
+# Default:
+# Plugins.Mongo.Sessions.*.Uri=
+{% if lcfg|traverse_dict_keys('plugins.mongo.sessions.*.uri', delimiter='.') %}
+Plugins.Mongo.Sessions.*.Uri={{ lcfg|traverse('plugins.mongo.sessions.*.uri', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mongo.Sessions.*.User
+#	Username to send to protected MongoDB server. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Mongo.Sessions.*.User=
+{% if lcfg|traverse_dict_keys('plugins.mongo.sessions.*.user', delimiter='.') %}
+Plugins.Mongo.Sessions.*.User={{ lcfg|traverse('plugins.mongo.sessions.*.user', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mongo.Sessions.*.Password
+#	Password to send to protected MongoDB server. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Mongo.Sessions.*.Password=
+{% if lcfg|traverse_dict_keys('plugins.mongo.sessions.*.password', delimiter='.') %}
+Plugins.Mongo.Sessions.*.Password={{ lcfg|traverse('plugins.mongo.sessions.*.password', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mysql.CallTimeout
+#	The maximum time in seconds for waiting when a request has to be done.
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Plugins.Mysql.CallTimeout=<Global timeout>
+{% if lcfg|traverse_dict_keys('plugins.mysql.calltimeout', delimiter='.') %}
+Plugins.Mysql.CallTimeout={{ lcfg|traverse('plugins.mysql.calltimeout', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mysql.Timeout
+#	The maximum time in seconds for waiting when a connection has to be established.
+#
+# Mandatory: no
+# Range: 1-30
+# Default: global timeout
+
+### Option: Plugins.Mysql.KeepAlive
+#	Time (in seconds) to wait before unused connections will be closed.
+#
+# Mandatory: no
+# Range: 60-900
+# Default:
+# Plugins.Mysql.KeepAlive=300
+{% if lcfg|traverse_dict_keys('plugins.mysql.keepalive', delimiter='.') %}
+Plugins.Mysql.KeepAlive={{ lcfg|traverse('plugins.mysql.keepalive', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mysql.Sessions.*.Uri
+#	Connection string. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Range: Must matches the URI format.
+# Default:
+# Plugins.Mysql.Sessions.*.Uri=
+{% if lcfg|traverse_dict_keys('plugins.mysql.sessions.*.uri', delimiter='.') %}
+Plugins.Mysql.Sessions.*.Uri={{ lcfg|traverse('plugins.mysql.sessions.*.uri', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mysql.Sessions.*.User
+#	Username to be used for MySQL authentication. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Mysql.Sessions.*.User=
+{% if lcfg|traverse_dict_keys('plugins.mysql.sessions.*.user', delimiter='.') %}
+Plugins.Mysql.Sessions.*.User={{ lcfg|traverse('plugins.mysql.sessions.*.user', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mysql.Sessions.*.Password
+#	Password to be used for MySQL authentication. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Mysql.Sessions.*.Password=
+{% if lcfg|traverse_dict_keys('plugins.mysql.sessions.*.password', delimiter='.') %}
+Plugins.Mysql.Sessions.*.Password={{ lcfg|traverse('plugins.mysql.sessions.*.password', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mysql.Sessions.*.TLSConnect
+#	Encryption type for MySQL connection. "*" should be replaced with a session name.
+#		tls connection required     - required
+#		verifies certificates       - verify_ca
+#		verify certificates and ip  - verify_full
+#
+# Mandatory: no
+# Default:
+# Plugins.Mysql.Sessions.*.TLSConnect=
+{% if lcfg|traverse_dict_keys('plugins.mysql.sessions.*.tlsconnect', delimiter='.') %}
+Plugins.Mysql.Sessions.*.TLSConnect={{ lcfg|traverse('plugins.mysql.sessions.*.tlsconnect', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mysql.Sessions.*.TLSCAFile
+#	Full pathname of a file containing the top-level CA(s) certificates for mysql
+#	peer certificate verification.
+#
+# Mandatory: no
+# Default:
+# Plugins.Mysql.Sessions.*.TLSCAFile=
+{% if lcfg|traverse_dict_keys('plugins.mysql.sessions.*.tlscafile', delimiter='.') %}
+Plugins.Mysql.Sessions.*.TLSCAFile={{ lcfg|traverse('plugins.mysql.sessions.*.tlscafile', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mysql.Sessions.*.TLSCertFile
+#	Full pathname of a file containing the mysql certificate or certificate chain.
+#
+# Mandatory: no
+# Default:
+# Plugins.Mysql.Sessions.*.TLSCertFile=
+{% if lcfg|traverse_dict_keys('plugins.mysql.sessions.*.tlscertfile', delimiter='.') %}
+Plugins.Mysql.Sessions.*.TLSCertFile={{ lcfg|traverse('plugins.mysql.sessions.*.tlscertfile', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Mysql.Sessions.*.TLSKeyFile
+#	Full pathname of a file containing the mysql private key.
+#
+# Mandatory: no
+# Default:
+# Plugins.Mysql.Sessions.*.TLSKeyFile=
+{% if lcfg|traverse_dict_keys('plugins.mysql.sessions.*.tlskeyfile', delimiter='.') %}
+Plugins.Mysql.Sessions.*.TLSKeyFile={{ lcfg|traverse('plugins.mysql.sessions.*.tlskeyfile', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Oracle.CallTimeout
+#	The maximum time in seconds for waiting when a request has to be done.
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Plugins.Oracle.CallTimeout=<Global timeout>
+{% if lcfg|traverse_dict_keys('plugins.oracle.calltimeout', delimiter='.') %}
+Plugins.Oracle.CallTimeout={{ lcfg|traverse('plugins.oracle.calltimeout', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Oracle.ConnectTimeout
+#	The maximum time in seconds for waiting when a connection has to be established.
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Plugins.Oracle.ConnectTimeout=<Global timeout>
+{% if lcfg|traverse_dict_keys('plugins.oracle.connecttimeout', delimiter='.') %}
+Plugins.Oracle.ConnectTimeout={{ lcfg|traverse('plugins.oracle.connecttimeout', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Oracle.CustomQueriesPath
+#	Full pathname of a directory containing *.sql* files with custom queries.
+#
+# Mandatory: no
+# Default:
+# Plugins.Oracle.CustomQueriesPath=
+{% if lcfg|traverse_dict_keys('plugins.oracle.customqueriespath', delimiter='.') %}
+Plugins.Oracle.CustomQueriesPath={{ lcfg|traverse('plugins.oracle.customqueriespath', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Oracle.KeepAlive
+#	Time in seconds for waiting before unused connections will be closed.
+#
+# Mandatory: no
+# Range: 60-900
+# Default:
+# Plugins.Oracle.KeepAlive=300
+{% if lcfg|traverse_dict_keys('plugins.oracle.keepalive', delimiter='.') %}
+Plugins.Oracle.KeepAlive={{ lcfg|traverse('plugins.oracle.keepalive', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Oracle.Sessions.*.Uri
+#	Uri to connect. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Range:
+#   Must matches the URI format.
+#   The only supported schema is "tcp".
+#   Embedded credentials will be ignored.
+# Default:
+# Plugins.Oracle.Sessions.*.Uri=
+{% if lcfg|traverse_dict_keys('plugins.oracle.sessions.*.uri', delimiter='.') %}
+Plugins.Oracle.Sessions.*.Uri={{ lcfg|traverse('plugins.oracle.sessions.*.uri', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Oracle.Sessions.*.Service
+#	Service name to be used for connection. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Range: SID is not supported.
+# Default:
+# Plugins.Oracle.Sessions.*.Service=
+{% if lcfg|traverse_dict_keys('plugins.oracle.sessions.*.service', delimiter='.') %}
+Plugins.Oracle.Sessions.*.Service={{ lcfg|traverse('plugins.oracle.sessions.*.service', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Oracle.Sessions.*.User
+#	Username to be used for connection. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Oracle.Sessions.*.User=
+{% if lcfg|traverse_dict_keys('plugins.oracle.sessions.*.user', delimiter='.') %}
+Plugins.Oracle.Sessions.*.User={{ lcfg|traverse('plugins.oracle.sessions.*.user', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Oracle.Sessions.*.Password
+#	Password to be used for connectione. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Oracle.Sessions.*.Password=
+{% if lcfg|traverse_dict_keys('plugins.oracle.sessions.*.password', delimiter='.') %}
+Plugins.Oracle.Sessions.*.Password={{ lcfg|traverse('plugins.oracle.sessions.*.password', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.CallTimeout
+#	The maximum time in seconds for waiting when a request has to be done.
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Plugins.Postgres.CallTimeout=<Global timeout>
+{% if lcfg|traverse_dict_keys('plugins.postgres.calltimeout', delimiter='.') %}
+Plugins.Postgres.CallTimeout={{ lcfg|traverse('plugins.postgres.calltimeout', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.Timeout
+#	The maximum time in seconds for waiting when a connection has to be established.
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Plugins.Postgres.Timeout=<Global timeout>
+{% if lcfg|traverse_dict_keys('plugins.postgres.timeout', delimiter='.') %}
+Plugins.Postgres.Timeout={{ lcfg|traverse('plugins.postgres.timeout', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.KeepAlive
+#   Time in seconds for waiting before unused connections will be closed.
+#
+# Mandatory: no
+# Range: 60-900
+# Default:
+# Plugins.Postgres.KeepAlive=300
+{% if lcfg|traverse_dict_keys('plugins.postgres.keepalive', delimiter='.') %}
+Plugins.Postgres.KeepAlive={{ lcfg|traverse('plugins.postgres.keepalive', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.CustomQueriesPath
+#	Full pathname of a directory containing *.sql* files with custom queries.
+#
+# Mandatory: no
+# Default:
+# Plugins.Postgres.CustomQueriesPath=
+{% if lcfg|traverse_dict_keys('plugins.postgres.customqueriespath', delimiter='.') %}
+Plugins.Postgres.CustomQueriesPath={{ lcfg|traverse('plugins.postgres.customqueriespath', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.Sessions.*.Uri
+#	Uri to connect. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Range:
+#   Must matches the URI format.
+#   Supported schemas: "tcp" and "unix".
+#   Embedded credentials will be ignored.
+# Default:
+# Plugins.Postgres.Sessions.*.Uri=
+{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.uri', delimiter='.') %}
+Plugins.Postgres.Sessions.*.Uri={{ lcfg|traverse('plugins.postgres.sessions.*.uri', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.Sessions.*.User
+#	Username for session connection. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Range: Must matches PostgreSQL user name.
+# Default:
+# Plugins.Postgres.Sessions.*.User=
+{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.user', delimiter='.') %}
+Plugins.Postgres.Sessions.*.User={{ lcfg|traverse('plugins.postgres.sessions.*.user', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.Sessions.*.Password
+#	Password for session connection. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Range: Must matches the Password format.
+# Default:
+# Plugins.Postgres.Sessions.*.Password=
+{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.password', delimiter='.') %}
+Plugins.Postgres.Sessions.*.Password={{ lcfg|traverse('plugins.postgres.sessions.*.password', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.Sessions.*.Database
+#	Database for session connection. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Postgres.Sessions.*.Database=
+{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.database', delimiter='.') %}
+Plugins.Postgres.Sessions.*.Database={{ lcfg|traverse('plugins.postgres.sessions.*.database', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.Sessions.*.TLSConnect
+#	Encryption type for Postgres connection. "*" should be replaced with a session name.
+#		tls connection required     - required
+#		verifies certificates       - verify_ca
+#		verify certificates and ip  - verify_full
+#
+# Mandatory: no
+# Default:
+# Plugins.Postgres.Sessions.*.TLSConnect=
+{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.tlsconnect', delimiter='.') %}
+Plugins.Postgres.Sessions.*.TLSConnect={{ lcfg|traverse('plugins.postgres.sessions.*.tlsconnect', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.Sessions.*.TLSCAFile
+#	Full pathname of a file containing the top-level CA(s) certificate
+#	peer certificate verification.
+#
+# Mandatory: no
+# Default:
+# Plugins.Postgres.Sessions.*.TLSCAFile=
+{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.tlscafile', delimiter='.') %}
+Plugins.Postgres.Sessions.*.TLSCAFile={{ lcfg|traverse('plugins.postgres.sessions.*.tlscafile', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.Sessions.*.TLSCertFile
+#	Full pathname of a file containing the postgres certificate or certificate chain.
+#
+# Mandatory: no
+# Default:
+# Plugins.Postgres.Sessions.*.TLSCertFile=
+{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.tlscertfile', delimiter='.') %}
+Plugins.Postgres.Sessions.*.TLSCertFile={{ lcfg|traverse('plugins.postgres.sessions.*.tlscertfile', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Postgres.Sessions.*.TLSKeyFile
+#	Full pathname of a file containing the postgres private key.
+#
+# Mandatory: no
+# Default:
+# Plugins.Postgres.Sessions.*.TLSKeyFile=
+{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.tlskeyfile', delimiter='.') %}
+Plugins.Postgres.Sessions.*.TLSKeyFile={{ lcfg|traverse('plugins.postgres.sessions.*.tlskeyfile', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Redis.Uri
+#	Uri to connect. Can be overwritten by the first parameter of an item's key.
+#
+# Mandatory: no
+# Range:
+#   Must matches the URI format.
+#   Supported schemas: "tcp" and "unix".
+#   Embedded credentials will be ignored.
+# Default:
+# Plugins.Redis.Uri=tcp://localhost:6379
+{% if lcfg|traverse_dict_keys('plugins.redis.uri', delimiter='.') %}
+Plugins.Redis.Uri={{ lcfg|traverse('plugins.redis.uri', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Redis.Timeout
+#	The maximum time (in seconds) for waiting when a request has to be done.
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Plugins.Redis.Timeout=<Global timeout>
+{% if lcfg|traverse_dict_keys('plugins.redis.timeout', delimiter='.') %}
+Plugins.Redis.Timeout={{ lcfg|traverse('plugins.redis.timeout', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Redis.KeepAlive
+#	Time in seconds for waiting before unused connections will be closed.
+#
+# Mandatory: no
+# Range: 60-900
+# Default:
+# Plugins.Redis.KeepAlive=300
+{% if lcfg|traverse_dict_keys('plugins.redis.keepalive', delimiter='.') %}
+Plugins.Redis.KeepAlive={{ lcfg|traverse('plugins.redis.keepalive', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Redis.Sessions.*.Uri
+#	Uri to connect. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Range:
+#   Must matches the URI format.
+#   Supported schemas: "tcp" and "unix".
+#   Embedded credentials will be ignored.
+# Default:
+# Plugins.Redis.Sessions.*.Uri=
+{% if lcfg|traverse_dict_keys('plugins.redis.sessions.*.uri', delimiter='.') %}
+Plugins.Redis.Sessions.*.Uri={{ lcfg|traverse('plugins.redis.sessions.*.uri', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Redis.Sessions.*.Password
+#	Password to send to protected Redis server. "*" should be replaced with a session name.
+#
+# Mandatory: no
+# Default:
+# Plugins.Redis.Sessions.*.Password=
+{% if lcfg|traverse_dict_keys('plugins.redis.sessions.*.password', delimiter='.') %}
+Plugins.Redis.Sessions.*.Password={{ lcfg|traverse('plugins.redis.sessions.*.password', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Smart.Timeout
+#	The maximum time in seconds for waiting before smartctl execution is terminated.
+#	The timeout is for a single smartctl command line execution.
+#
+# Mandatory: no
+# Range: 1-30
+# Default: <Global timeout>
+# Plugins.Smart.Timeout=
+{% if lcfg|traverse_dict_keys('plugins.smart.timeout', delimiter='.') %}
+Plugins.Smart.Timeout={{ lcfg|traverse('plugins.smart.timeout', delimiter='.') }}
+{% endif %}
+### Option: Plugins.Smart.Path
+#	Path to smartctl executable.
+#
+# Mandatory: no
+# Default: smartctl
+# Plugins.Smart.Path=
+{% if lcfg|traverse_dict_keys('plugins.smart.path', delimiter='.') %}
+Plugins.Smart.Path={{ lcfg|traverse('plugins.smart.path', delimiter='.') }}
+{% endif %}
