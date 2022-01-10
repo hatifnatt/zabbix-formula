@@ -12,6 +12,7 @@ zabbix_user_create_user:
   user.present:
     - name: {{ z.user }}
     - gid: {{ z.group }}
+    {#- TODO Restart service if user groups are changed #}
     - optional_groups: {{ z.user_groups }}
     # Home directory should be created by pkg scripts
     - createhome: False
