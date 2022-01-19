@@ -20,8 +20,9 @@
 
 {%- set config_file_dir = salt.file.dirname(config.file) -%}
 
-{#- Fix permissions to allow to php-fpm include zabbix frontend config file
-    which is usually located under /etc/zabbix #}
+{%- if z.frontend.install %}
+  {#- Fix permissions to allow to php-fpm include zabbix frontend config file
+      which is usually located under /etc/zabbix #}
 zabbix_frontend_config_dir:
   file.directory:
     - name: {{ config_file_dir }}
@@ -39,3 +40,15 @@ zabbix_frontend_config_file:
     - template: jinja
     - context:
         cfg: {{ config.data|tojson }}
+
+{#- Zabbix frontend is not selected for installation #}
+{%- else %}
+zabbix_frontend_config_notice:
+  test.show_notification:
+    - name: zabbix_frontend_config
+    - text: |
+        Zabbix frontend is not selected for installation, current value
+        for 'zabbix:server:install': {{ z.frontend.install|string|lower }}, if you want to install Zabbix frontend
+        you need to set it to 'true'.
+
+{%- endif %}

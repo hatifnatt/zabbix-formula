@@ -18,6 +18,7 @@
 {%- do config.data.update({'dbpassword': db.password}) if 'dbpassword' not in config.data %}
 {%- do config.data.update({'dbschema': db.schema}) if 'dbschema' not in config.data and db.schema %}
 
+{%- if z.server.install %}
 include:
   - .service
 
@@ -36,3 +37,15 @@ zabbix_server_config_file:
         cfg: {{ config.data|tojson }}
     - watch_in:
         service: zabbix_server_service_{{ z.server.service.status }}
+
+{#- Zabbix server is not selected for installation #}
+{%- else %}
+zabbix_server_config_notice:
+  test.show_notification:
+    - name: zabbix_server_config
+    - text: |
+        Zabbix server is not selected for installation, current value
+        for 'zabbix:server:install': {{ z.server.install|string|lower }}, if you want to install Zabbix server
+        you need to set it to 'true'.
+
+{%- endif %}
