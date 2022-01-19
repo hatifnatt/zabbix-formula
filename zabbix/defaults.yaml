@@ -231,7 +231,7 @@ zabbix:
         logfilesize: 0
         server: 127.0.0.1
         serveractive: 127.0.0.1
-        hostname: Zabbix server
+        hostname: {{ grains.id }}
         includes:
           - /etc/zabbix/zabbix_agent2.d/*.conf
         controlsocket: /tmp/agent.sock
