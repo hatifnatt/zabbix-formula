@@ -47,7 +47,7 @@ ListenIP={{ lcfg.listenip }}
 {% endif %}
 ```
 
-After `# StatsAllowedIP=...` replace `{% if %} ... {% endif %}` block with
+After `# HistoryStorageTypes=...` replace `{% if %} ... {% endif %}` block with
 
 ```
 {% if 'historystoragetypes' in lcfg %}
