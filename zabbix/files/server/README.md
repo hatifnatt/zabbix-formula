@@ -59,6 +59,18 @@ HistoryStorageTypes={{ lcfg.historystoragetypes }}
 {% endif %}
 ```
 
+After `# ExportType=...` replace `{% if %} ... {% endif %}` block with
+
+```
+{% if 'exporttype' in lcfg %}
+    {%- if lcfg.exporttype|is_list %}
+ExportType={{ lcfg.exporttype|join(',') }}
+    {%- else %}
+ExportType={{ lcfg.exporttype }}
+    {%- endif %}
+{% endif %}
+```
+
 After `# StatsAllowedIP=...` replace `{% if %} ... {% endif %}` block with
 
 ```
