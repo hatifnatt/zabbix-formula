@@ -45,14 +45,6 @@ ListenIP={{ lcfg.listenip|join(',') }}
 ListenIP={{ lcfg.listenip }}
     {%- endif %}
 {% endif %}
-
-{% if lcfg|traverse('listenip', delimiter='.')|string %}
-    {%- if lcfg.listenip|is_list %}
-ListenIP={{ lcfg.listenip|join(',') }}
-    {%- else %}
-ListenIP={{ lcfg.listenip }}
-    {%- endif %}
-{% endif %}
 ```
 
 After `# StatsAllowedIP=...` replace `{% if %} ... {% endif %}` block with
