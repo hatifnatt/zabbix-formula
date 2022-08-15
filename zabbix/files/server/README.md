@@ -20,7 +20,7 @@ Cleanup regex - will remove any exising options
 Search regex
 
 ```
-^# Default:\n# (\w+)=(.*)?\n\n?
+^# Default: ?\n# (\w+)=(.*)?\n\n?
 ```
 
 Replace regex, note lower case transformation with `\L`
