@@ -1,6 +1,6 @@
 # Managed by SaltStack zabbix-formula. Do not edit by hand.
 {#- Convert all configuration keys to lowercase #}
-{%- set lcfg = cfg|change_dict_case('lower', process='keys') %}
+{%- set lcfg = salt.zabbix_formula.change_case(cfg, 'lower', process='keys') %}
 # This is a configuration file for Zabbix agent 2 (Unix)
 # To get more information about Zabbix, visit http://www.zabbix.com
 
@@ -12,7 +12,7 @@
 # Mandatory: no
 # Default:
 # PidFile=/tmp/zabbix_agent2.pid
-{% if lcfg|traverse_dict_keys('pidfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'pidfile', delimiter='.') %}
 PidFile={{ lcfg|traverse('pidfile', delimiter='.') }}
 {% endif %}
 ### Option: LogType
@@ -24,7 +24,7 @@ PidFile={{ lcfg|traverse('pidfile', delimiter='.') }}
 # Mandatory: no
 # Default:
 # LogType=file
-{% if lcfg|traverse_dict_keys('logtype', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'logtype', delimiter='.') %}
 LogType={{ lcfg|traverse('logtype', delimiter='.') }}
 {% endif %}
 ### Option: LogFile
@@ -33,7 +33,7 @@ LogType={{ lcfg|traverse('logtype', delimiter='.') }}
 # Mandatory: yes, if LogType is set to file, otherwise no
 # Default:
 # LogFile=/tmp/zabbix_agent2.log
-{% if lcfg|traverse_dict_keys('logfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'logfile', delimiter='.') %}
 LogFile={{ lcfg|traverse('logfile', delimiter='.') }}
 {% endif %}
 ### Option: LogFileSize
@@ -44,7 +44,7 @@ LogFile={{ lcfg|traverse('logfile', delimiter='.') }}
 # Range: 0-1024
 # Default:
 # LogFileSize=1
-{% if lcfg|traverse_dict_keys('logfilesize', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'logfilesize', delimiter='.') %}
 LogFileSize={{ lcfg|traverse('logfilesize', delimiter='.') }}
 {% endif %}
 ### Option: DebugLevel
@@ -60,7 +60,7 @@ LogFileSize={{ lcfg|traverse('logfilesize', delimiter='.') }}
 # Range: 0-5
 # Default:
 # DebugLevel=3
-{% if lcfg|traverse_dict_keys('debuglevel', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'debuglevel', delimiter='.') %}
 DebugLevel={{ lcfg|traverse('debuglevel', delimiter='.') }}
 {% endif %}
 ### Option: SourceIP
@@ -69,7 +69,7 @@ DebugLevel={{ lcfg|traverse('debuglevel', delimiter='.') }}
 # Mandatory: no
 # Default:
 # SourceIP=
-{% if lcfg|traverse_dict_keys('sourceip', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'sourceip', delimiter='.') %}
 SourceIP={{ lcfg|traverse('sourceip', delimiter='.') }}
 {% endif %}
 ##### Passive checks related
@@ -85,7 +85,7 @@ SourceIP={{ lcfg|traverse('sourceip', delimiter='.') }}
 # Mandatory: yes, if StartAgents is not explicitly set to 0
 # Default:
 # Server=
-{% if lcfg|traverse_dict_keys('server', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'server', delimiter='.') %}
     {%- if lcfg.server|is_list %}
 Server={{ lcfg.server|join(',') }}
     {%- else %}
@@ -99,7 +99,7 @@ Server={{ lcfg.server }}
 # Range: 1024-32767
 # Default:
 # ListenPort=10050
-{% if lcfg|traverse_dict_keys('listenport', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'listenport', delimiter='.') %}
 ListenPort={{ lcfg|traverse('listenport', delimiter='.') }}
 {% endif %}
 ### Option: ListenIP
@@ -109,7 +109,7 @@ ListenPort={{ lcfg|traverse('listenport', delimiter='.') }}
 # Mandatory: no
 # Default:
 # ListenIP=0.0.0.0
-{% if lcfg|traverse_dict_keys('listenip', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'listenip', delimiter='.') %}
     {%- if lcfg.listenip|is_list %}
 ListenIP={{ lcfg.listenip|join(',') }}
     {%- else %}
@@ -123,7 +123,7 @@ ListenIP={{ lcfg.listenip }}
 # Range: 1024-32767
 # Default:
 # StatusPort=
-{% if lcfg|traverse_dict_keys('statusport', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'statusport', delimiter='.') %}
 StatusPort={{ lcfg|traverse('statusport', delimiter='.') }}
 {% endif %}
 ##### Active checks related
@@ -151,7 +151,7 @@ StatusPort={{ lcfg|traverse('statusport', delimiter='.') }}
 # Mandatory: no
 # Default:
 # ServerActive=
-{% if lcfg|traverse_dict_keys('serveractive', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'serveractive', delimiter='.') %}
     {%- if lcfg.serveractive|is_list %}
 ServerActive={{ lcfg.serveractive|join(',') }}
     {%- else %}
@@ -166,7 +166,7 @@ ServerActive={{ lcfg.serveractive }}
 # Mandatory: no
 # Default:
 # Hostname=
-{% if lcfg|traverse_dict_keys('hostname', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostname', delimiter='.') %}
     {%- if lcfg.hostname|is_list %}
 Hostname={{ lcfg.hostname|join(',') }}
     {%- else %}
@@ -180,7 +180,7 @@ Hostname={{ lcfg.hostname }}
 # Mandatory: no
 # Default:
 # HostnameItem=system.hostname
-{% if lcfg|traverse_dict_keys('hostnameitem', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostnameitem', delimiter='.') %}
 HostnameItem={{ lcfg|traverse('hostnameitem', delimiter='.') }}
 {% endif %}
 ### Option: HostMetadata
@@ -193,7 +193,7 @@ HostnameItem={{ lcfg|traverse('hostnameitem', delimiter='.') }}
 # Range: 0-255 characters
 # Default:
 # HostMetadata=
-{% if lcfg|traverse_dict_keys('hostmetadata', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostmetadata', delimiter='.') %}
 HostMetadata={{ lcfg|traverse('hostmetadata', delimiter='.') }}
 {% endif %}
 ### Option: HostMetadataItem
@@ -206,7 +206,7 @@ HostMetadata={{ lcfg|traverse('hostmetadata', delimiter='.') }}
 # Mandatory: no
 # Default:
 # HostMetadataItem=
-{% if lcfg|traverse_dict_keys('hostmetadataitem', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostmetadataitem', delimiter='.') %}
 HostMetadataItem={{ lcfg|traverse('hostmetadataitem', delimiter='.') }}
 {% endif %}
 ### Option: HostInterface
@@ -219,7 +219,7 @@ HostMetadataItem={{ lcfg|traverse('hostmetadataitem', delimiter='.') }}
 # Range: 0-255 characters
 # Default:
 # HostInterface=
-{% if lcfg|traverse_dict_keys('hostinterface', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostinterface', delimiter='.') %}
 HostInterface={{ lcfg|traverse('hostinterface', delimiter='.') }}
 {% endif %}
 ### Option: HostInterfaceItem
@@ -232,7 +232,7 @@ HostInterface={{ lcfg|traverse('hostinterface', delimiter='.') }}
 # Mandatory: no
 # Default:
 # HostInterfaceItem=
-{% if lcfg|traverse_dict_keys('hostinterfaceitem', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostinterfaceitem', delimiter='.') %}
 HostInterfaceItem={{ lcfg|traverse('hostinterfaceitem', delimiter='.') }}
 {% endif %}
 ### Option: RefreshActiveChecks
@@ -242,7 +242,7 @@ HostInterfaceItem={{ lcfg|traverse('hostinterfaceitem', delimiter='.') }}
 # Range: 60-3600
 # Default:
 # RefreshActiveChecks=120
-{% if lcfg|traverse_dict_keys('refreshactivechecks', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'refreshactivechecks', delimiter='.') %}
 RefreshActiveChecks={{ lcfg|traverse('refreshactivechecks', delimiter='.') }}
 {% endif %}
 ### Option: BufferSend
@@ -252,7 +252,7 @@ RefreshActiveChecks={{ lcfg|traverse('refreshactivechecks', delimiter='.') }}
 # Range: 1-3600
 # Default:
 # BufferSend=5
-{% if lcfg|traverse_dict_keys('buffersend', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'buffersend', delimiter='.') %}
 BufferSend={{ lcfg|traverse('buffersend', delimiter='.') }}
 {% endif %}
 ### Option: BufferSize
@@ -264,7 +264,7 @@ BufferSend={{ lcfg|traverse('buffersend', delimiter='.') }}
 # Range: 2-65535
 # Default:
 # BufferSize=100
-{% if lcfg|traverse_dict_keys('buffersize', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'buffersize', delimiter='.') %}
 BufferSize={{ lcfg|traverse('buffersize', delimiter='.') }}
 {% endif %}
 ### Option: EnablePersistentBuffer
@@ -274,7 +274,7 @@ BufferSize={{ lcfg|traverse('buffersize', delimiter='.') }}
 # Range: 0-1
 # Default:
 # EnablePersistentBuffer=0
-{% if lcfg|traverse_dict_keys('enablepersistentbuffer', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'enablepersistentbuffer', delimiter='.') %}
 EnablePersistentBuffer={{ lcfg|traverse('enablepersistentbuffer', delimiter='.') }}
 {% endif %}
 ### Option: PersistentBufferPeriod
@@ -286,7 +286,7 @@ EnablePersistentBuffer={{ lcfg|traverse('enablepersistentbuffer', delimiter='.')
 # Range: 1m-365d
 # Default:
 # PersistentBufferPeriod=1h
-{% if lcfg|traverse_dict_keys('persistentbufferperiod', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'persistentbufferperiod', delimiter='.') %}
 PersistentBufferPeriod={{ lcfg|traverse('persistentbufferperiod', delimiter='.') }}
 {% endif %}
 ### Option: PersistentBufferFile
@@ -296,7 +296,7 @@ PersistentBufferPeriod={{ lcfg|traverse('persistentbufferperiod', delimiter='.')
 # Mandatory: no
 # Default:
 # PersistentBufferFile=
-{% if lcfg|traverse_dict_keys('persistentbufferfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'persistentbufferfile', delimiter='.') %}
 PersistentBufferFile={{ lcfg|traverse('persistentbufferfile', delimiter='.') }}
 {% endif %}
 ############ ADVANCED PARAMETERS #################
@@ -313,7 +313,7 @@ PersistentBufferFile={{ lcfg|traverse('persistentbufferfile', delimiter='.') }}
 # Mandatory: no
 # Range:
 # Default:
-{%- if lcfg|traverse_dict_keys('alias', delimiter='.') and lcfg['alias'] is string %}
+{%- if salt.zabbix_formula.traverse_dict_keys(lcfg, 'alias', delimiter='.') and lcfg['alias'] is string %}
     {%- do lcfg.update({'aliases': [lcfg['alias']]}) %}
 {%- endif %}
 {% if 'aliases' in lcfg %}
@@ -328,7 +328,7 @@ Alias={{ alias }}
 # Range: 1-30
 # Default:
 # Timeout=3
-{% if lcfg|traverse_dict_keys('timeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'timeout', delimiter='.') %}
 Timeout={{ lcfg|traverse('timeout', delimiter='.') }}
 {% endif %}
 ### Option: Include
@@ -338,10 +338,10 @@ Timeout={{ lcfg|traverse('timeout', delimiter='.') }}
 # Mandatory: no
 # Default:
 # Include=
-{%- if lcfg|traverse_dict_keys('include', delimiter='.') and lcfg['include'] is string %}
+{%- if salt.zabbix_formula.traverse_dict_keys(lcfg, 'include', delimiter='.') and lcfg['include'] is string %}
     {%- do lcfg.update({'includes': [lcfg['include']]}) %}
 {%- endif %}
-{% if lcfg|traverse_dict_keys('includes', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'includes', delimiter='.') %}
     {%- for include in lcfg.get('includes',[]) %}
 Include={{ include }}
     {%- endfor %}
@@ -357,7 +357,7 @@ Include={{ include }}
 # Range: 1-30
 # Default: <Global timeout>
 # PluginTimeout=
-{% if lcfg|traverse_dict_keys('plugintimeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugintimeout', delimiter='.') %}
 PluginTimeout={{ lcfg|traverse('plugintimeout', delimiter='.') }}
 {% endif %}
 ### Option:PluginSocket
@@ -366,7 +366,7 @@ PluginTimeout={{ lcfg|traverse('plugintimeout', delimiter='.') }}
 # Mandatory: no
 # Default:/tmp/agent.plugin.sock
 # PluginSocket=
-{% if lcfg|traverse_dict_keys('pluginsocket', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'pluginsocket', delimiter='.') %}
 PluginSocket={{ lcfg|traverse('pluginsocket', delimiter='.') }}
 {% endif %}
 ####### USER-DEFINED MONITORED PARAMETERS #######
@@ -383,7 +383,7 @@ PluginSocket={{ lcfg|traverse('pluginsocket', delimiter='.') }}
 # Range: 0-1
 # Default:
 # UnsafeUserParameters=0
-{% if lcfg|traverse_dict_keys('unsafeuserparameters', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'unsafeuserparameters', delimiter='.') %}
 UnsafeUserParameters={{ lcfg|traverse('unsafeuserparameters', delimiter='.') }}
 {% endif %}
 ### Option: UserParameter
@@ -394,10 +394,10 @@ UnsafeUserParameters={{ lcfg|traverse('unsafeuserparameters', delimiter='.') }}
 # Mandatory: no
 # Default:
 # UserParameter=
-{%- if lcfg|traverse_dict_keys('userparameter', delimiter='.') and lcfg['userparameter'] is string %}
+{%- if salt.zabbix_formula.traverse_dict_keys(lcfg, 'userparameter', delimiter='.') and lcfg['userparameter'] is string %}
     {%- do lcfg.update({'userparameters': [lcfg['userparameter']]}) %}
 {%- endif %}
-{% if lcfg|traverse_dict_keys('userparameters', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'userparameters', delimiter='.') %}
     {%- for userparameter in lcfg.get('userparameters',[]) %}
 UserParameter={{ userparameter }}
     {%- endfor %}
@@ -411,7 +411,7 @@ UserParameter={{ userparameter }}
 # Mandatory: no
 # Default:
 # UserParameterDir=
-{% if lcfg|traverse_dict_keys('userparameterdir', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'userparameterdir', delimiter='.') %}
 UserParameterDir={{ lcfg|traverse('userparameterdir', delimiter='.') }}
 {% endif %}
 ### Option: ControlSocket
@@ -420,7 +420,7 @@ UserParameterDir={{ lcfg|traverse('userparameterdir', delimiter='.') }}
 # Mandatory: no
 # Default:
 # ControlSocket=
-{% if lcfg|traverse_dict_keys('controlsocket', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'controlsocket', delimiter='.') %}
 ControlSocket={{ lcfg|traverse('controlsocket', delimiter='.') }}
 {% endif %}
 ####### TLS-RELATED PARAMETERS #######
@@ -435,7 +435,7 @@ ControlSocket={{ lcfg|traverse('controlsocket', delimiter='.') }}
 # Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
 # Default:
 # TLSConnect=unencrypted
-{% if lcfg|traverse_dict_keys('tlsconnect', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlsconnect', delimiter='.') %}
 TLSConnect={{ lcfg|traverse('tlsconnect', delimiter='.') }}
 {% endif %}
 ### Option: TLSAccept
@@ -448,7 +448,7 @@ TLSConnect={{ lcfg|traverse('tlsconnect', delimiter='.') }}
 # Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
 # Default:
 # TLSAccept=unencrypted
-{% if lcfg|traverse_dict_keys('tlsaccept', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlsaccept', delimiter='.') %}
 TLSAccept={{ lcfg|traverse('tlsaccept', delimiter='.') }}
 {% endif %}
 ### Option: TLSCAFile
@@ -458,7 +458,7 @@ TLSAccept={{ lcfg|traverse('tlsaccept', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSCAFile=
-{% if lcfg|traverse_dict_keys('tlscafile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlscafile', delimiter='.') %}
 TLSCAFile={{ lcfg|traverse('tlscafile', delimiter='.') }}
 {% endif %}
 ### Option: TLSCRLFile
@@ -467,7 +467,7 @@ TLSCAFile={{ lcfg|traverse('tlscafile', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSCRLFile=
-{% if lcfg|traverse_dict_keys('tlscrlfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlscrlfile', delimiter='.') %}
 TLSCRLFile={{ lcfg|traverse('tlscrlfile', delimiter='.') }}
 {% endif %}
 ### Option: TLSServerCertIssuer
@@ -476,7 +476,7 @@ TLSCRLFile={{ lcfg|traverse('tlscrlfile', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSServerCertIssuer=
-{% if lcfg|traverse_dict_keys('tlsservercertissuer', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlsservercertissuer', delimiter='.') %}
 TLSServerCertIssuer={{ lcfg|traverse('tlsservercertissuer', delimiter='.') }}
 {% endif %}
 ### Option: TLSServerCertSubject
@@ -485,7 +485,7 @@ TLSServerCertIssuer={{ lcfg|traverse('tlsservercertissuer', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSServerCertSubject=
-{% if lcfg|traverse_dict_keys('tlsservercertsubject', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlsservercertsubject', delimiter='.') %}
 TLSServerCertSubject={{ lcfg|traverse('tlsservercertsubject', delimiter='.') }}
 {% endif %}
 ### Option: TLSCertFile
@@ -494,7 +494,7 @@ TLSServerCertSubject={{ lcfg|traverse('tlsservercertsubject', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSCertFile=
-{% if lcfg|traverse_dict_keys('tlscertfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlscertfile', delimiter='.') %}
 TLSCertFile={{ lcfg|traverse('tlscertfile', delimiter='.') }}
 {% endif %}
 ### Option: TLSKeyFile
@@ -503,7 +503,7 @@ TLSCertFile={{ lcfg|traverse('tlscertfile', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSKeyFile=
-{% if lcfg|traverse_dict_keys('tlskeyfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlskeyfile', delimiter='.') %}
 TLSKeyFile={{ lcfg|traverse('tlskeyfile', delimiter='.') }}
 {% endif %}
 ### Option: TLSPSKIdentity
@@ -512,7 +512,7 @@ TLSKeyFile={{ lcfg|traverse('tlskeyfile', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSPSKIdentity=
-{% if lcfg|traverse_dict_keys('tlspskidentity', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlspskidentity', delimiter='.') %}
 TLSPSKIdentity={{ lcfg|traverse('tlspskidentity', delimiter='.') }}
 {% endif %}
 ### Option: TLSPSKFile
@@ -521,7 +521,7 @@ TLSPSKIdentity={{ lcfg|traverse('tlspskidentity', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSPSKFile=
-{% if lcfg|traverse_dict_keys('tlspskfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlspskfile', delimiter='.') %}
 TLSPSKFile={{ lcfg|traverse('tlspskfile', delimiter='.') }}
 {% endif %}
 ####### PLUGIN-SPECIFIC PARAMETERS #######
@@ -545,7 +545,7 @@ TLSPSKFile={{ lcfg|traverse('tlspskfile', delimiter='.') }}
 # Range: 1-1000
 # Default:
 # Plugins.Log.MaxLinesPerSecond=20
-{% if lcfg|traverse_dict_keys('plugins.log.maxlinespersecond', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.log.maxlinespersecond', delimiter='.') %}
 Plugins.Log.MaxLinesPerSecond={{ lcfg|traverse('plugins.log.maxlinespersecond', delimiter='.') }}
 {% endif %}
 ### Option: AllowKey
@@ -568,7 +568,7 @@ Plugins.Log.MaxLinesPerSecond={{ lcfg|traverse('plugins.log.maxlinespersecond', 
 # Mandatory: no
 # Default:
 # DenyKey=system.run[*]
-{% if lcfg|traverse_dict_keys('denykey', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'denykey', delimiter='.') %}
 DenyKey={{ lcfg|traverse('denykey', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.SystemRun.LogRemoteCommands
@@ -579,7 +579,7 @@ DenyKey={{ lcfg|traverse('denykey', delimiter='.') }}
 # Mandatory: no
 # Default:
 # Plugins.SystemRun.LogRemoteCommands=0
-{% if lcfg|traverse_dict_keys('plugins.systemrun.logremotecommands', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.systemrun.logremotecommands', delimiter='.') %}
 Plugins.SystemRun.LogRemoteCommands={{ lcfg|traverse('plugins.systemrun.logremotecommands', delimiter='.') }}
 {% endif %}
 ### Option: ForceActiveChecksOnStart
@@ -590,7 +590,7 @@ Plugins.SystemRun.LogRemoteCommands={{ lcfg|traverse('plugins.systemrun.logremot
 # Range: 0-1
 # Default:
 # ForceActiveChecksOnStart=0
-{% if lcfg|traverse_dict_keys('forceactivechecksonstart', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'forceactivechecksonstart', delimiter='.') %}
 ForceActiveChecksOnStart={{ lcfg|traverse('forceactivechecksonstart', delimiter='.') }}
 {% endif %}
 # Include configuration files for plugins

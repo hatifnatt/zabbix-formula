@@ -6,12 +6,10 @@ import logging
 from collections.abc import Mapping, Sequence
 
 from salt.defaults import DEFAULT_TARGET_DELIM
-from salt.utils.decorators.jinja import jinja_filter
 
 log = logging.getLogger(__name__)
 
 
-@jinja_filter("change_dict_case")
 def change_case(data, attr, preserve_dict_class=False, process="both"):
     """
     Calls data.attr() if data has an attribute/method called attr.
@@ -43,7 +41,6 @@ def change_case(data, attr, preserve_dict_class=False, process="both"):
     return data
 
 
-@jinja_filter("traverse_dict_keys")
 def traverse_dict_keys(data, key, default=False, delimiter=DEFAULT_TARGET_DELIM):
     """
     Traverse a dict using a colon-delimited (or otherwise delimited, using the

@@ -1,6 +1,6 @@
 # Managed by SaltStack zabbix-formula. Do not edit by hand.
 {#- Convert all configuration keys to lowercase #}
-{%- set lcfg = cfg|change_dict_case('lower', process='keys') %}
+{%- set lcfg = salt.zabbix_formula.change_case(cfg, 'lower', process='keys') %}
 # This is a configuration file for Zabbix agent 2 (Unix)
 # To get more information about Zabbix, visit http://www.zabbix.com
 
@@ -12,7 +12,7 @@
 # Mandatory: no
 # Default:
 # PidFile=/tmp/zabbix_agent2.pid
-{% if lcfg|traverse_dict_keys('pidfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'pidfile', delimiter='.') %}
 PidFile={{ lcfg|traverse('pidfile', delimiter='.') }}
 {% endif %}
 ### Option: LogType
@@ -24,7 +24,7 @@ PidFile={{ lcfg|traverse('pidfile', delimiter='.') }}
 # Mandatory: no
 # Default:
 # LogType=file
-{% if lcfg|traverse_dict_keys('logtype', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'logtype', delimiter='.') %}
 LogType={{ lcfg|traverse('logtype', delimiter='.') }}
 {% endif %}
 ### Option: LogFile
@@ -33,7 +33,7 @@ LogType={{ lcfg|traverse('logtype', delimiter='.') }}
 # Mandatory: yes, if LogType is set to file, otherwise no
 # Default:
 # LogFile=
-{% if lcfg|traverse_dict_keys('logfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'logfile', delimiter='.') %}
 LogFile={{ lcfg|traverse('logfile', delimiter='.') }}
 {% endif %}
 ### Option: LogFileSize
@@ -44,7 +44,7 @@ LogFile={{ lcfg|traverse('logfile', delimiter='.') }}
 # Range: 0-1024
 # Default:
 # LogFileSize=1
-{% if lcfg|traverse_dict_keys('logfilesize', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'logfilesize', delimiter='.') %}
 LogFileSize={{ lcfg|traverse('logfilesize', delimiter='.') }}
 {% endif %}
 ### Option: DebugLevel
@@ -60,7 +60,7 @@ LogFileSize={{ lcfg|traverse('logfilesize', delimiter='.') }}
 # Range: 0-5
 # Default:
 # DebugLevel=3
-{% if lcfg|traverse_dict_keys('debuglevel', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'debuglevel', delimiter='.') %}
 DebugLevel={{ lcfg|traverse('debuglevel', delimiter='.') }}
 {% endif %}
 ### Option: SourceIP
@@ -69,7 +69,7 @@ DebugLevel={{ lcfg|traverse('debuglevel', delimiter='.') }}
 # Mandatory: no
 # Default:
 # SourceIP=
-{% if lcfg|traverse_dict_keys('sourceip', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'sourceip', delimiter='.') %}
 SourceIP={{ lcfg|traverse('sourceip', delimiter='.') }}
 {% endif %}
 ##### Passive checks related
@@ -85,7 +85,7 @@ SourceIP={{ lcfg|traverse('sourceip', delimiter='.') }}
 # Mandatory: yes, if StartAgents is not explicitly set to 0
 # Default:
 # Server=
-{% if lcfg|traverse_dict_keys('server', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'server', delimiter='.') %}
     {%- if lcfg.server|is_list %}
 Server={{ lcfg.server|join(',') }}
     {%- else %}
@@ -99,7 +99,7 @@ Server={{ lcfg.server }}
 # Range: 1024-32767
 # Default:
 # ListenPort=10050
-{% if lcfg|traverse_dict_keys('listenport', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'listenport', delimiter='.') %}
 ListenPort={{ lcfg|traverse('listenport', delimiter='.') }}
 {% endif %}
 ### Option: ListenIP
@@ -109,7 +109,7 @@ ListenPort={{ lcfg|traverse('listenport', delimiter='.') }}
 # Mandatory: no
 # Default:
 # ListenIP=0.0.0.0
-{% if lcfg|traverse_dict_keys('listenip', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'listenip', delimiter='.') %}
     {%- if lcfg.listenip|is_list %}
 ListenIP={{ lcfg.listenip|join(',') }}
     {%- else %}
@@ -123,7 +123,7 @@ ListenIP={{ lcfg.listenip }}
 # Range: 1024-32767
 # Default:
 # StatusPort=
-{% if lcfg|traverse_dict_keys('statusport', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'statusport', delimiter='.') %}
 StatusPort={{ lcfg|traverse('statusport', delimiter='.') }}
 {% endif %}
 ##### Active checks related
@@ -139,7 +139,7 @@ StatusPort={{ lcfg|traverse('statusport', delimiter='.') }}
 # Mandatory: no
 # Default:
 # ServerActive=
-{% if lcfg|traverse_dict_keys('serveractive', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'serveractive', delimiter='.') %}
     {%- if lcfg.serveractive|is_list %}
 ServerActive={{ lcfg.serveractive|join(',') }}
     {%- else %}
@@ -154,7 +154,7 @@ ServerActive={{ lcfg.serveractive }}
 # Mandatory: no
 # Default:
 # Hostname=
-{% if lcfg|traverse_dict_keys('hostname', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostname', delimiter='.') %}
 Hostname={{ lcfg|traverse('hostname', delimiter='.') }}
 {% endif %}
 ### Option: HostnameItem
@@ -164,7 +164,7 @@ Hostname={{ lcfg|traverse('hostname', delimiter='.') }}
 # Mandatory: no
 # Default:
 # HostnameItem=system.hostname
-{% if lcfg|traverse_dict_keys('hostnameitem', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostnameitem', delimiter='.') %}
 HostnameItem={{ lcfg|traverse('hostnameitem', delimiter='.') }}
 {% endif %}
 ### Option: HostMetadata
@@ -177,7 +177,7 @@ HostnameItem={{ lcfg|traverse('hostnameitem', delimiter='.') }}
 # Range: 0-255 characters
 # Default:
 # HostMetadata=
-{% if lcfg|traverse_dict_keys('hostmetadata', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostmetadata', delimiter='.') %}
 HostMetadata={{ lcfg|traverse('hostmetadata', delimiter='.') }}
 {% endif %}
 ### Option: HostMetadataItem
@@ -190,7 +190,7 @@ HostMetadata={{ lcfg|traverse('hostmetadata', delimiter='.') }}
 # Mandatory: no
 # Default:
 # HostMetadataItem=
-{% if lcfg|traverse_dict_keys('hostmetadataitem', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostmetadataitem', delimiter='.') %}
 HostMetadataItem={{ lcfg|traverse('hostmetadataitem', delimiter='.') }}
 {% endif %}
 ### Option: HostInterface
@@ -203,7 +203,7 @@ HostMetadataItem={{ lcfg|traverse('hostmetadataitem', delimiter='.') }}
 # Range: 0-255 characters
 # Default:
 # HostInterface=
-{% if lcfg|traverse_dict_keys('hostinterface', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostinterface', delimiter='.') %}
 HostInterface={{ lcfg|traverse('hostinterface', delimiter='.') }}
 {% endif %}
 ### Option: HostInterfaceItem
@@ -216,7 +216,7 @@ HostInterface={{ lcfg|traverse('hostinterface', delimiter='.') }}
 # Mandatory: no
 # Default:
 # HostInterfaceItem=
-{% if lcfg|traverse_dict_keys('hostinterfaceitem', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'hostinterfaceitem', delimiter='.') %}
 HostInterfaceItem={{ lcfg|traverse('hostinterfaceitem', delimiter='.') }}
 {% endif %}
 ### Option: RefreshActiveChecks
@@ -226,7 +226,7 @@ HostInterfaceItem={{ lcfg|traverse('hostinterfaceitem', delimiter='.') }}
 # Range: 60-3600
 # Default:
 # RefreshActiveChecks=120
-{% if lcfg|traverse_dict_keys('refreshactivechecks', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'refreshactivechecks', delimiter='.') %}
 RefreshActiveChecks={{ lcfg|traverse('refreshactivechecks', delimiter='.') }}
 {% endif %}
 ### Option: BufferSend
@@ -236,7 +236,7 @@ RefreshActiveChecks={{ lcfg|traverse('refreshactivechecks', delimiter='.') }}
 # Range: 1-3600
 # Default:
 # BufferSend=5
-{% if lcfg|traverse_dict_keys('buffersend', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'buffersend', delimiter='.') %}
 BufferSend={{ lcfg|traverse('buffersend', delimiter='.') }}
 {% endif %}
 ### Option: BufferSize
@@ -248,7 +248,7 @@ BufferSend={{ lcfg|traverse('buffersend', delimiter='.') }}
 # Range: 2-65535
 # Default:
 # BufferSize=100
-{% if lcfg|traverse_dict_keys('buffersize', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'buffersize', delimiter='.') %}
 BufferSize={{ lcfg|traverse('buffersize', delimiter='.') }}
 {% endif %}
 ### Option: EnablePersistentBuffer
@@ -258,7 +258,7 @@ BufferSize={{ lcfg|traverse('buffersize', delimiter='.') }}
 # Range: 0-1
 # Default:
 # EnablePersistentBuffer=0
-{% if lcfg|traverse_dict_keys('enablepersistentbuffer', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'enablepersistentbuffer', delimiter='.') %}
 EnablePersistentBuffer={{ lcfg|traverse('enablepersistentbuffer', delimiter='.') }}
 {% endif %}
 ### Option: PersistentBufferPeriod
@@ -270,7 +270,7 @@ EnablePersistentBuffer={{ lcfg|traverse('enablepersistentbuffer', delimiter='.')
 # Range: 1m-365d
 # Default:
 # PersistentBufferPeriod=1h
-{% if lcfg|traverse_dict_keys('persistentbufferperiod', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'persistentbufferperiod', delimiter='.') %}
 PersistentBufferPeriod={{ lcfg|traverse('persistentbufferperiod', delimiter='.') }}
 {% endif %}
 ### Option: PersistentBufferFile
@@ -280,7 +280,7 @@ PersistentBufferPeriod={{ lcfg|traverse('persistentbufferperiod', delimiter='.')
 # Mandatory: no
 # Default:
 # PersistentBufferFile=
-{% if lcfg|traverse_dict_keys('persistentbufferfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'persistentbufferfile', delimiter='.') %}
 PersistentBufferFile={{ lcfg|traverse('persistentbufferfile', delimiter='.') }}
 {% endif %}
 ############ ADVANCED PARAMETERS #################
@@ -297,7 +297,7 @@ PersistentBufferFile={{ lcfg|traverse('persistentbufferfile', delimiter='.') }}
 # Mandatory: no
 # Range:
 # Default:
-{%- if lcfg|traverse_dict_keys('alias', delimiter='.') and lcfg['alias'] is string %}
+{%- if salt.zabbix_formula.traverse_dict_keys(lcfg, 'alias', delimiter='.') and lcfg['alias'] is string %}
     {%- do lcfg.update({'aliases': [lcfg['alias']]}) %}
 {%- endif %}
 {% if 'aliases' in lcfg %}
@@ -312,7 +312,7 @@ Alias={{ alias }}
 # Range: 1-30
 # Default:
 # Timeout=3
-{% if lcfg|traverse_dict_keys('timeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'timeout', delimiter='.') %}
 Timeout={{ lcfg|traverse('timeout', delimiter='.') }}
 {% endif %}
 ### Option: Include
@@ -322,10 +322,10 @@ Timeout={{ lcfg|traverse('timeout', delimiter='.') }}
 # Mandatory: no
 # Default:
 # Include=
-{%- if lcfg|traverse_dict_keys('include', delimiter='.') and lcfg['include'] is string %}
+{%- if salt.zabbix_formula.traverse_dict_keys(lcfg, 'include', delimiter='.') and lcfg['include'] is string %}
     {%- do lcfg.update({'includes': [lcfg['include']]}) %}
 {%- endif %}
-{% if lcfg|traverse_dict_keys('includes', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'includes', delimiter='.') %}
     {%- for include in lcfg.get('includes',[]) %}
 Include={{ include }}
     {%- endfor %}
@@ -348,7 +348,7 @@ Include={{ include }}
 # Range: 0-1
 # Default:
 # UnsafeUserParameters=0
-{% if lcfg|traverse_dict_keys('unsafeuserparameters', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'unsafeuserparameters', delimiter='.') %}
 UnsafeUserParameters={{ lcfg|traverse('unsafeuserparameters', delimiter='.') }}
 {% endif %}
 ### Option: UserParameter
@@ -359,10 +359,10 @@ UnsafeUserParameters={{ lcfg|traverse('unsafeuserparameters', delimiter='.') }}
 # Mandatory: no
 # Default:
 # UserParameter=
-{%- if lcfg|traverse_dict_keys('userparameter', delimiter='.') and lcfg['userparameter'] is string %}
+{%- if salt.zabbix_formula.traverse_dict_keys(lcfg, 'userparameter', delimiter='.') and lcfg['userparameter'] is string %}
     {%- do lcfg.update({'userparameters': [lcfg['userparameter']]}) %}
 {%- endif %}
-{% if lcfg|traverse_dict_keys('userparameters', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'userparameters', delimiter='.') %}
     {%- for userparameter in lcfg.get('userparameters',[]) %}
 UserParameter={{ userparameter }}
     {%- endfor %}
@@ -376,7 +376,7 @@ UserParameter={{ userparameter }}
 # Mandatory: no
 # Default:
 # UserParameterDir=
-{% if lcfg|traverse_dict_keys('userparameterdir', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'userparameterdir', delimiter='.') %}
 UserParameterDir={{ lcfg|traverse('userparameterdir', delimiter='.') }}
 {% endif %}
 ### Option: ControlSocket
@@ -385,7 +385,7 @@ UserParameterDir={{ lcfg|traverse('userparameterdir', delimiter='.') }}
 # Mandatory: no
 # Default:
 # ControlSocket=
-{% if lcfg|traverse_dict_keys('controlsocket', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'controlsocket', delimiter='.') %}
 ControlSocket={{ lcfg|traverse('controlsocket', delimiter='.') }}
 {% endif %}
 ####### TLS-RELATED PARAMETERS #######
@@ -400,7 +400,7 @@ ControlSocket={{ lcfg|traverse('controlsocket', delimiter='.') }}
 # Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
 # Default:
 # TLSConnect=unencrypted
-{% if lcfg|traverse_dict_keys('tlsconnect', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlsconnect', delimiter='.') %}
 TLSConnect={{ lcfg|traverse('tlsconnect', delimiter='.') }}
 {% endif %}
 ### Option: TLSAccept
@@ -413,7 +413,7 @@ TLSConnect={{ lcfg|traverse('tlsconnect', delimiter='.') }}
 # Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
 # Default:
 # TLSAccept=unencrypted
-{% if lcfg|traverse_dict_keys('tlsaccept', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlsaccept', delimiter='.') %}
 TLSAccept={{ lcfg|traverse('tlsaccept', delimiter='.') }}
 {% endif %}
 ### Option: TLSCAFile
@@ -423,7 +423,7 @@ TLSAccept={{ lcfg|traverse('tlsaccept', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSCAFile=
-{% if lcfg|traverse_dict_keys('tlscafile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlscafile', delimiter='.') %}
 TLSCAFile={{ lcfg|traverse('tlscafile', delimiter='.') }}
 {% endif %}
 ### Option: TLSCRLFile
@@ -432,7 +432,7 @@ TLSCAFile={{ lcfg|traverse('tlscafile', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSCRLFile=
-{% if lcfg|traverse_dict_keys('tlscrlfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlscrlfile', delimiter='.') %}
 TLSCRLFile={{ lcfg|traverse('tlscrlfile', delimiter='.') }}
 {% endif %}
 ### Option: TLSServerCertIssuer
@@ -441,7 +441,7 @@ TLSCRLFile={{ lcfg|traverse('tlscrlfile', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSServerCertIssuer=
-{% if lcfg|traverse_dict_keys('tlsservercertissuer', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlsservercertissuer', delimiter='.') %}
 TLSServerCertIssuer={{ lcfg|traverse('tlsservercertissuer', delimiter='.') }}
 {% endif %}
 ### Option: TLSServerCertSubject
@@ -450,7 +450,7 @@ TLSServerCertIssuer={{ lcfg|traverse('tlsservercertissuer', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSServerCertSubject=
-{% if lcfg|traverse_dict_keys('tlsservercertsubject', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlsservercertsubject', delimiter='.') %}
 TLSServerCertSubject={{ lcfg|traverse('tlsservercertsubject', delimiter='.') }}
 {% endif %}
 ### Option: TLSCertFile
@@ -459,7 +459,7 @@ TLSServerCertSubject={{ lcfg|traverse('tlsservercertsubject', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSCertFile=
-{% if lcfg|traverse_dict_keys('tlscertfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlscertfile', delimiter='.') %}
 TLSCertFile={{ lcfg|traverse('tlscertfile', delimiter='.') }}
 {% endif %}
 ### Option: TLSKeyFile
@@ -468,7 +468,7 @@ TLSCertFile={{ lcfg|traverse('tlscertfile', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSKeyFile=
-{% if lcfg|traverse_dict_keys('tlskeyfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlskeyfile', delimiter='.') %}
 TLSKeyFile={{ lcfg|traverse('tlskeyfile', delimiter='.') }}
 {% endif %}
 ### Option: TLSPSKIdentity
@@ -477,7 +477,7 @@ TLSKeyFile={{ lcfg|traverse('tlskeyfile', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSPSKIdentity=
-{% if lcfg|traverse_dict_keys('tlspskidentity', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlspskidentity', delimiter='.') %}
 TLSPSKIdentity={{ lcfg|traverse('tlspskidentity', delimiter='.') }}
 {% endif %}
 ### Option: TLSPSKFile
@@ -486,7 +486,7 @@ TLSPSKIdentity={{ lcfg|traverse('tlspskidentity', delimiter='.') }}
 # Mandatory: no
 # Default:
 # TLSPSKFile=
-{% if lcfg|traverse_dict_keys('tlspskfile', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlspskfile', delimiter='.') %}
 TLSPSKFile={{ lcfg|traverse('tlspskfile', delimiter='.') }}
 {% endif %}
 ####### PLUGIN-SPECIFIC PARAMETERS #######
@@ -510,7 +510,7 @@ TLSPSKFile={{ lcfg|traverse('tlspskfile', delimiter='.') }}
 # Range: 1-1000
 # Default:
 # Plugins.Log.MaxLinesPerSecond=20
-{% if lcfg|traverse_dict_keys('plugins.log.maxlinespersecond', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.log.maxlinespersecond', delimiter='.') %}
 Plugins.Log.MaxLinesPerSecond={{ lcfg|traverse('plugins.log.maxlinespersecond', delimiter='.') }}
 {% endif %}
 ### Option: AllowKey
@@ -533,7 +533,7 @@ Plugins.Log.MaxLinesPerSecond={{ lcfg|traverse('plugins.log.maxlinespersecond', 
 # Mandatory: no
 # Default:
 # DenyKey=system.run[*]
-{% if lcfg|traverse_dict_keys('denykey', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'denykey', delimiter='.') %}
 DenyKey={{ lcfg|traverse('denykey', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.SystemRun.LogRemoteCommands
@@ -544,7 +544,7 @@ DenyKey={{ lcfg|traverse('denykey', delimiter='.') }}
 # Mandatory: no
 # Default:
 # Plugins.SystemRun.LogRemoteCommands=0
-{% if lcfg|traverse_dict_keys('plugins.systemrun.logremotecommands', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.systemrun.logremotecommands', delimiter='.') %}
 Plugins.SystemRun.LogRemoteCommands={{ lcfg|traverse('plugins.systemrun.logremotecommands', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Docker.Endpoint
@@ -553,7 +553,7 @@ Plugins.SystemRun.LogRemoteCommands={{ lcfg|traverse('plugins.systemrun.logremot
 # Mandatory: no
 # Default: unix:///var/run/docker.sock
 # Plugins.Docker.Endpoint=unix:///var/run/docker.sock
-{% if lcfg|traverse_dict_keys('plugins.docker.endpoint', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.docker.endpoint', delimiter='.') %}
 Plugins.Docker.Endpoint={{ lcfg|traverse('plugins.docker.endpoint', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Ceph.InsecureSkipVerify
@@ -566,7 +566,7 @@ Plugins.Docker.Endpoint={{ lcfg|traverse('plugins.docker.endpoint', delimiter='.
 # Range: false | true
 # Default:
 # Plugins.Ceph.InsecureSkipVerify=false
-{% if lcfg|traverse_dict_keys('plugins.ceph.insecureskipverify', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.ceph.insecureskipverify', delimiter='.') %}
 Plugins.Ceph.InsecureSkipVerify={{ lcfg|traverse('plugins.ceph.insecureskipverify', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Ceph.KeepAlive
@@ -576,7 +576,7 @@ Plugins.Ceph.InsecureSkipVerify={{ lcfg|traverse('plugins.ceph.insecureskipverif
 # Range: 60-900
 # Default:
 # Plugins.Ceph.KeepAlive=300
-{% if lcfg|traverse_dict_keys('plugins.ceph.keepalive', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.ceph.keepalive', delimiter='.') %}
 Plugins.Ceph.KeepAlive={{ lcfg|traverse('plugins.ceph.keepalive', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Ceph.Timeout
@@ -587,7 +587,7 @@ Plugins.Ceph.KeepAlive={{ lcfg|traverse('plugins.ceph.keepalive', delimiter='.')
 # Range: 1-30
 # Default:
 # Plugins.Ceph.Timeout=<Global timeout>
-{% if lcfg|traverse_dict_keys('plugins.ceph.timeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.ceph.timeout', delimiter='.') %}
 Plugins.Ceph.Timeout={{ lcfg|traverse('plugins.ceph.timeout', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Ceph.Sessions.*.ApiKey
@@ -596,7 +596,7 @@ Plugins.Ceph.Timeout={{ lcfg|traverse('plugins.ceph.timeout', delimiter='.') }}
 # Mandatory: no
 # Default:
 # Plugins.Ceph.Sessions.*.ApiKey=
-{% if lcfg|traverse_dict_keys('plugins.ceph.sessions.*.apikey', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.ceph.sessions.*.apikey', delimiter='.') %}
 Plugins.Ceph.Sessions.*.ApiKey={{ lcfg|traverse('plugins.ceph.sessions.*.apikey', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Ceph.Sessions.*.User
@@ -605,7 +605,7 @@ Plugins.Ceph.Sessions.*.ApiKey={{ lcfg|traverse('plugins.ceph.sessions.*.apikey'
 # Mandatory: no
 # Default:
 # Plugins.Ceph.Sessions.*.User=
-{% if lcfg|traverse_dict_keys('plugins.ceph.sessions.*.user', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.ceph.sessions.*.user', delimiter='.') %}
 Plugins.Ceph.Sessions.*.User={{ lcfg|traverse('plugins.ceph.sessions.*.user', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Ceph.Sessions.*.Uri
@@ -618,7 +618,7 @@ Plugins.Ceph.Sessions.*.User={{ lcfg|traverse('plugins.ceph.sessions.*.user', de
 #   Embedded credentials will be ignored.
 # Default:
 # Plugins.Ceph.Sessions.*.Uri=
-{% if lcfg|traverse_dict_keys('plugins.ceph.sessions.*.uri', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.ceph.sessions.*.uri', delimiter='.') %}
 Plugins.Ceph.Sessions.*.Uri={{ lcfg|traverse('plugins.ceph.sessions.*.uri', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Docker.Timeout
@@ -628,7 +628,7 @@ Plugins.Ceph.Sessions.*.Uri={{ lcfg|traverse('plugins.ceph.sessions.*.uri', deli
 # Range: 1-30
 # Default:
 # Plugins.Docker.Timeout=<Global timeout>
-{% if lcfg|traverse_dict_keys('plugins.docker.timeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.docker.timeout', delimiter='.') %}
 Plugins.Docker.Timeout={{ lcfg|traverse('plugins.docker.timeout', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Memcached.Timeout
@@ -638,7 +638,7 @@ Plugins.Docker.Timeout={{ lcfg|traverse('plugins.docker.timeout', delimiter='.')
 # Range: 1-30
 # Default:
 # Plugins.Memcached.Timeout=<Global timeout>
-{% if lcfg|traverse_dict_keys('plugins.memcached.timeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.memcached.timeout', delimiter='.') %}
 Plugins.Memcached.Timeout={{ lcfg|traverse('plugins.memcached.timeout', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Memcached.KeepAlive
@@ -648,7 +648,7 @@ Plugins.Memcached.Timeout={{ lcfg|traverse('plugins.memcached.timeout', delimite
 # Range: 60-900
 # Default:
 # Plugins.Memcached.KeepAlive=300
-{% if lcfg|traverse_dict_keys('plugins.memcached.keepalive', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.memcached.keepalive', delimiter='.') %}
 Plugins.Memcached.KeepAlive={{ lcfg|traverse('plugins.memcached.keepalive', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Memcached.Sessions.*.Uri
@@ -661,7 +661,7 @@ Plugins.Memcached.KeepAlive={{ lcfg|traverse('plugins.memcached.keepalive', deli
 #   Embedded credentials will be ignored.
 # Default:
 # Plugins.Memcached.Sessions.*.Uri=
-{% if lcfg|traverse_dict_keys('plugins.memcached.sessions.*.uri', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.memcached.sessions.*.uri', delimiter='.') %}
 Plugins.Memcached.Sessions.*.Uri={{ lcfg|traverse('plugins.memcached.sessions.*.uri', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Memcached.Sessions.*.User
@@ -670,7 +670,7 @@ Plugins.Memcached.Sessions.*.Uri={{ lcfg|traverse('plugins.memcached.sessions.*.
 # Mandatory: no
 # Default:
 # Plugins.Memcached.Sessions.*.User=
-{% if lcfg|traverse_dict_keys('plugins.memcached.sessions.*.user', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.memcached.sessions.*.user', delimiter='.') %}
 Plugins.Memcached.Sessions.*.User={{ lcfg|traverse('plugins.memcached.sessions.*.user', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Memcached.Sessions.*.Password
@@ -679,7 +679,7 @@ Plugins.Memcached.Sessions.*.User={{ lcfg|traverse('plugins.memcached.sessions.*
 # Mandatory: no
 # Default:
 # Plugins.Memcached.Sessions.*.Password=
-{% if lcfg|traverse_dict_keys('plugins.memcached.sessions.*.password', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.memcached.sessions.*.password', delimiter='.') %}
 Plugins.Memcached.Sessions.*.Password={{ lcfg|traverse('plugins.memcached.sessions.*.password', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Modbus.Timeout
@@ -714,7 +714,7 @@ Plugins.Memcached.Sessions.*.Password={{ lcfg|traverse('plugins.memcached.sessio
 # Range: 1-30
 # Default:
 # Plugins.Mongo.Timeout=<Global timeout>
-{% if lcfg|traverse_dict_keys('plugins.mongo.timeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.mongo.timeout', delimiter='.') %}
 Plugins.Mongo.Timeout={{ lcfg|traverse('plugins.mongo.timeout', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Mongo.KeepAlive
@@ -724,7 +724,7 @@ Plugins.Mongo.Timeout={{ lcfg|traverse('plugins.mongo.timeout', delimiter='.') }
 # Range: 60-900
 # Default:
 # Plugins.Mongo.KeepAlive=300
-{% if lcfg|traverse_dict_keys('plugins.mongo.keepalive', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.mongo.keepalive', delimiter='.') %}
 Plugins.Mongo.KeepAlive={{ lcfg|traverse('plugins.mongo.keepalive', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Mongo.Sessions.*.Uri
@@ -737,7 +737,7 @@ Plugins.Mongo.KeepAlive={{ lcfg|traverse('plugins.mongo.keepalive', delimiter='.
 #   Embedded credentials will be ignored.
 # Default:
 # Plugins.Mongo.Sessions.*.Uri=
-{% if lcfg|traverse_dict_keys('plugins.mongo.sessions.*.uri', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.mongo.sessions.*.uri', delimiter='.') %}
 Plugins.Mongo.Sessions.*.Uri={{ lcfg|traverse('plugins.mongo.sessions.*.uri', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Mongo.Sessions.*.User
@@ -746,7 +746,7 @@ Plugins.Mongo.Sessions.*.Uri={{ lcfg|traverse('plugins.mongo.sessions.*.uri', de
 # Mandatory: no
 # Default:
 # Plugins.Mongo.Sessions.*.User=
-{% if lcfg|traverse_dict_keys('plugins.mongo.sessions.*.user', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.mongo.sessions.*.user', delimiter='.') %}
 Plugins.Mongo.Sessions.*.User={{ lcfg|traverse('plugins.mongo.sessions.*.user', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Mongo.Sessions.*.Password
@@ -755,7 +755,7 @@ Plugins.Mongo.Sessions.*.User={{ lcfg|traverse('plugins.mongo.sessions.*.user', 
 # Mandatory: no
 # Default:
 # Plugins.Mongo.Sessions.*.Password=
-{% if lcfg|traverse_dict_keys('plugins.mongo.sessions.*.password', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.mongo.sessions.*.password', delimiter='.') %}
 Plugins.Mongo.Sessions.*.Password={{ lcfg|traverse('plugins.mongo.sessions.*.password', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.MQTT.Timeout
@@ -772,7 +772,7 @@ Plugins.Mongo.Sessions.*.Password={{ lcfg|traverse('plugins.mongo.sessions.*.pas
 # Range: 1-30
 # Default:
 # Plugins.Mysql.CallTimeout=<Global timeout>
-{% if lcfg|traverse_dict_keys('plugins.mysql.calltimeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.mysql.calltimeout', delimiter='.') %}
 Plugins.Mysql.CallTimeout={{ lcfg|traverse('plugins.mysql.calltimeout', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Mysql.Timeout
@@ -789,7 +789,7 @@ Plugins.Mysql.CallTimeout={{ lcfg|traverse('plugins.mysql.calltimeout', delimite
 # Range: 60-900
 # Default:
 # Plugins.Mysql.KeepAlive=300
-{% if lcfg|traverse_dict_keys('plugins.mysql.keepalive', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.mysql.keepalive', delimiter='.') %}
 Plugins.Mysql.KeepAlive={{ lcfg|traverse('plugins.mysql.keepalive', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Mysql.Sessions.*.Uri
@@ -799,7 +799,7 @@ Plugins.Mysql.KeepAlive={{ lcfg|traverse('plugins.mysql.keepalive', delimiter='.
 # Range: Must matches the URI format.
 # Default:
 # Plugins.Mysql.Sessions.*.Uri=
-{% if lcfg|traverse_dict_keys('plugins.mysql.sessions.*.uri', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.mysql.sessions.*.uri', delimiter='.') %}
 Plugins.Mysql.Sessions.*.Uri={{ lcfg|traverse('plugins.mysql.sessions.*.uri', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Mysql.Sessions.*.User
@@ -808,7 +808,7 @@ Plugins.Mysql.Sessions.*.Uri={{ lcfg|traverse('plugins.mysql.sessions.*.uri', de
 # Mandatory: no
 # Default:
 # Plugins.Mysql.Sessions.*.User=
-{% if lcfg|traverse_dict_keys('plugins.mysql.sessions.*.user', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.mysql.sessions.*.user', delimiter='.') %}
 Plugins.Mysql.Sessions.*.User={{ lcfg|traverse('plugins.mysql.sessions.*.user', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Mysql.Sessions.*.Password
@@ -817,7 +817,7 @@ Plugins.Mysql.Sessions.*.User={{ lcfg|traverse('plugins.mysql.sessions.*.user', 
 # Mandatory: no
 # Default:
 # Plugins.Mysql.Sessions.*.Password=
-{% if lcfg|traverse_dict_keys('plugins.mysql.sessions.*.password', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.mysql.sessions.*.password', delimiter='.') %}
 Plugins.Mysql.Sessions.*.Password={{ lcfg|traverse('plugins.mysql.sessions.*.password', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Oracle.CallTimeout
@@ -827,7 +827,7 @@ Plugins.Mysql.Sessions.*.Password={{ lcfg|traverse('plugins.mysql.sessions.*.pas
 # Range: 1-30
 # Default:
 # Plugins.Oracle.CallTimeout=<Global timeout>
-{% if lcfg|traverse_dict_keys('plugins.oracle.calltimeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.oracle.calltimeout', delimiter='.') %}
 Plugins.Oracle.CallTimeout={{ lcfg|traverse('plugins.oracle.calltimeout', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Oracle.ConnectTimeout
@@ -837,7 +837,7 @@ Plugins.Oracle.CallTimeout={{ lcfg|traverse('plugins.oracle.calltimeout', delimi
 # Range: 1-30
 # Default:
 # Plugins.Oracle.ConnectTimeout=<Global timeout>
-{% if lcfg|traverse_dict_keys('plugins.oracle.connecttimeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.oracle.connecttimeout', delimiter='.') %}
 Plugins.Oracle.ConnectTimeout={{ lcfg|traverse('plugins.oracle.connecttimeout', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Oracle.CustomQueriesPath
@@ -846,7 +846,7 @@ Plugins.Oracle.ConnectTimeout={{ lcfg|traverse('plugins.oracle.connecttimeout', 
 # Mandatory: no
 # Default:
 # Plugins.Oracle.CustomQueriesPath=
-{% if lcfg|traverse_dict_keys('plugins.oracle.customqueriespath', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.oracle.customqueriespath', delimiter='.') %}
 Plugins.Oracle.CustomQueriesPath={{ lcfg|traverse('plugins.oracle.customqueriespath', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Oracle.KeepAlive
@@ -856,7 +856,7 @@ Plugins.Oracle.CustomQueriesPath={{ lcfg|traverse('plugins.oracle.customqueriesp
 # Range: 60-900
 # Default:
 # Plugins.Oracle.KeepAlive=300
-{% if lcfg|traverse_dict_keys('plugins.oracle.keepalive', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.oracle.keepalive', delimiter='.') %}
 Plugins.Oracle.KeepAlive={{ lcfg|traverse('plugins.oracle.keepalive', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Oracle.Sessions.*.Uri
@@ -869,7 +869,7 @@ Plugins.Oracle.KeepAlive={{ lcfg|traverse('plugins.oracle.keepalive', delimiter=
 #   Embedded credentials will be ignored.
 # Default:
 # Plugins.Oracle.Sessions.*.Uri=
-{% if lcfg|traverse_dict_keys('plugins.oracle.sessions.*.uri', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.oracle.sessions.*.uri', delimiter='.') %}
 Plugins.Oracle.Sessions.*.Uri={{ lcfg|traverse('plugins.oracle.sessions.*.uri', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Oracle.Sessions.*.Service
@@ -879,7 +879,7 @@ Plugins.Oracle.Sessions.*.Uri={{ lcfg|traverse('plugins.oracle.sessions.*.uri', 
 # Range: SID is not supported.
 # Default:
 # Plugins.Oracle.Sessions.*.Service=
-{% if lcfg|traverse_dict_keys('plugins.oracle.sessions.*.service', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.oracle.sessions.*.service', delimiter='.') %}
 Plugins.Oracle.Sessions.*.Service={{ lcfg|traverse('plugins.oracle.sessions.*.service', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Oracle.Sessions.*.User
@@ -888,7 +888,7 @@ Plugins.Oracle.Sessions.*.Service={{ lcfg|traverse('plugins.oracle.sessions.*.se
 # Mandatory: no
 # Default:
 # Plugins.Oracle.Sessions.*.User=
-{% if lcfg|traverse_dict_keys('plugins.oracle.sessions.*.user', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.oracle.sessions.*.user', delimiter='.') %}
 Plugins.Oracle.Sessions.*.User={{ lcfg|traverse('plugins.oracle.sessions.*.user', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Oracle.Sessions.*.Password
@@ -897,7 +897,7 @@ Plugins.Oracle.Sessions.*.User={{ lcfg|traverse('plugins.oracle.sessions.*.user'
 # Mandatory: no
 # Default:
 # Plugins.Oracle.Sessions.*.Password=
-{% if lcfg|traverse_dict_keys('plugins.oracle.sessions.*.password', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.oracle.sessions.*.password', delimiter='.') %}
 Plugins.Oracle.Sessions.*.Password={{ lcfg|traverse('plugins.oracle.sessions.*.password', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Postgres.CallTimeout
@@ -907,7 +907,7 @@ Plugins.Oracle.Sessions.*.Password={{ lcfg|traverse('plugins.oracle.sessions.*.p
 # Range: 1-30
 # Default:
 # Plugins.Postgres.CallTimeout=<Global timeout>
-{% if lcfg|traverse_dict_keys('plugins.postgres.calltimeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.postgres.calltimeout', delimiter='.') %}
 Plugins.Postgres.CallTimeout={{ lcfg|traverse('plugins.postgres.calltimeout', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Postgres.Timeout
@@ -917,7 +917,7 @@ Plugins.Postgres.CallTimeout={{ lcfg|traverse('plugins.postgres.calltimeout', de
 # Range: 1-30
 # Default:
 # Plugins.Postgres.Timeout=<Global timeout>
-{% if lcfg|traverse_dict_keys('plugins.postgres.timeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.postgres.timeout', delimiter='.') %}
 Plugins.Postgres.Timeout={{ lcfg|traverse('plugins.postgres.timeout', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Postgres.KeepAlive
@@ -927,7 +927,7 @@ Plugins.Postgres.Timeout={{ lcfg|traverse('plugins.postgres.timeout', delimiter=
 # Range: 60-900
 # Default:
 # Plugins.Postgres.KeepAlive=300
-{% if lcfg|traverse_dict_keys('plugins.postgres.keepalive', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.postgres.keepalive', delimiter='.') %}
 Plugins.Postgres.KeepAlive={{ lcfg|traverse('plugins.postgres.keepalive', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Postgres.CustomQueriesPath
@@ -936,7 +936,7 @@ Plugins.Postgres.KeepAlive={{ lcfg|traverse('plugins.postgres.keepalive', delimi
 # Mandatory: no
 # Default:
 # Plugins.Postgres.CustomQueriesPath=
-{% if lcfg|traverse_dict_keys('plugins.postgres.customqueriespath', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.postgres.customqueriespath', delimiter='.') %}
 Plugins.Postgres.CustomQueriesPath={{ lcfg|traverse('plugins.postgres.customqueriespath', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Postgres.Sessions.*.Uri
@@ -949,7 +949,7 @@ Plugins.Postgres.CustomQueriesPath={{ lcfg|traverse('plugins.postgres.customquer
 #   Embedded credentials will be ignored.
 # Default:
 # Plugins.Postgres.Sessions.*.Uri=
-{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.uri', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.postgres.sessions.*.uri', delimiter='.') %}
 Plugins.Postgres.Sessions.*.Uri={{ lcfg|traverse('plugins.postgres.sessions.*.uri', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Postgres.Sessions.*.User
@@ -959,7 +959,7 @@ Plugins.Postgres.Sessions.*.Uri={{ lcfg|traverse('plugins.postgres.sessions.*.ur
 # Range: Must matches PostgreSQL user name.
 # Default:
 # Plugins.Postgres.Sessions.*.User=
-{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.user', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.postgres.sessions.*.user', delimiter='.') %}
 Plugins.Postgres.Sessions.*.User={{ lcfg|traverse('plugins.postgres.sessions.*.user', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Postgres.Sessions.*.Password
@@ -969,7 +969,7 @@ Plugins.Postgres.Sessions.*.User={{ lcfg|traverse('plugins.postgres.sessions.*.u
 # Range: Must matches the Password format.
 # Default:
 # Plugins.Postgres.Sessions.*.Password=
-{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.password', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.postgres.sessions.*.password', delimiter='.') %}
 Plugins.Postgres.Sessions.*.Password={{ lcfg|traverse('plugins.postgres.sessions.*.password', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Postgres.Sessions.*.Database
@@ -978,7 +978,7 @@ Plugins.Postgres.Sessions.*.Password={{ lcfg|traverse('plugins.postgres.sessions
 # Mandatory: no
 # Default:
 # Plugins.Postgres.Sessions.*.Database=
-{% if lcfg|traverse_dict_keys('plugins.postgres.sessions.*.database', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.postgres.sessions.*.database', delimiter='.') %}
 Plugins.Postgres.Sessions.*.Database={{ lcfg|traverse('plugins.postgres.sessions.*.database', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Redis.Uri
@@ -991,7 +991,7 @@ Plugins.Postgres.Sessions.*.Database={{ lcfg|traverse('plugins.postgres.sessions
 #   Embedded credentials will be ignored.
 # Default:
 # Plugins.Redis.Uri=tcp://localhost:6379
-{% if lcfg|traverse_dict_keys('plugins.redis.uri', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.redis.uri', delimiter='.') %}
 Plugins.Redis.Uri={{ lcfg|traverse('plugins.redis.uri', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Redis.Timeout
@@ -1001,7 +1001,7 @@ Plugins.Redis.Uri={{ lcfg|traverse('plugins.redis.uri', delimiter='.') }}
 # Range: 1-30
 # Default:
 # Plugins.Redis.Timeout=<Global timeout>
-{% if lcfg|traverse_dict_keys('plugins.redis.timeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.redis.timeout', delimiter='.') %}
 Plugins.Redis.Timeout={{ lcfg|traverse('plugins.redis.timeout', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Redis.KeepAlive
@@ -1011,7 +1011,7 @@ Plugins.Redis.Timeout={{ lcfg|traverse('plugins.redis.timeout', delimiter='.') }
 # Range: 60-900
 # Default:
 # Plugins.Redis.KeepAlive=300
-{% if lcfg|traverse_dict_keys('plugins.redis.keepalive', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.redis.keepalive', delimiter='.') %}
 Plugins.Redis.KeepAlive={{ lcfg|traverse('plugins.redis.keepalive', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Redis.Sessions.*.Uri
@@ -1024,7 +1024,7 @@ Plugins.Redis.KeepAlive={{ lcfg|traverse('plugins.redis.keepalive', delimiter='.
 #   Embedded credentials will be ignored.
 # Default:
 # Plugins.Redis.Sessions.*.Uri=
-{% if lcfg|traverse_dict_keys('plugins.redis.sessions.*.uri', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.redis.sessions.*.uri', delimiter='.') %}
 Plugins.Redis.Sessions.*.Uri={{ lcfg|traverse('plugins.redis.sessions.*.uri', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Redis.Sessions.*.Password
@@ -1033,7 +1033,7 @@ Plugins.Redis.Sessions.*.Uri={{ lcfg|traverse('plugins.redis.sessions.*.uri', de
 # Mandatory: no
 # Default:
 # Plugins.Redis.Sessions.*.Password=
-{% if lcfg|traverse_dict_keys('plugins.redis.sessions.*.password', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.redis.sessions.*.password', delimiter='.') %}
 Plugins.Redis.Sessions.*.Password={{ lcfg|traverse('plugins.redis.sessions.*.password', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Smart.Timeout
@@ -1044,7 +1044,7 @@ Plugins.Redis.Sessions.*.Password={{ lcfg|traverse('plugins.redis.sessions.*.pas
 # Range: 1-30
 # Default: <Global timeout>
 # Plugins.Smart.Timeout=
-{% if lcfg|traverse_dict_keys('plugins.smart.timeout', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.smart.timeout', delimiter='.') %}
 Plugins.Smart.Timeout={{ lcfg|traverse('plugins.smart.timeout', delimiter='.') }}
 {% endif %}
 ### Option: Plugins.Smart.Path
@@ -1053,6 +1053,6 @@ Plugins.Smart.Timeout={{ lcfg|traverse('plugins.smart.timeout', delimiter='.') }
 # Mandatory: no
 # Default: smartctl
 # Plugins.Smart.Path=
-{% if lcfg|traverse_dict_keys('plugins.smart.path', delimiter='.') %}
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.smart.path', delimiter='.') %}
 Plugins.Smart.Path={{ lcfg|traverse('plugins.smart.path', delimiter='.') }}
 {% endif %}

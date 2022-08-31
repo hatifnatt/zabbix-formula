@@ -4,7 +4,7 @@ Insert header after `<?php`
 
 ```
 {#- Convert all configuration keys to lowercase #}
-{%- set lcfg = cfg|change_dict_case('lower', process='keys') %}
+{%- set lcfg = salt.zabbix_formula.change_case(cfg, 'lower', process='keys') %}
 // Managed by SaltStack zabbix-formula. Do not edit by hand.
 ```
 
