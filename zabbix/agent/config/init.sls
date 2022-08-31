@@ -6,9 +6,9 @@
 
 {%- if z.agent.install %}
 include:
-  - .service
+  - .extra
+  - ..service
 
-# TODO manage additional config files with userparameters?
 # TODO upload custom scripts for userparamaters?
 # TODO manage SELinux policies or add it to install state file?
 

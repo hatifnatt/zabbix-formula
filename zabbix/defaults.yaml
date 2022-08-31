@@ -200,6 +200,9 @@ zabbix:
         hostname: Zabbix server
         includes:
           - /etc/zabbix/zabbix_agentd.d/*.conf
+      extra:
+        file: {}
+        directory: {}
   ## Agent2
   agent2:
     # default is false
@@ -235,5 +238,8 @@ zabbix:
         includes:
           - /etc/zabbix/zabbix_agent2.d/*.conf
         controlsocket: /tmp/agent.sock
+      extra:
+        file: {}
+        directory: {}
   ## Proxy
   proxy: {}

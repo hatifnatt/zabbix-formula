@@ -21,10 +21,12 @@
 * [zabbix.user](#zabbixuser)
 * [zabbix.agent](#zabbixagent)
 * [zabbix.agent.config](#zabbixagentconfig)
+* [zabbix.agent.config.extra](#zabbixagentconfigextra)
 * [zabbix.agent.install](#zabbixagentinstall)
 * [zabbix.agent.service](#zabbixagentservice)
 * [zabbix.agent2](#zabbixagent2)
 * [zabbix.agent2.config](#zabbixagent2config)
+* [zabbix.agent2.config.extra](#zabbixagent2configextra)
 * [zabbix.agent2.install](#zabbixagent2install)
 * [zabbix.agent2.service](#zabbixagent2service)
 * [zabbix.db.mysql](#zabbixdbmysql)
@@ -56,7 +58,11 @@
 
 ### zabbix.agent.config
 
-Управляет конфигурационным файловм агента
+Управляет конфигурационным файлом агента
+
+### zabbix.agent.config.extra
+
+Управляет дополнительными конфигурационными файлами агента, например для `UserParameter`.
 
 ### zabbix.agent.install
 
@@ -72,7 +78,11 @@
 
 ### zabbix.agent2.config
 
-Управляет конфигурационным файловм агента
+Управляет конфигурационным файлом агента
+
+### zabbix.agent2.config.extra
+
+Управляет дополнительными конфигурационными файлами агента, например для `UserParameter`, так же можно управлять конфигурационными файлами для плагинов Zabbix Agent2.
 
 ### zabbix.agent2.install
 

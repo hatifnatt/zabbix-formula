@@ -234,6 +234,34 @@ zabbix:
         hostname: {{ grains.id }}
         includes:
           - /etc/zabbix/zabbix_agentd.d/*.conf
+      extra:
+        # extra configuration files to manage
+        file:
+          # uniq id
+          template_db_mysql:
+            # ensure mode (optional) - 'present' or 'absent', file will be created or removed respectively
+            # default is 'present'
+            ensure: present
+            # full path on the target minion
+            name: /etc/zabbix/zabbix_agent.d/template_db_mysql.conf
+            # use source file
+            #source: salt://zabbix/agent/template_db_mysql.conf
+            # OR
+            # contents / contents_pillar
+            contents: |
+                UserParameter=mysql.ping[*], mysqladmin -h"$1" -P"$2" ping
+                UserParameter=mysql.get_status_variables[*], mysql -h"$1" -P"$2" -sNX -e "show global status"
+                UserParameter=mysql.version[*], mysqladmin -s -h"$1" -P"$2" version
+                UserParameter=mysql.db.discovery[*], mysql -h"$1" -P"$2" -sN -e "show databases"
+                UserParameter=mysql.dbsize[*], mysql -h"$1" -P"$2" -sN -e "SELECT COALESCE(SUM(DATA_LENGTH + INDEX_LENGTH),0) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='$3'"
+                UserParameter=mysql.replication.discovery[*], mysql -h"$1" -P"$2" -sNX -e "show slave status"
+                UserParameter=mysql.slave_status[*], mysql -h"$1" -P"$2" -sNX -e "show slave status"
+            # any other file.managed options
+            makedirs: true
+            mode: "0644"
+        # whole directory with configuration files, basically wrapper around file.recurse
+        # see example below in agent2 section
+        directory: {}
   ## Agent2
   agent2:
     install: false
@@ -268,5 +296,27 @@ zabbix:
         includes:
           - /etc/zabbix/zabbix_agent2.d/*.conf
         controlsocket: /tmp/agent.sock
+      extra:
+        file: {}
+        directory:
+          # copy bunch of agent2 plugin configuration files to minion
+          plugins_configuration:
+            ensure: present
+            # all files from `source` directory will be copied to
+            # destination directory specified as value for `name` key
+            name: /etc/zabbix/zabbix_agent2.d/plugins.d
+            # i.e. we have dir with config files like
+            # plugins.d/
+            # ├── ceph.conf
+            # ├── docker.conf
+            # ├── memcached.conf
+            # ├── modbus.conf
+            # ├── mqtt.conf
+            # ├── mysql.conf
+            # ├── oracle.conf
+            # ├── postgres.conf
+            # ├── redis.conf
+            # └── smart.conf
+            source: salt://zabbix/agent2/plugins.d
   ## Proxy
   proxy: {}

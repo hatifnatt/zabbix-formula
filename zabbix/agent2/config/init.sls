@@ -6,9 +6,10 @@
 
 {%- if z.agent2.install %}
 include:
-  - .service
+  - .extra
+  - ..service
 
-# TODO manage additional config files with userparameters?
+# TODO provide templates to manage additional config files for Agent2 plugins?
 # TODO upload custom scripts for userparamaters?
 # TODO manage SELinux policies or add it to install state file?
 
