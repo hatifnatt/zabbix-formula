@@ -10,12 +10,20 @@ zabbix:
     prerequisites:
       - apt-transport-https
       - ca-certificates
+    keyring:
+      # Make sure to use the "asc" extension for ASCII armored keys and the "gpg" extension
+      # for the binary OpenPGP format (also known as "GPG key public ring"). The binary OpenPGP format
+      # works for all apt versions, while the ASCII armored format works for apt version >= 1.4
+      # Recommended way of adding keys since Debian 10, can be used since Debian 9 (but not tested with Deb 9 tbh)
+      dst: /etc/apt/trusted.gpg.d/zabbix-official-repo.asc
+      src: https://repo.zabbix.com/zabbix-official-repo.key
     # Repository configurationm will be used as pkgrepo.managed parameters
     config:
       # i.e. for Debian family
       name: deb https://repo.zabbix.com/zabbix/5.0/{{ grains.os|lower }} {{ grains.oscodename }} main
       file: /etc/apt/sources.list.d/zabbix.list
-      key_url: https://repo.zabbix.com/zabbix-official-repo.key
+      # Deprecated since Debian 10
+      # key_url: https://repo.zabbix.com/zabbix-official-repo.key
       clean_file: true
   package:
     # Default version to use for packages, can be overriden by providing 'version'
