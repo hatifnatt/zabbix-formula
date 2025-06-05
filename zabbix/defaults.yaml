@@ -3,7 +3,7 @@ zabbix:
   use_official_repo: true
   repo:
     # default - latest LTS version
-    version: 6.0
+    version: 7.0
   package:
     # default version to use for packages, can be overriden by providing 'version'
     # key for agent, server frontend, proxy
