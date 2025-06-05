@@ -3,7 +3,7 @@ zabbix:
   use_official_repo: true
   repo:
     # Default - latest LTS version
-    version: 5.0
+    version: 6.0
     # Check osafamilymap.yaml for more examples
     # List of packages to install before configuring zabbix repository
     # i.e. for Debian family
