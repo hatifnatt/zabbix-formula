@@ -1,5 +1,7 @@
 ---
 # os: Debian
+Debian-12: {}
+Debian-11: {}
 Debian-10: {}
 Debian-9: {}
 
