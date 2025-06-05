@@ -144,7 +144,7 @@ zabbix:
           vault_db_path: ''
           vault_token: ''
           double_ieee754: true
-        zbx_server:	localhost
+        zbx_server: localhost
         zbx_server_port: 10051
         zbx_server_name: ''
         # TODO support history and sso parameters
