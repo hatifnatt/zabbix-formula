@@ -78,8 +78,8 @@ zabbix:
       data:
         logfile: /var/log/zabbix/zabbix_server.log
         logfilesize: 0
-        pidfile: /var/run/zabbix/zabbix_server.pid
-        socketdir: /var/run/zabbix
+        pidfile: /run/zabbix/zabbix_server.pid
+        socketdir: /run/zabbix
         # dbname: zabbix
         # dbuser: zabbix
         # dbpassword: zabbix
@@ -192,7 +192,7 @@ zabbix:
     config:
       file: /etc/zabbix/zabbix_agentd.conf
       data:
-        pidfile: /var/run/zabbix/zabbix_agentd.pid
+        pidfile: /run/zabbix/zabbix_agentd.pid
         logfile: /var/log/zabbix/zabbix_agentd.log
         logfilesize: 0
         server: 127.0.0.1

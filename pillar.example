@@ -126,8 +126,8 @@ zabbix:
       data:
         logfile: /var/log/zabbix/zabbix_server.log
         logfilesize: 0
-        pidfile: /var/run/zabbix/zabbix_server.pid
-        socketdir: /var/run/zabbix
+        pidfile: /run/zabbix/zabbix_server.pid
+        socketdir: /run/zabbix
         # If not defined DB parameters will be taken form zabbix.db.name, zabbix.db.user, zabbix.db.password
         # dbname: zabbix
         # dbuser: zabbix
@@ -245,7 +245,7 @@ zabbix:
     config:
       file: /etc/zabbix/zabbix_agentd.conf
       data:
-        pidfile: /var/run/zabbix/zabbix_agentd.pid
+        pidfile: /run/zabbix/zabbix_agentd.pid
         logfile: /var/log/zabbix/zabbix_agentd.log
         logfilesize: 0
         server: 127.0.0.1
