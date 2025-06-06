@@ -237,7 +237,8 @@ zabbix:
         hostname: {{ grains.id }}
         includes:
           - /etc/zabbix/zabbix_agent2.d/*.conf
-        controlsocket: /tmp/agent.sock
+        pluginsocket: /run/zabbix/agent.plugin.sock
+        controlsocket: /run/zabbix/agent.sock
       extra:
         file: {}
         directory: {}
