@@ -83,6 +83,19 @@ StatsAllowedIP={{ lcfg.statsallowedip }}
 {% endif %}
 ```
 
+Since version 7.0
+After `# SMSDevices=...` replace `{% if %} ... {% endif %}` block with
+
+```
+{% if 'smsdevices' in lcfg %}
+    {%- if lcfg.smsdevices|is_list %}
+SMSDevices={{ lcfg.smsdevices|join(',') }}
+    {%- else %}
+SMSDevices={{ lcfg.smsdevices }}
+    {%- endif %}
+{% endif %}
+```
+
 ### Parameters that can be provided multiple times
 
 After `# Include=` replace `{% if %} ... {% endif %}` block with
