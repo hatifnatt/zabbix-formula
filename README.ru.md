@@ -3,6 +3,38 @@
 
 Формула для установки Zabbix Server, Frontend, Agent и Proxy
 
+* [Доступные стейты](#доступные-стейты)
+  * [zabbix.repo](#zabbixrepo)
+  * [zabbix.user](#zabbixuser)
+  * [zabbix.agent](#zabbixagent)
+  * [zabbix.agent.config](#zabbixagentconfig)
+  * [zabbix.agent.config.extra](#zabbixagentconfigextra)
+  * [zabbix.agent.install](#zabbixagentinstall)
+  * [zabbix.agent.service](#zabbixagentservice)
+  * [zabbix.agent2](#zabbixagent2)
+  * [zabbix.agent2.config](#zabbixagent2config)
+  * [zabbix.agent2.config.extra](#zabbixagent2configextra)
+  * [zabbix.agent2.install](#zabbixagent2install)
+  * [zabbix.agent2.service](#zabbixagent2service)
+  * [zabbix.db.mysql](#zabbixdbmysql)
+  * [zabbix.db.pgsql](#zabbixdbpgsql)
+  * [zabbix.db.pgsql.helper\_pkgs](#zabbixdbpgsqlhelper_pkgs)
+  * [zabbix.db.pgsql.prepare](#zabbixdbpgsqlprepare)
+  * [zabbix.db.pgsql.schema](#zabbixdbpgsqlschema)
+  * [zabbix.frontend.config](#zabbixfrontendconfig)
+  * [zabbix.frontend.install](#zabbixfrontendinstall)
+  * [zabbix.frontend.service](#zabbixfrontendservice)
+  * [zabbix.proxy.config](#zabbixproxyconfig)
+  * [zabbix.proxy.install](#zabbixproxyinstall)
+  * [zabbix.proxy.service](#zabbixproxyservice)
+  * [zabbix.server.config](#zabbixserverconfig)
+  * [zabbix.server.install](#zabbixserverinstall)
+  * [zabbix.server.service](#zabbixserverservice)
+* [TODO](#todo)
+  * [Allow to configure defaults based on selected Zabbix version](#allow-to-configure-defaults-based-on-selected-zabbix-version)
+  * [Install helper packages for DB via pip for Salt 3006 onedir](#install-helper-packages-for-db-via-pip-for-salt-3006-onedir)
+  * [Fix configuration templates](#fix-configuration-templates)
+
 <!-- omit in toc -->
 ## Создание шаблонов для конфигурационных файлов
 
@@ -14,35 +46,7 @@
 * WIP [Proxy](zabbix/files/proxy/README.md)
 * [Server](zabbix/files/server/README.md)
 
-<!-- omit in toc -->
 ## Доступные стейты
-
-* [zabbix.repo](#zabbixrepo)
-* [zabbix.user](#zabbixuser)
-* [zabbix.agent](#zabbixagent)
-* [zabbix.agent.config](#zabbixagentconfig)
-* [zabbix.agent.config.extra](#zabbixagentconfigextra)
-* [zabbix.agent.install](#zabbixagentinstall)
-* [zabbix.agent.service](#zabbixagentservice)
-* [zabbix.agent2](#zabbixagent2)
-* [zabbix.agent2.config](#zabbixagent2config)
-* [zabbix.agent2.config.extra](#zabbixagent2configextra)
-* [zabbix.agent2.install](#zabbixagent2install)
-* [zabbix.agent2.service](#zabbixagent2service)
-* [zabbix.db.mysql](#zabbixdbmysql)
-* [zabbix.db.pgsql](#zabbixdbpgsql)
-* [zabbix.db.pgsql.helper_pkgs](#zabbixdbpgsqlhelper_pkgs)
-* [zabbix.db.pgsql.prepare](#zabbixdbpgsqlprepare)
-* [zabbix.db.pgsql.schema](#zabbixdbpgsqlschema)
-* [zabbix.frontend.config](#zabbixfrontendconfig)
-* [zabbix.frontend.install](#zabbixfrontendinstall)
-* [zabbix.frontend.service](#zabbixfrontendservice)
-* [zabbix.proxy.config](#zabbixproxyconfig)
-* [zabbix.proxy.install](#zabbixproxyinstall)
-* [zabbix.proxy.service](#zabbixproxyservice)
-* [zabbix.server.config](#zabbixserverconfig)
-* [zabbix.server.install](#zabbixserverinstall)
-* [zabbix.server.service](#zabbixserverservice)
 
 ### zabbix.repo
 
@@ -139,3 +143,34 @@
 ### zabbix.server.service
 
 Стейт для управления службой zabbix-server
+
+## TODO
+
+* [TODO](#todo)
+  * [Allow to configure defaults based on selected Zabbix version](#allow-to-configure-defaults-based-on-selected-zabbix-version)
+  * [Install helper packages for DB via pip for Salt 3006 onedir](#install-helper-packages-for-db-via-pip-for-salt-3006-onedir)
+
+### Allow to configure defaults based on selected Zabbix version
+
+Required to setup different repo configuration, different packages list, different path to files depending on selected Zabbix version.
+
+### Install helper packages for DB via pip for Salt 3006 onedir
+
+For Salt 3006 onedir python modules must be installed via pip, not via system packages.
+
+### Fix configuration templates
+
+Zabbix agent template
+
+```
+AllowKey
+DenyKey
+```
+
+Can be provided multiple times
+
+```
+TLSAccept
+```
+
+Can be comma separated
