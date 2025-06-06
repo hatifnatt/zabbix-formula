@@ -68,6 +68,18 @@ ServerActive={{ lcfg.serveractive }}
 {% endif %}
 ```
 
+After `# TLSAccept=` replace `{% if %} ... {% endif %}` block with
+
+```
+{% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlsaccept', delimiter='.') %}
+    {%- if lcfg.tlsaccept|is_list %}
+TLSAccept={{ lcfg.tlsaccept|join(',') }}
+    {%- else %}
+TLSAccept={{ lcfg.tlsaccept }}
+    {%- endif %}
+{% endif %}
+```
+
 Since version 5.2
 After `Hostname=` replace `{% if %} ... {% endif %}` block with
 
