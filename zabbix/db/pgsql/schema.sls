@@ -30,19 +30,19 @@
     {%- set connection_args = {'runas': 'nobody', 'host': dbhost, 'user': dbroot_user, 'password': dbroot_pass} %}
   {%- endif %}
 
-  {#- Check is there any tables in database.
-      salt.postgres.psql_query return empty result if there is no tables or 'False' on any error i.e. failed auth. #}
-  {%- set list_tables = "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema' LIMIT 1;" %}
-  {%- set is_db_empty = True %}
-  {#- TODO Use slots or show info that postgresql must be installed first currently formula fails with error
-      Rendering SLS 'dev:zabbix.db.pgsql.schema' failed: Jinja variable 'salt.utils.templates.AliasedLoader
-      object' has no attribute 'postgres' #}
-  {%- if salt.postgres.psql_query(query=list_tables, maintenance_db=dbname, **connection_args) %}
-    {%- set is_db_empty = False %}
-  {%- endif %}
-
   {#- Is schema import requested in pillars? #}
   {%- if db.import_schema %}
+    {#- Check is there any tables in database.
+        salt.postgres.psql_query return empty result if there is no tables or 'False' on any error i.e. failed auth. #}
+    {%- set list_tables = "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema' LIMIT 1;" %}
+    {%- set is_db_empty = True %}
+    {#- TODO Use slots or show info that postgresql must be installed first currently formula fails with error
+        Rendering SLS 'dev:zabbix.db.pgsql.schema' failed: Jinja variable 'salt.utils.templates.AliasedLoader
+        object' has no attribute 'postgres' #}
+    {%- if salt.postgres.psql_query(query=list_tables, maintenance_db=dbname, **connection_args) %}
+      {%- set is_db_empty = False %}
+    {%- endif %}
+
 include:
     {%- if db.manage %}
   - {{ tplroot }}.db.pgsql.prepare

@@ -21,8 +21,8 @@ zabbix:
     type: pgsql
     manage: true
     # manage: false
-    import_schema: true
-    # import_schema: false
+    # import_schema: true
+    import_schema: false
     host: localhost
     name: zabbix
     user: zabbix
