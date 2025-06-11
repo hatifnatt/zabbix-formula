@@ -1,0 +1,68 @@
+<?php
+{#- Convert all configuration keys to lowercase #}
+{%- set lcfg = salt.zabbix_formula.change_case(cfg, 'lower', process='keys') %}
+// Managed by SaltStack zabbix-formula. Do not edit by hand.
+// Zabbix GUI configuration file.
+
+$DB['TYPE']				= '{{ lcfg.db.type }}';
+$DB['SERVER']			= '{{ lcfg.db.server }}';
+$DB['PORT']				= '{{ lcfg.db.port }}';
+$DB['DATABASE']			= '{{ lcfg.db.database }}';
+$DB['USER']				= '{{ lcfg.db.user }}';
+$DB['PASSWORD']			= '{{ lcfg.db.password }}';
+
+// Schema name. Used for PostgreSQL.
+$DB['SCHEMA']			= '{{ lcfg.db.schema }}';
+
+// Used for TLS connection.
+$DB['ENCRYPTION']		= {{ lcfg.db.encryption|string|lower }};
+$DB['KEY_FILE']			= '{{ lcfg.db.key_file }}';
+$DB['CERT_FILE']		= '{{ lcfg.db.cert_file }}';
+$DB['CA_FILE']			= '{{ lcfg.db.ca_file }}';
+$DB['VERIFY_HOST']		= {{ lcfg.db.verify_host|string|lower }};
+$DB['CIPHER_LIST']		= '{{ lcfg.db.cipher_list }}';
+
+// Vault configuration. Used if database credentials are stored in Vault secrets manager.
+$DB['VAULT']			= '{{ lcfg.db.vault }}';
+$DB['VAULT_URL']		= '{{ lcfg.db.vault_url }}';
+$DB['VAULT_PREFIX']		= '{{ lcfg.db.vault_prefix }}';
+$DB['VAULT_DB_PATH']	= '{{ lcfg.db.vault_db_path }}';
+$DB['VAULT_TOKEN']		= '{{ lcfg.db.vault_token }}';
+$DB['VAULT_CERT_FILE']	= '{{ lcfg.db.vault_cert_file }}';
+$DB['VAULT_KEY_FILE']	= '{{ lcfg.db.vault_key_file }}';
+// Uncomment to bypass local caching of credentials.
+// $DB['VAULT_CACHE']	= true;
+
+// Uncomment and set to desired values to override Zabbix hostname/IP and port.
+{% if 'zbx_server' in lcfg and lcfg.zbx_server -%}
+$ZBX_SERVER				= '{{ lcfg.zbx_server }}';
+{% else -%}
+// $ZBX_SERVER			= '';
+{% endif -%}
+{% if 'zbx_server_port' in lcfg and lcfg.zbx_server_port -%}
+$ZBX_SERVER_PORT		= '{{ lcfg.zbx_server_port }}';
+{% else -%}
+// $ZBX_SERVER_PORT		= '';
+{% endif %}
+$ZBX_SERVER_NAME		= '{{ lcfg.zbx_server_name }}';
+
+$IMAGE_FORMAT_DEFAULT	= IMAGE_FORMAT_PNG;
+
+// Uncomment this block only if you are using Elasticsearch.
+// Elasticsearch url (can be string if same url is used for all types).
+//$HISTORY['url'] = [
+//	'uint' => 'http://localhost:9200',
+//	'text' => 'http://localhost:9200'
+//];
+// Value types stored in Elasticsearch.
+//$HISTORY['types'] = ['uint', 'text'];
+
+// Used for SAML authentication.
+// Uncomment to override the default paths to SP private key, SP and IdP X.509 certificates, and to set extra settings.
+//$SSO['SP_KEY']			= 'conf/certs/sp.key';
+//$SSO['SP_CERT']			= 'conf/certs/sp.crt';
+//$SSO['IDP_CERT']		= 'conf/certs/idp.crt';
+//$SSO['SETTINGS']		= [];
+
+// If set to false, support for HTTP authentication will be disabled.
+// $ALLOW_HTTP_AUTH = true;

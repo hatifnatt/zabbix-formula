@@ -141,9 +141,13 @@ zabbix:
           ca_file:  ''
           verify_host: false
           cipher_list: ''
+          vault: ''
           vault_url: ''
+          vault_prefix: ''
           vault_db_path: ''
           vault_token: ''
+          vault_cert_file: ''
+          vault_key_file: ''
           double_ieee754: true
         zbx_server: localhost
         zbx_server_port: 10051
