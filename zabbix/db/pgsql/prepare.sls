@@ -18,6 +18,10 @@
   {%- set dbroot_user = db.root.user %}
   {%- set dbroot_pass = db.root.password %}
 
+  {#- use 'scram-sha-256' encryption by default #}
+  {%- set dbpassword_encryption = db.password_encryption if db.get('password_encryption', '') in ('md5', 'scram-sha-256')
+          else 'scram-sha-256' %}
+
   {%- if db.manage %}
 include:
   - {{ tplroot }}.db.pgsql.helper_pkgs
@@ -26,7 +30,7 @@ zabbix_db_pgsql_prepare_create_user:
   postgres_user.present:
     - name: {{ dbuser }}
     - password: {{ dbpassword }}
-    - encrypted: true
+    - encrypted: {{ dbpassword_encryption }}
     - login: true
     {%- if dbroot_user and dbroot_pass %}
     - db_host: {{ dbhost }}

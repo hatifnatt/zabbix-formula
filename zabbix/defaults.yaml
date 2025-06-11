@@ -28,6 +28,7 @@ zabbix:
     user: zabbix
     password: zabbix
     pgsql:
+      password_encryption: scram-sha-256
       sql_file: /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz
       root:
         user: postgres

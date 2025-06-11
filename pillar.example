@@ -71,6 +71,9 @@ zabbix:
     password: zabbix
     # DB type specific parameters
     pgsql:
+      # password encryption method for DB user possible values: md5, scram-sha-256
+      # recommended value is scram-sha-256 but it depends on your PostgreSQL server configuration
+      password_encryption: scram-sha-256
       sql_file: /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz
       # Super user parameters can be helpful if zabbix database is running on dedicated server
       root:
