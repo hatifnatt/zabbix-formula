@@ -30,7 +30,7 @@ Debian:
         clean_file: true
   db:
     pgsql:
-      sql_file: /usr/share/doc/zabbix-server-pgsql/create.sql.gz
+      sql_file: /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz
       root:
         user: postgres
         password: ''
@@ -43,10 +43,12 @@ Debian:
       package:
         pkgs:
           - zabbix-server-pgsql
+          - zabbix-sql-scripts
     mysql:
       package:
         pkgs:
           - zabbix-server-mysql
+          - zabbix-sql-scripts
   frontend:
     package:
       pkgs:

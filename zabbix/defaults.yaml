@@ -28,7 +28,7 @@ zabbix:
     user: zabbix
     password: zabbix
     pgsql:
-      sql_file: /usr/share/doc/zabbix-server-pgsql/create.sql.gz
+      sql_file: /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz
       root:
         user: postgres
         password: ''

@@ -71,7 +71,7 @@ zabbix:
     password: zabbix
     # DB type specific parameters
     pgsql:
-      sql_file: /usr/share/doc/zabbix-server-pgsql/create.sql.gz
+      sql_file: /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz
       # Super user parameters can be helpful if zabbix database is running on dedicated server
       root:
         user: postgres
