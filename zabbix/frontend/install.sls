@@ -47,7 +47,7 @@ zabbix_frontend_install_notice:
     - name: zabbix_frontend_install
     - text: |
         Zabbix frontend is not selected for installation, current value
-        for 'zabbix:server:install': {{ z.frontend.install|string|lower }}, if you want to install Zabbix frontend
+        for 'zabbix:frontend:install': {{ z.frontend.install|string|lower }}, if you want to install Zabbix frontend
         you need to set it to 'true'.
 
 {%- endif %}
