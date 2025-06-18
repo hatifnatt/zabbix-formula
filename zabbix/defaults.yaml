@@ -101,9 +101,14 @@ zabbix:
     package:
       pkgs:
         - zabbix-frontend-php
-        # zabbix-nginx-conf can be used also, but apache version it is just work,
-        # while nginx version require some additional configuration actions
-        - zabbix-apache-conf
+        # do not install configuration for any web server by default
+        # choose apache OR nginx not both
+        # nginx version require some additional manual configuration actions, i.e.update `listen` and `server_name`
+        # parameters in configuration file provided by package
+        #- zabbix-nginx-conf
+        # apache version is just working out of the box but on `/zabbix` path, if you want to acess Zabbix on
+        # root path `/` manual configuration is still required
+        #- zabbix-apache-conf
       hold: false
       update_holds: true
       install_recommends: true
@@ -111,7 +116,9 @@ zabbix:
       package:
         pkgs:
           - zabbix-frontend-php
-          - zabbix-apache-conf
+          # choose apache OR nginx not both
+          # - zabbix-nginx-conf
+          # - zabbix-apache-conf
       config:
         data:
           db:
@@ -120,7 +127,9 @@ zabbix:
       package:
         pkgs:
           - zabbix-frontend-php
-          - zabbix-apache-conf
+          # choose apache OR nginx not both
+          # - zabbix-nginx-conf
+          # - zabbix-apache-conf
       config:
         data:
           db:

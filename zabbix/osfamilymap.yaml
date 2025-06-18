@@ -53,18 +53,24 @@ Debian:
     package:
       pkgs:
         - zabbix-frontend-php
-        - zabbix-apache-conf
+        # choose apache OR nginx not both
+        # - zabbix-nginx-conf
+        # - zabbix-apache-conf
     pgsql:
       package:
         pkgs:
           - zabbix-frontend-php
-          - zabbix-apache-conf
+          # choose apache OR nginx not both
+          # - zabbix-nginx-conf
+          # - zabbix-apache-conf
           - php-pgsql
     mysql:
       package:
         pkgs:
           - zabbix-frontend-php
-          - zabbix-apache-conf
+          # choose apache OR nginx not both
+          # - zabbix-nginx-conf
+          # - zabbix-apache-conf
 
 RedHat:
   shell: /sbin/nologin
