@@ -134,6 +134,8 @@ zabbix:
         data:
           db:
             type: MYSQL
+    phpfpm:
+      configure: false
     config:
       file: /etc/zabbix/web/zabbix.conf.php
       data:

@@ -1,4 +1,4 @@
 include:
   - .install
   - .config
-  {# - .service #}
+  - .phpfpm

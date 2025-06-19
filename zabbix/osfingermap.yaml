@@ -1,6 +1,24 @@
 ---
 # os: Debian
-Debian-12: {}
+Debian-12:
+  frontend:
+    phpfpm:
+      configure: true
+      pkgs:
+        - php-fpm
+      service:
+        name: php8.2-fpm.service
+        # use reload instead of restart
+        reload: false
+      pool:
+        config_file: /etc/zabbix/php-fpm.conf
+        config_file_symlink: /etc/php/8.2/fpm/pool.d/zabbix.conf
+        config_template: salt://zabbix/files/frontend/web/php-fpm.conf.jinja
+        config:
+          user: www-data
+          group: www-data
+          listen.owner: www-data
+
 Debian-11: {}
 Debian-10: {}
 Debian-9: {}

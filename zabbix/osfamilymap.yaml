@@ -71,6 +71,8 @@ Debian:
           # choose apache OR nginx not both
           # - zabbix-nginx-conf
           # - zabbix-apache-conf
+    phpfpm:
+      configure: false
 
 RedHat:
   shell: /sbin/nologin

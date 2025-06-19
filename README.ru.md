@@ -23,7 +23,7 @@
   * [zabbix.db.pgsql.schema](#zabbixdbpgsqlschema)
   * [zabbix.frontend.config](#zabbixfrontendconfig)
   * [zabbix.frontend.install](#zabbixfrontendinstall)
-  * [zabbix.frontend.service](#zabbixfrontendservice)
+  * [zabbix.frontend.phpfpm](#zabbixfrontendphpfpm)
   * [zabbix.proxy.config](#zabbixproxyconfig)
   * [zabbix.proxy.install](#zabbixproxyinstall)
   * [zabbix.proxy.service](#zabbixproxyservice)
@@ -124,7 +124,12 @@
 
 Стейт для установки zabbix-frontend
 
-### zabbix.frontend.service
+### zabbix.frontend.phpfpm
+
+Стейт для установки php-fpm и настройки пула php-fpm для Zabbix frontend.
+
+В: Почему создан данный стейт, ведь настройка php-fpm не относится к Zabbix?  
+О: Достаточно вероятно, что в системе управления конфигурацией уже есть формула для настройки веб сервера, т.к. тот или иной веб сервер практически 100% используется в современной инфраструктуре, а вот формулы для настройки php может и не быть, поэтому данная формула имеет минимально необходимые возможности для настройки php-fpm, чтоб позволить работать Zabbix frontend.
 
 ### zabbix.proxy.config
 

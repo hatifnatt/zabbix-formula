@@ -189,6 +189,30 @@ zabbix:
         data:
           db:
             type: MYSQL
+    # php-fpm related configuration, if `phpfpm:configure` is `false` php-fpm related states won't be executed
+    # configuration can be present in osfingermap
+    # Below is example configuration for Debian 12, depending on the OS many parameters can vary
+    # so there is no 'basic defaults' only osfinger specific values
+    phpfpm:
+      configure: true
+      pkgs:
+        - php-fpm
+      service:
+        name: php8.2-fpm.service
+        # use reload instead of restart
+        reload: false
+      pool:
+        # where to save config file created from the template
+        config_file: /etc/zabbix/php-fpm.conf
+        # symlink to created config file where php-fpm will pick up this config
+        config_file_symlink: /etc/php/8.2/fpm/pool.d/zabbix.conf
+        # template to create php-fpm pool configuration for zabbix
+        config_template: salt://zabbix/files/frontend/web/php-fpm.conf.jinja
+        # configuration parameters for the template file
+        config:
+          user: www-data
+          group: www-data
+          listen.owner: www-data
     config:
       file: /etc/zabbix/web/zabbix.conf.php
       data:
