@@ -290,6 +290,14 @@ zabbix:
         hostname: {{ grains.id }}
         includes:
           - /etc/zabbix/zabbix_agentd.d/*.conf
+      # raw configuration items to put at the end of configuration file 'as is'
+      # case of the key name will be preserved
+      # configuration parameter can be missed in template file for whatever reason
+      # this is the way to add it to configuration file
+      # without using custom template or updating template file in the formula
+      raw:
+        # userparameters can be defined under 'data' key using it here just as an example
+        UserParameter: 'mysql.ping[*], mysqladmin -h"$1" -P"$2" ping'
       extra:
         # extra configuration files to manage
         file:

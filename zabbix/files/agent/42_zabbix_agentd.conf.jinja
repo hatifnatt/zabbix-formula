@@ -505,3 +505,9 @@ TLSPSKIdentity={{ lcfg.tlspskidentity }}
 {% if 'tlspskfile' in lcfg %}
 TLSPSKFile={{ lcfg.tlspskfile }}
 {% endif %}
+{%- if cfg_raw is defined and cfg_raw %}
+# Extra configuration parameters
+    {%- for k, v in cfg_raw|dictsort %}
+{{ k }}={{ v }}
+    {%- endfor %}
+{%- endif %}

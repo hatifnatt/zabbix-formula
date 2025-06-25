@@ -657,3 +657,9 @@ TLSCipherAll={{ lcfg.tlscipherall }}
 {% if 'listenbacklog' in lcfg %}
 ListenBacklog={{ lcfg.listenbacklog }}
 {% endif %}
+{%- if cfg_raw is defined and cfg_raw %}
+# Extra configuration parameters
+    {%- for k, v in cfg_raw|dictsort %}
+{{ k }}={{ v }}
+    {%- endfor %}
+{%- endif %}

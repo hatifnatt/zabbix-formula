@@ -11,6 +11,17 @@ Add 'header' part
 {%- endfor %}
 ```
 
+Add 'footer' part to the end of configuration file, it's recommended to add footer after all other modifications (search and replace, etc.) of configuration file is already done.
+
+```
+{%- if cfg_raw is defined and cfg_raw %}
+# Extra configuration parameters
+    {%- for k, v in cfg_raw|dictsort %}
+{{ k }}={{ v }}
+    {%- endfor %}
+{%- endif %}
+```
+
 Cleanup regex - will remove any exising options
 
 ```

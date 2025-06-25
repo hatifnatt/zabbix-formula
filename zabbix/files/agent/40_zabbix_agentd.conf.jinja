@@ -583,3 +583,9 @@ TLSCipherAll13={{ lcfg.tlscipherall13 }}
 {% if 'tlscipherall' in lcfg %}
 TLSCipherAll={{ lcfg.tlscipherall }}
 {% endif %}
+{%- if cfg_raw is defined and cfg_raw %}
+# Extra configuration parameters
+    {%- for k, v in cfg_raw|dictsort %}
+{{ k }}={{ v }}
+    {%- endfor %}
+{%- endif %}

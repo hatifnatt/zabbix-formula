@@ -216,6 +216,7 @@ zabbix:
         hostname: Zabbix server
         includes:
           - /etc/zabbix/zabbix_agentd.d/*.conf
+      raw: {}
       extra:
         file: {}
         directory: {}
