@@ -20,16 +20,16 @@ Cleanup regex - will remove any exising options
 Search regex
 
 ```
-^# Default:\n# (\w+)=(.*)?\n\n?
+^# Default:(.*)\n# (\w+)=(.*)?\n\n?
 ```
 
 Replace regex, note lower case transformation with `\L`
 
 ```
-# Default:
-# $1=$2
-{% if '\L$1' in lcfg %}
-$1={{ lcfg.\L$1 }}
+# Default:$1
+# $2=$3
+{% if '\L$2' in lcfg %}
+$2={{ lcfg.\L$2 }}
 {% endif %}\n
 ```
 

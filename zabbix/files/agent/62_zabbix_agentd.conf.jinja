@@ -334,7 +334,9 @@ MaxLinesPerSecond={{ lcfg.maxlinespersecond }}
 # Range: 0-3600
 # Default: 60
 # HeartbeatFrequency=
-
+{% if 'heartbeatfrequency' in lcfg %}
+HeartbeatFrequency={{ lcfg.heartbeatfrequency }}
+{% endif %}
 ############ ADVANCED PARAMETERS #################
 
 ### Option: Alias
@@ -679,3 +681,6 @@ TLSCipherAll={{ lcfg.tlscipherall }}
 # Range: 0 - INT_MAX (depends on system, too large values may be silently truncated to implementation-specified maximum)
 # Default: SOMAXCONN (hard-coded constant, depends on system)
 # ListenBacklog=
+{% if 'listenbacklog' in lcfg %}
+ListenBacklog={{ lcfg.listenbacklog }}
+{% endif %}
