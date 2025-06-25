@@ -5,3 +5,7 @@
 {% set v_repo_no_dot = v_repo.split('.')|join %}
 {% set v_pkg = salt['pillar.get']('zabbix:package:version', '')|string %}
 {% set version = {'repo': {'str': v_repo, 'no_dot': v_repo_no_dot}, 'pkg': {'str': v_pkg}} %}
+{# Use X.0 version as LTS version i.e. if repo version is 7.2  LTS version will be 7.0 #}
+{% set v_lts = (version.repo.str.split('.')[0], 0)|join('.') %}
+{% set v_lts_no_dot = (version.repo.str.split('.')[0], 0)|join %}
+{% do version.update({'lts': {'str': v_lts, 'no_dot': v_lts_no_dot}}) %}
