@@ -8,6 +8,17 @@ Add 'header' part, don't forget to sync `_modules` by running `salt \* saltutil.
 {%- set lcfg = salt.zabbix_formula.change_case(cfg, 'lower', process='keys') %}
 ```
 
+Add 'footer' part to the end of configuration file, it's recommended to add footer after all other modifications (search and replace, etc.) of configuration file is already done.
+
+```
+{%- if cfg_raw is defined and cfg_raw %}
+# Extra configuration parameters
+    {%- for k, v in cfg_raw|dictsort %}
+{{ k }}={{ v }}
+    {%- endfor %}
+{%- endif %}
+```
+
 Cleanup regex - will remove any exising options
 
 ```

@@ -595,3 +595,9 @@ ForceActiveChecksOnStart={{ lcfg|traverse('forceactivechecksonstart', delimiter=
 {% endif %}
 # Include configuration files for plugins
 Include=./zabbix_agent2.d/plugins.d/*.conf
+{%- if cfg_raw is defined and cfg_raw %}
+# Extra configuration parameters
+    {%- for k, v in cfg_raw|dictsort %}
+{{ k }}={{ v }}
+    {%- endfor %}
+{%- endif %}

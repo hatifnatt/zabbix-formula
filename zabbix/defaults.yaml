@@ -255,6 +255,7 @@ zabbix:
           - /etc/zabbix/zabbix_agent2.d/*.conf
         pluginsocket: /run/zabbix/agent.plugin.sock
         controlsocket: /run/zabbix/agent.sock
+      raw: {}
       extra:
         file: {}
         directory: {}

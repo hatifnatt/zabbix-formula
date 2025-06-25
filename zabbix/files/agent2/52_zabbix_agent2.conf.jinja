@@ -1056,3 +1056,9 @@ Plugins.Smart.Timeout={{ lcfg|traverse('plugins.smart.timeout', delimiter='.') }
 {% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.smart.path', delimiter='.') %}
 Plugins.Smart.Path={{ lcfg|traverse('plugins.smart.path', delimiter='.') }}
 {% endif %}
+{%- if cfg_raw is defined and cfg_raw %}
+# Extra configuration parameters
+    {%- for k, v in cfg_raw|dictsort %}
+{{ k }}={{ v }}
+    {%- endfor %}
+{%- endif %}

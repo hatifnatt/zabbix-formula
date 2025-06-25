@@ -537,3 +537,9 @@ Plugins.Redis.Sessions.*.Uri={{ lcfg|traverse('plugins.redis.sessions.*.uri', de
 {% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'plugins.redis.sessions.*.password', delimiter='.') %}
 Plugins.Redis.Sessions.*.Password={{ lcfg|traverse('plugins.redis.sessions.*.password', delimiter='.') }}
 {% endif %}
+{%- if cfg_raw is defined and cfg_raw %}
+# Extra configuration parameters
+    {%- for k, v in cfg_raw|dictsort %}
+{{ k }}={{ v }}
+    {%- endfor %}
+{%- endif %}

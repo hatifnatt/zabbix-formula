@@ -352,6 +352,12 @@ zabbix:
         includes:
           - /etc/zabbix/zabbix_agent2.d/*.conf
         controlsocket: /tmp/agent.sock
+      # raw configuration items to put at the end of configuration file 'as is'
+      # case of the key name will be preseved
+      # i.e. zabbix agent2 plugins configuration parameters
+      raw:
+        Plugins.Redis.Default.Password: 5trongP@ssw0rd
+        Plugins.Redis.Timeout: 10
       extra:
         file: {}
         directory:

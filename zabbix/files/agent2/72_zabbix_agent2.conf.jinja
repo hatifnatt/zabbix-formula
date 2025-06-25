@@ -687,3 +687,9 @@ TLSCipherAll13={{ lcfg|traverse('tlscipherall13', delimiter='.') }}
 {% if salt.zabbix_formula.traverse_dict_keys(lcfg, 'tlscipherall', delimiter='.') %}
 TLSCipherAll={{ lcfg|traverse('tlscipherall', delimiter='.') }}
 {% endif %}
+{%- if cfg_raw is defined and cfg_raw %}
+# Extra configuration parameters
+    {%- for k, v in cfg_raw|dictsort %}
+{{ k }}={{ v }}
+    {%- endfor %}
+{%- endif %}

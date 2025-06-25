@@ -28,6 +28,7 @@ zabbix_agent2_config_file:
     - template: jinja
     - context:
         cfg: {{ z.agent2.config.data|tojson }}
+        cfg_raw: {{ z.agent2.config.raw|tojson }}
     - watch_in:
         service: zabbix_agent2_service_{{ z.agent2.service.status }}
 
