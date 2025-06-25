@@ -1,6 +1,6 @@
 # Templating Zabbix Agent2 configuration
 
-Add 'header' part, don't forget to sync `_utils` by running `salt \* saltutil.sync_utils`
+Add 'header' part, don't forget to sync `_modules` by running `salt \* saltutil.sync_modules`
 
 ```
 # Managed by SaltStack zabbix-formula. Do not edit by hand.
