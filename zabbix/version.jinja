@@ -1,7 +1,7 @@
 {# Build dict with version - repository version and default package version #}
 {% set tplroot = tplfile.split('/')[0] %}
 {% import_yaml tplroot ~ '/defaults.yaml' as defaults %}
-{% set v_repo = salt['pillar.get']('zabbix:repo:version', defaults.zabbix.repo.version) %}
-{% set v_pkg = salt['pillar.get']('zabbix:package:version', '') %}
-{% set version = {'repo': {'str': v_repo|string}, 'pkg': {'str': v_pkg|string}} %}
-{% do version.repo.update({'no_dot': version.repo.str.split('.')|join }) %}
+{% set v_repo = salt['pillar.get']('zabbix:repo:version', defaults.zabbix.repo.version)|string %}
+{% set v_repo_no_dot = v_repo.split('.')|join %}
+{% set v_pkg = salt['pillar.get']('zabbix:package:version', '')|string %}
+{% set version = {'repo': {'str': v_repo, 'no_dot': v_repo_no_dot}, 'pkg': {'str': v_pkg}} %}
