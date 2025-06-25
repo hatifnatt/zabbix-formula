@@ -20,6 +20,10 @@ zabbix_agent_config_file:
       - salt://{{ tplroot }}/files/agent/zabbix_agentd.conf
       - salt://{{ tplroot }}/files/agent/{{ version.repo.no_dot }}_zabbix_agentd.conf.jinja
       - salt://{{ tplroot }}/files/agent/zabbix_agentd.conf.jinja
+      - salt://{{ tplroot }}/files/agent/{{ version.lts.no_dot }}_zabbix_agentd.conf
+      - salt://{{ tplroot }}/files/agent/zabbix_agentd.conf
+      - salt://{{ tplroot }}/files/agent/{{ version.lts.no_dot }}_zabbix_agentd.conf.jinja
+      - salt://{{ tplroot }}/files/agent/zabbix_agentd.conf.jinja
     - template: jinja
     - context:
         cfg: {{ z.agent.config.data|tojson }}

@@ -32,6 +32,10 @@ zabbix_server_config_file:
       - salt://{{ tplroot }}/files/server/zabbix_server.conf
       - salt://{{ tplroot }}/files/server/{{ version.repo.no_dot }}_zabbix_server.conf.jinja
       - salt://{{ tplroot }}/files/server/zabbix_server.conf.jinja
+      - salt://{{ tplroot }}/files/server/{{ version.lts.no_dot }}_zabbix_server.conf
+      - salt://{{ tplroot }}/files/server/zabbix_server.conf
+      - salt://{{ tplroot }}/files/server/{{ version.lts.no_dot }}_zabbix_server.conf.jinja
+      - salt://{{ tplroot }}/files/server/zabbix_server.conf.jinja
     - template: jinja
     - context:
         cfg: {{ config.data|tojson }}

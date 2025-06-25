@@ -37,6 +37,10 @@ zabbix_frontend_config_file:
       - salt://{{ tplroot }}/files/frontend/zabbix.conf.php
       - salt://{{ tplroot }}/files/frontend/{{ version.repo.no_dot }}_zabbix.conf.php.jinja
       - salt://{{ tplroot }}/files/frontend/zabbix.conf.php.jinja
+      - salt://{{ tplroot }}/files/frontend/{{ version.lts.no_dot }}_zabbix.conf.php
+      - salt://{{ tplroot }}/files/frontend/zabbix.conf.php
+      - salt://{{ tplroot }}/files/frontend/{{ version.lts.no_dot }}_zabbix.conf.php.jinja
+      - salt://{{ tplroot }}/files/frontend/zabbix.conf.php.jinja
     - template: jinja
     - context:
         cfg: {{ config.data|tojson }}

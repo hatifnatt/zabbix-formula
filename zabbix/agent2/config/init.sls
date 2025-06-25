@@ -21,6 +21,10 @@ zabbix_agent2_config_file:
       - salt://{{ tplroot }}/files/agent2/zabbix_agent2.conf
       - salt://{{ tplroot }}/files/agent2/{{ version.repo.no_dot }}_zabbix_agent2.conf.jinja
       - salt://{{ tplroot }}/files/agent2/zabbix_agent2.conf.jinja
+      - salt://{{ tplroot }}/files/agent2/{{ version.lts.no_dot }}_zabbix_agent2.conf
+      - salt://{{ tplroot }}/files/agent2/zabbix_agent2.conf
+      - salt://{{ tplroot }}/files/agent2/{{ version.lts.no_dot }}_zabbix_agent2.conf.jinja
+      - salt://{{ tplroot }}/files/agent2/zabbix_agent2.conf.jinja
     - template: jinja
     - context:
         cfg: {{ z.agent2.config.data|tojson }}
