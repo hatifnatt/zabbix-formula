@@ -1,6 +1,21 @@
 ---
 # os: Debian
 Debian-12:
+  server:
+    pgsql:
+      package:
+        pkgs:
+          - zabbix-server-pgsql
+          - zabbix-sql-scripts
+        pkgs_extra:
+          - logrotate
+    mysql:
+      package:
+        pkgs:
+          - zabbix-server-mysql
+          - zabbix-sql-scripts
+        pkgs_extra:
+          - logrotate
   frontend:
     phpfpm:
       configure: true
@@ -18,6 +33,14 @@ Debian-12:
           user: www-data
           group: www-data
           listen.owner: www-data
+  agent:
+    package:
+      pkgs_extra:
+        - logrotate
+  agent2:
+    package:
+      pkgs_extra:
+        - logrotate
 
 Debian-11: {}
 Debian-10: {}
